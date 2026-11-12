@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Товари — Latiao</title>
+  <style>
+    :root {
+      --orange: #ff6a1a;
+      --ink: #1b1b1b;
+      --muted: #747474;
+      --line: #e8e8e8;
+      --bg: #f7f7f7
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font: 14px Arial, sans-serif
+    }
+
+    .layout {
+      min-height: 100vh;
+      display: flex
+    }
+
+    aside {
+      width: 230px;
+      flex: none;
+      padding: 24px 14px;
+      background: #fff;
+      border-right: 1px solid var(--line)
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 10px 34px;
+      font-weight: 800;
+      font-size: 20px
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--orange);
+      border-radius: 8px
+    }
+
+    nav {
+      display: grid;
+      gap: 5px
+    }
+
+    nav button {
+      width: 100%;
+      padding: 12px 13px;
+      display: flex;
+      gap: 11px;
+      align-items: center;
+      border: 0;
+      border-radius: 7px;
+      color: #555;
+      background: transparent;
+      text-align: left;
+      font: inherit;
+      cursor: pointer;
+      font-weight: 600
+    }
+
+    nav button.active,
+    nav button:hover {
+      color: var(--orange);
+      background: #fff1e9
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      flex: none;
+      display: inline-flex
+    }
+
+    .icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    nav button.active {
+      border-left: 3px solid var(--orange)
+    }
+
+    nav .nav-sep {
+      height: 1px;
+      margin: 8px 6px;
+      background: var(--line)
+    }
+
+    main {
+      width: 100%;
+      padding: 30px 36px
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 26px
+    }
+
+    .date {
+      color: var(--muted);
+      margin-top: 6px
+    }
+
+    .profile {
+      padding: 9px 13px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 7px
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px
+    }
+
+    .toolbar button {
+      border: 0;
+      border-radius: 7px;
+      background: var(--orange);
+      color: white;
+      padding: 10px 16px;
+      cursor: pointer
+    }
+
+    .count {
+      color: var(--muted)
+    }
+
+    .pager {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .pager button {
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      padding: 8px 12px;
+      border-radius: 7px;
+      cursor: pointer
+    }
+
+    .pager button:disabled {
+      opacity: .4;
+      cursor: default
+    }
+
+    .stock-input {
+      width: 90px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      font: inherit;
+      text-align: center
+    }
+
+    .stock-input:focus {
+      outline: none;
+      border-color: var(--orange)
+    }
+
+    .stock-input:disabled {
+      background: #f4f4f4;
+      color: var(--ink)
+    }
+
+    .stock-save {
+      border: 0;
+      border-radius: 7px;
+      background: var(--orange);
+      color: #fff;
+      padding: 8px 12px;
+      cursor: pointer
+    }
+
+    .stock-save:disabled {
+      opacity: .5
+    }
+
+    .sync-status {
+      margin: -6px 0 14px;
+      color: var(--muted)
+    }
+
+    .sync-status.ok {
+      color: #227a3e
+    }
+
+    .sync-status.err {
+      color: #a52e2e
+    }
+
+    .settings-card {
+      max-width: 560px;
+      padding: 24px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 9px
+    }
+
+    .settings-card h2 {
+      margin: 0 0 18px;
+      font-size: 19px
+    }
+
+    .settings-card .field {
+      margin-bottom: 16px
+    }
+
+    .settings-card label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold
+    }
+
+    .settings-card input[type=password],
+    .settings-card input[type=text],
+    .settings-card input[type=number] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      font: inherit
+    }
+
+    .key-row {
+      display: flex;
+      gap: 8px
+    }
+
+    .key-row input {
+      flex: 1
+    }
+
+    .check {
+      display: flex !important;
+      align-items: center;
+      gap: 8px;
+      font-weight: normal !important
+    }
+
+    .check input {
+      width: auto
+    }
+
+    .settings-actions {
+      display: flex;
+      gap: 10px;
+      margin: 6px 0 12px
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 7px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font: inherit
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #fff
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line) !important
+    }
+
+    .crm-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 10px;
+      background: #e8f7ed;
+      color: #227a3e;
+      font-size: 11px
+    }
+
+    .products {
+      display: grid;
+      gap: 14px
+    }
+
+    .products[hidden] {
+      display: none !important
+    }
+
+    .product {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 18px
+    }
+
+    .muted {
+      color: var(--muted)
+    }
+
+    .empty,
+    .error {
+      padding: 28px;
+      text-align: center;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 9px
+    }
+
+    .error {
+      color: #a52e2e
+    }
+
+    .product {
+      display: grid;
+      grid-template-columns: 92px 1fr auto;
+      gap: 16px;
+      align-items: center
+    }
+
+    .product img {
+      width: 92px;
+      height: 92px;
+      object-fit: cover;
+      border-radius: 7px;
+      background: #f4f4f4
+    }
+
+    .product h3 {
+      margin: 0 0 6px
+    }
+
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--orange)
+    }
+
+    .product-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .edit-product {
+      border: 1px solid var(--orange);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--orange);
+      padding: 8px 12px;
+      cursor: pointer
+    }
+
+    .categories-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px
+    }
+
+    .category-tag {
+      padding: 4px 8px;
+      border-radius: 12px;
+      background: #fff1e9;
+      color: #cc4d0b;
+      font-size: 12px
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, .5)
+    }
+
+    .modal[hidden],
+    #productsSection[hidden] {
+      display: none
+    }
+
+    .modal-card {
+      width: min(680px, 100%);
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+      padding: 24px;
+      background: #fff;
+      border-radius: 12px
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px
+    }
+
+    .modal-head h2 {
+      margin: 0
+    }
+
+    .close {
+      border: 0;
+      background: none;
+      font-size: 24px;
+      cursor: pointer
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px
+    }
+
+    .field {
+      display: grid;
+      gap: 6px
+    }
+
+    .field.full {
+      grid-column: 1/-1
+    }
+
+    .field label {
+      font-weight: bold
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d8d8d8;
+      border-radius: 6px;
+      font: inherit
+    }
+
+    .field textarea {
+      min-height: 84px;
+      resize: vertical
+    }
+
+    .photos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px
+    }
+
+    .photos img {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 6px
+    }
+
+    .modal-foot {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 7px;
+      padding: 10px 16px;
+      cursor: pointer
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #fff
+    }
+
+    .btn-secondary {
+      background: #eee
+    }
+
+    @media(max-width:800px) {
+      aside {
+        width: 64px;
+        padding: 20px 8px
+      }
+
+      .brand {
+        margin: 0 8px 28px
+      }
+
+      .brand span,
+      nav button span {
+        display: none
+      }
+
+      nav button {
+        justify-content: center
+      }
+
+      main {
+        padding: 22px 16px
+      }
+    }
+
+    @media(max-width:560px) {
+      header {
+        align-items: flex-start
+      }
+
+      .profile {
+        display: none
+      }
+    }
+
+    .product.selectable {
+      grid-template-columns: auto 92px 1fr auto
+    }
+
+    .product .pick {
+      display: flex;
+      align-items: center
+    }
+
+    .product .pick input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--orange);
+      cursor: pointer
+    }
+
+    .bulk-bar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: -6px 0 14px;
+      padding: 10px 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 9px
+    }
+
+    .bulk-bar .sel-count {
+      font-weight: bold;
+      color: var(--orange)
+    }
+
+    .bulk-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px
+    }
+
+    .bulk-actions[hidden] {
+      display: none !important
+    }
+
+    .btn-danger {
+      background: #a52e2e;
+      color: #fff
+    }
+
+    .modal-card.narrow {
+      width: min(440px, 100%)
+    }
+
+    .variant-list {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 8px
+    }
+
+    .variant-row {
+      display: grid;
+      grid-template-columns: auto 1.4fr 1fr 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 8px;
+      background: #fafafa;
+      border: 1px solid var(--line);
+      border-radius: 7px
+    }
+
+    .variant-row input[type=text],
+    .variant-row input[type=number] {
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font: inherit;
+      width: 100%
+    }
+
+    .variant-row.off {
+      opacity: .55
+    }
+
+    .variant-row .v-del {
+      border: 0;
+      background: none;
+      color: #a52e2e;
+      font-size: 18px;
+      cursor: pointer
+    }
+
+    .variant-row label.v-on {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      white-space: nowrap;
+      cursor: pointer
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand"><b class="brand-mark">L</b><span>LATIAO</span></div>
+      <nav aria-label="Розділи адмін-панелі">
+        <button class="active" onclick="selectSection(this,'Товари')"><b class="icon"><svg viewBox="0 0 24 24">
+              <path d="M21 8l-9-5-9 5v8l9 5 9-5z" />
+              <path d="M3 8l9 5 9-5M12 13v8" />
+            </svg></b><span>Товари</span></button>
+        <button onclick="selectSection(this,'Категорії')"><b class="icon"><svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1.5" />
+              <rect x="14" y="3" width="7" height="7" rx="1.5" />
+              <rect x="3" y="14" width="7" height="7" rx="1.5" />
+              <rect x="14" y="14" width="7" height="7" rx="1.5" />
+            </svg></b><span>Категорії</span></button>
+        <button onclick="selectSection(this,'Склад')"><b class="icon"><svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="4" rx="1" />
+              <path d="M5 8v11a1 1 0 001 1h12a1 1 0 001-1V8M10 12h4" />
+            </svg></b><span>Склад</span></button>
+        <div class="nav-sep"></div>
+        <button onclick="selectSection(this,'Налаштування')"><b class="icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 01-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 01-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 01-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 010-4h.1a1.7 1.7 0 001.6-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 012.8-2.8l.1.1a1.7 1.7 0 001.9.3h.1a1.7 1.7 0 001-1.5V3a2 2 0 014 0v.1a1.7 1.7 0 001 1.5h.1a1.7 1.7 0 001.9-.3l.1-.1a2 2 0 012.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9v.1a1.7 1.7 0 001.5 1H21a2 2 0 010 4h-.1a1.7 1.7 0 00-1.5 1z" />
+            </svg></b><span>Налаштування</span></button>
+      </nav>
+    </aside>
+    <main>
+      <header>
+        <div>
+          <h1 id="title">Товари</h1>
+          <div class="date">Каталог товарів з бази даних</div>
+        </div>
+        <div class="profile">Адміністратор</div>
+      </header>
+      <section id="productsSection">
+        <div class="toolbar"><span class="count" id="productCount">Завантаження…</span>
+          <div><span class="toolbar-sync" id="syncWrap"><button type="button" id="syncImages">Підставити фото з
+                замовлень</button> </span><button type="button" id="refresh">Оновити</button> <button type="button"
+              id="addProduct">+ Створити товар</button></div>
+        </div>
+        <div class="bulk-bar" id="bulkBar"><label class="check"><input type="checkbox" id="selectAllProducts"> Вибрати
+            всі</label><span class="sel-count" id="bulkCount"></span><span class="bulk-actions" id="bulkActions"
+            hidden><button type="button" class="btn btn-secondary" id="bulkPriceBtn">Змінити ціну</button><button
+              type="button" class="btn btn-secondary" id="bulkCategoryBtn">Призначити категорію</button><button
+              type="button" class="btn btn-danger" id="bulkDeleteBtn">Видалити вибрані</button><button type="button"
+              class="btn btn-secondary" id="bulkClearBtn">Зняти виділення</button></span></div>
+        <div id="products" class="products" aria-live="polite"></div>
+      </section>
+      <section id="categoriesSection" hidden>
+        <div class="toolbar"><span class="count" id="categoryCount">Завантаження…</span><button type="button"
+            id="addCategory">+ Створити категорію</button></div>
+        <div id="categories" class="products" aria-live="polite"></div>
+      </section>
+      <section id="stockSection" hidden>
+        <div class="toolbar"><span class="count" id="stockCount">Завантаження…</span>
+          <div><button type="button" id="syncKeycrm">Синхронізувати зараз</button></div>
+          <div class="pager"><button type="button" id="stockPrev">← Назад</button><span id="stockPage"
+              class="muted"></span><button type="button" id="stockNext">Далі →</button></div>
+        </div>
+        <div class="sync-status" id="syncStatus">Остання синхронізація: —</div>
+        <div id="stockList" class="products" aria-live="polite"></div>
+      </section>
+      <section id="settingsSection" hidden>
+        <div class="settings-card">
+          <h2>Інтеграція з KeyCRM</h2>
+          <div class="field"><label for="keycrmKey">API-ключ KeyCRM</label>
+            <div class="key-row"><input id="keycrmKey" type="password" autocomplete="new-password"
+                placeholder="Введіть API-ключ"><button type="button" id="toggleKey"
+                class="btn btn-secondary">Показати</button></div>
+            <div class="muted" id="keyMasked"></div>
+          </div>
+          <div class="field"><label class="check"><input id="keycrmAuto" type="checkbox"> Автоматична синхронізація
+              залишків</label></div>
+          <div class="field"><label for="keycrmInterval">Інтервал синхронізації, хвилин</label><input
+              id="keycrmInterval" type="number" min="1" step="1" value="10"></div>
+          <div class="settings-actions"><button type="button" id="saveSettings"
+              class="btn btn-primary">Зберегти</button> <button type="button" id="testConnection"
+              class="btn btn-secondary">Перевірити підключення</button></div>
+          <div class="muted" id="settingsMessage"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="modal" id="productModal" hidden>
+    <form class="modal-card" id="productForm">
+      <div class="modal-head">
+        <h2 id="productModalTitle">Новий товар</h2><button class="close" type="button" id="closeProduct">×</button>
+      </div>
+      <div class="form-grid">
+        <div class="field full"><label for="productPhotos">Фото товару</label><input id="productPhotos" type="file"
+            accept="image/*" multiple>
+          <div class="photos" id="photoPreview"></div>
+        </div>
+        <div class="field"><label for="productName">Назва *</label><input id="productName" required></div>
+        <div class="field"><label for="productArticle">Артикул *</label><input id="productArticle" required></div>
+        <div class="field full"><label for="productCategories">Категорії (можна обрати декілька)</label><select
+            id="productCategories" multiple size="4"></select></div>
+        <div class="field full"><label for="productDescription">Опис</label><textarea
+            id="productDescription"></textarea></div>
+        <div class="field full"><label for="productCharacteristics">Характеристики</label><textarea
+            id="productCharacteristics"></textarea></div>
+        <div class="field full"><label for="productComposition">Склад</label><textarea
+            id="productComposition"></textarea></div>
+        <div class="field"><label for="productPrice">Вартість, грн *</label><input id="productPrice" type="number"
+            min="0" step="0.01" required></div>
+        <div class="field full"><label>Фасування (варіанти)</label>
+          <div class="muted" style="margin-bottom:8px">Додайте варіанти фасування, які показуватимуться в картці товару.
+            Кожен варіант можна вимкнути — тоді він не з'явиться на сайті.</div>
+          <div id="variantList" class="variant-list"></div>
+          <div><button type="button" id="addVariant" class="btn btn-secondary">+ Додати фасування</button></div>
+        </div>
+      </div>
+      <div class="modal-foot"><button class="btn btn-secondary" type="button"
+          id="cancelProduct">Скасувати</button><button class="btn btn-primary" type="submit">Зберегти</button></div>
+    </form>
+  </div>
+  <div class="modal" id="categoryModal" hidden>
+    <form class="modal-card" id="categoryForm">
+      <div class="modal-head">
+        <h2>Нова категорія</h2><button class="close" type="button" id="closeCategory">×</button>
+      </div>
+      <div class="field"><label for="categoryName">Назва категорії *</label><input id="categoryName" required
+          placeholder="Наприклад: Чипси"></div>
+      <div class="modal-foot"><button class="btn btn-secondary" type="button"
+          id="cancelCategory">Скасувати</button><button class="btn btn-primary" type="submit">Зберегти</button></div>
+    </form>
+  </div>
+  <div class="modal" id="bulkPriceModal" hidden>
+    <form class="modal-card narrow" id="bulkPriceForm">
+      <div class="modal-head">
+        <h2>Зміна ціни для вибраних товарів</h2><button class="close" type="button" id="closeBulkPrice">×</button>
+      </div>
+      <div class="field"><label for="bulkPriceMode">Режим</label><select id="bulkPriceMode">
+          <option value="set">Встановити однакову ціну, грн</option>
+          <option value="percent">Змінити поточну ціну на %</option>
+        </select></div>
+      <div class="field"><label for="bulkPriceValue">Значення</label><input id="bulkPriceValue" type="number"
+          step="0.01" required></div>
+      <div class="muted" id="bulkPriceHint">Наприклад: 10 — підвищити ціни на 10%; -15 — знизити на 15%</div>
+      <div class="modal-foot"><button class="btn btn-secondary" type="button"
+          id="cancelBulkPrice">Скасувати</button><button class="btn btn-primary" type="submit">Застосувати</button>
+      </div>
+    </form>
+  </div>
+  <div class="modal" id="bulkCategoryModal" hidden>
+    <form class="modal-card narrow" id="bulkCategoryForm">
+      <div class="modal-head">
+        <h2>Категорія для вибраних товарів</h2><button class="close" type="button" id="closeBulkCategory">×</button>
+      </div>
+      <div class="field"><label for="bulkCategorySelect">Категорія</label><select id="bulkCategorySelect"
+          required></select></div>
+      <div class="field"><label class="check"><input id="bulkCategoryReplace" type="checkbox"> Замінити всі категорії
+          (якщо не відмічено — додати до наявних)</label></div>
+      <div class="modal-foot"><button class="btn btn-secondary" type="button"
+          id="cancelBulkCategory">Скасувати</button><button class="btn btn-primary" type="submit">Застосувати</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    function selectSection(button, title) { document.querySelectorAll('nav button').forEach(item => item.classList.remove('active')); button.classList.add('active'); document.querySelector('#title').textContent = title; const isProducts = title === 'Товари', isCategories = title === 'Категорії', isStock = title === 'Склад', isSettings = title === 'Налаштування'; document.querySelector('#productsSection').hidden = !isProducts; document.querySelector('#categoriesSection').hidden = !isCategories; document.querySelector('#stockSection').hidden = !isStock; document.querySelector('#settingsSection').hidden = !isSettings; document.querySelector('#syncWrap').hidden = !isProducts; document.querySelector('.date').textContent = isProducts ? 'Каталог товарів з бази даних' : isCategories ? 'Меню категорій з бази даних' : isStock ? 'Залишки товарів на складі' : 'Параметри інтеграцій'; if (isProducts) { loadProductCategories().then(loadProducts) } if (isCategories) loadCategories(); if (isStock) loadStock(); if (isSettings) loadSettings() }
+    // Динамічний заголовок вкладки браузера
+    window.addEventListener('DOMContentLoaded', () => { const t = document.querySelector('#title'); new MutationObserver(() => document.title = `${t.textContent} — Latiao`).observe(t, { childList: true }) });
+  </script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    import { getFirestore, collection, getDocs, query, orderBy, doc, updateDoc, addDoc, setDoc, getDoc, deleteDoc, writeBatch, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+    const config = { apiKey: 'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw', authDomain: 'my-magazin-81c96.firebaseapp.com', projectId: 'my-magazin-81c96', storageBucket: 'my-magazin-81c96.firebasestorage.app', messagingSenderId: '129061757346', appId: '1:129061757346:web:3e7bc5838cc5f7bda992fb' };
+    const app = initializeApp(config), auth = getAuth(app), db = getFirestore(app), count = document.querySelector('#productCount');
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const first = (obj, keys, fallback = '—') => { for (const key of keys) if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') return obj[key]; return fallback };
+    const date = value => { if (!value) return '—'; try { return value.toDate ? value.toDate().toLocaleString('uk-UA') : new Date(value).toLocaleString('uk-UA') } catch { return String(value) } };
+    const productRoot = document.querySelector('#products'), productCount = document.querySelector('#productCount');
+    let categories = [];
+    async function loadProductCategories() { const snapshot = await getDocs(collection(db, 'categories')); categories = snapshot.docs.map(d => ({ id: d.id, ...d.data() })); document.querySelector('#productCategories').innerHTML = categories.map(c => `<option value="${esc(c.id)}">${esc(c.name || c.title || c.id)}</option>`).join('') }
+    async function loadProducts() { productRoot.innerHTML = '<div class="empty">Завантаження товарів…</div>'; try { const snapshot = await getDocs(collection(db, 'products')); productCount.textContent = `Товарів: ${snapshot.size}`; productRoot.innerHTML = snapshot.empty ? '<div class="empty">Товарів ще немає</div>' : snapshot.docs.map(d => { const p = d.data(), images = p.images || [p.image, p.imageUrl].filter(Boolean), name = p.name || p.title || 'Без назви', cats = Array.isArray(p.categoryIds) ? p.categoryIds.map(id => categories.find(c => c.id === id)?.name || id) : []; return `<article class="product selectable"><label class="pick" title="Вибрати товар"><input type="checkbox" class="product-check" data-id="${d.id}"></label><img src="${esc(images[0] || '')}" alt="${esc(name)}"><div><h3>${esc(name)}</h3><div class="muted">Артикул: ${esc(p.article || p.sku || '—')}</div><div>${esc(p.description || '')}</div><div class="categories-list">${cats.map(c => `<span class="category-tag">${esc(c)}</span>`).join('')}</div></div><div class="product-actions"><div class="price">${esc(p.price || 0)} грн</div><button class="edit-product" data-edit-product="${d.id}">Редагувати</button></div></article>` }).join(''); const liveIds = new Set(snapshot.docs.map(d => d.id));[...selectedProducts].forEach(id => { if (!liveIds.has(id)) selectedProducts.delete(id) }); syncCheckboxes(); updateBulkUi() } catch (error) { productCount.textContent = 'Помилка'; productRoot.innerHTML = `<div class="error">Не вдалося завантажити товари: ${esc(error.message)}</div>` } }
+    window.loadProducts = loadProducts;
+
+    // ===== Масовий вибір товарів =====
+    const selectedProducts = new Set();
+    const selectAllBox = document.querySelector('#selectAllProducts'), bulkCount = document.querySelector('#bulkCount'), bulkActions = document.querySelector('#bulkActions');
+    function syncCheckboxes() { productRoot.querySelectorAll('.product-check').forEach(box => box.checked = selectedProducts.has(box.dataset.id)) }
+    function updateBulkUi() { const total = productRoot.querySelectorAll('.product-check').length, selected = selectedProducts.size; bulkCount.textContent = selected ? `Вибрано: ${selected}` : 'Виберіть товари для масових дій'; bulkActions.hidden = !selected; selectAllBox.disabled = !total; selectAllBox.checked = total > 0 && selected === total; selectAllBox.indeterminate = selected > 0 && selected < total }
+    productRoot.addEventListener('change', e => { const box = e.target.closest('.product-check'); if (!box) return; if (box.checked) selectedProducts.add(box.dataset.id); else selectedProducts.delete(box.dataset.id); updateBulkUi() });
+    selectAllBox.addEventListener('change', () => { const boxes = productRoot.querySelectorAll('.product-check'); if (selectAllBox.checked) boxes.forEach(b => selectedProducts.add(b.dataset.id)); else selectedProducts.clear(); syncCheckboxes(); updateBulkUi() });
+    document.querySelector('#bulkClearBtn').addEventListener('click', () => { selectedProducts.clear(); syncCheckboxes(); updateBulkUi() });
+    document.querySelector('#bulkDeleteBtn').addEventListener('click', async e => {
+      const button = e.currentTarget, ids = [...selectedProducts]; if (!ids.length) return;
+      if (!confirm(`Видалити вибрані товари (${ids.length})? Дію не можна скасувати.`)) return;
+      button.disabled = true;
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        for (let i = 0; i < ids.length; i += 450) { const batch = writeBatch(db); ids.slice(i, i + 450).forEach(id => batch.delete(doc(db, 'products', id))); await batch.commit() }
+        selectedProducts.clear(); await loadProducts();
+        productCount.textContent += ` · Видалено: ${ids.length}`;
+      } catch (error) { alert(`Не вдалося видалити товари: ${error.message}`) } finally { button.disabled = false }
+    });
+    const bulkPriceModal = document.querySelector('#bulkPriceModal'), bulkPriceForm = document.querySelector('#bulkPriceForm'), bulkPriceMode = document.querySelector('#bulkPriceMode'), bulkPriceValue = document.querySelector('#bulkPriceValue'), bulkPriceHint = document.querySelector('#bulkPriceHint');
+    const openBulkPrice = () => { if (!selectedProducts.size) return; bulkPriceForm.reset(); bulkPriceHint.textContent = 'Наприклад: 10 — підвищити ціни на 10%; -15 — знизити на 15%'; bulkPriceModal.hidden = false; bulkPriceValue.focus() };
+    const closeBulkPrice = () => { bulkPriceModal.hidden = true; bulkPriceForm.reset() };
+    document.querySelector('#bulkPriceBtn').addEventListener('click', openBulkPrice);
+    document.querySelector('#closeBulkPrice').addEventListener('click', closeBulkPrice);
+    document.querySelector('#cancelBulkPrice').addEventListener('click', closeBulkPrice);
+    bulkPriceModal.addEventListener('click', e => { if (e.target === bulkPriceModal) closeBulkPrice() });
+    bulkPriceMode.addEventListener('change', () => { bulkPriceHint.textContent = bulkPriceMode.value === 'set' ? 'Усі вибрані товари отримають однакову ціну' : 'Наприклад: 10 — підвищити ціни на 10%; -15 — знизити на 15%' });
+    bulkPriceForm.addEventListener('submit', async e => {
+      e.preventDefault(); const button = e.submitter; button.disabled = true;
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        const ids = [...selectedProducts], mode = bulkPriceMode.value, value = Number(bulkPriceValue.value);
+        const snapshot = await getDocs(collection(db, 'products')); const updates = [];
+        snapshot.docs.forEach(d => { if (!ids.includes(d.id)) return; const current = Number(d.data().price) || 0; const next = mode === 'set' ? value : Math.max(0, Math.round(current * (1 + value / 100) * 100) / 100); updates.push({ ref: d.ref, price: next }) });
+        for (let i = 0; i < updates.length; i += 450) { const batch = writeBatch(db); updates.slice(i, i + 450).forEach(u => batch.update(u.ref, { price: u.price })); await batch.commit() }
+        closeBulkPrice(); selectedProducts.clear(); await loadProducts();
+        productCount.textContent += ` · Ціну оновлено: ${updates.length}`;
+      } catch (error) { alert(`Не вдалося оновити ціни: ${error.message}`) } finally { button.disabled = false }
+    });
+    const bulkCategoryModal = document.querySelector('#bulkCategoryModal'), bulkCategoryForm = document.querySelector('#bulkCategoryForm'), bulkCategorySelect = document.querySelector('#bulkCategorySelect');
+    const openBulkCategory = () => { if (!selectedProducts.size) return; bulkCategoryForm.reset(); bulkCategorySelect.innerHTML = categories.map(c => `<option value="${esc(c.id)}">${esc(c.name || c.title || c.id)}</option>`).join(''); bulkCategoryModal.hidden = false };
+    const closeBulkCategory = () => { bulkCategoryModal.hidden = true; bulkCategoryForm.reset() };
+    document.querySelector('#bulkCategoryBtn').addEventListener('click', openBulkCategory);
+    document.querySelector('#closeBulkCategory').addEventListener('click', closeBulkCategory);
+    document.querySelector('#cancelBulkCategory').addEventListener('click', closeBulkCategory);
+    bulkCategoryModal.addEventListener('click', e => { if (e.target === bulkCategoryModal) closeBulkCategory() });
+    bulkCategoryForm.addEventListener('submit', async e => {
+      e.preventDefault(); const button = e.submitter; button.disabled = true;
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        const ids = [...selectedProducts], categoryId = bulkCategorySelect.value, replace = document.querySelector('#bulkCategoryReplace').checked;
+        if (!categoryId) throw new Error('Виберіть категорію');
+        const snapshot = await getDocs(collection(db, 'products')); const updates = [];
+        snapshot.docs.forEach(d => { if (!ids.includes(d.id)) return; const current = Array.isArray(d.data().categoryIds) ? d.data().categoryIds.filter(Boolean) : []; const next = replace ? [categoryId] : Array.from(new Set([...current, categoryId])); updates.push({ ref: d.ref, categoryIds: next }) });
+        for (let i = 0; i < updates.length; i += 450) { const batch = writeBatch(db); updates.slice(i, i + 450).forEach(u => batch.update(u.ref, { categoryIds: u.categoryIds })); await batch.commit() }
+        closeBulkCategory(); selectedProducts.clear(); await loadProducts();
+        productCount.textContent += ` · Категорію призначено: ${updates.length}`;
+      } catch (error) { alert(`Не вдалося призначити категорію: ${error.message}`) } finally { button.disabled = false }
+    });
+    const categoryRoot = document.querySelector('#categories'), categoryCount = document.querySelector('#categoryCount');
+    async function loadCategories() { categoryRoot.innerHTML = '<div class="empty">Завантаження категорій…</div>'; try { const snapshot = await getDocs(collection(db, 'categories')); categoryCount.textContent = `Категорій: ${snapshot.size}`; categoryRoot.innerHTML = snapshot.empty ? '<div class="empty">Категорій ще немає</div>' : snapshot.docs.map(d => `<article class="product"><div><h3>${esc(d.data().name || d.data().title || d.id)}</h3><div class="muted">Посилання: catalog.html?category=${encodeURIComponent(d.data().slug || d.id)}</div></div></article>`).join('') } catch (error) { categoryRoot.innerHTML = `<div class="error">Не вдалося завантажити категорії: ${esc(error.message)}</div>` } }
+    window.loadCategories = loadCategories;
+    const categoryModal = document.querySelector('#categoryModal'), categoryForm = document.querySelector('#categoryForm'); document.querySelector('#addCategory').addEventListener('click', () => { categoryModal.hidden = false; document.querySelector('#categoryName').focus() }); const closeCategory = () => { categoryModal.hidden = true; categoryForm.reset() }; document.querySelector('#closeCategory').addEventListener('click', closeCategory); document.querySelector('#cancelCategory').addEventListener('click', closeCategory); categoryModal.addEventListener('click', e => { if (e.target === categoryModal) closeCategory() }); categoryForm.addEventListener('submit', async e => { e.preventDefault(); const button = e.submitter; button.disabled = true; try { if (!auth.currentUser) await signInAnonymously(auth); const name = document.querySelector('#categoryName').value.trim(); const slug = name.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9а-яіїєґ]+/gi, '-').replace(/^-|-$/g, ''); await addDoc(collection(db, 'categories'), { name, slug, createdAt: serverTimestamp() }); closeCategory(); await loadCategories() } catch (error) { alert(`Не вдалося зберегти категорію: ${error.message}`) } finally { button.disabled = false } });
+    const modal = document.querySelector('#productModal'), form = document.querySelector('#productForm'), photoInput = document.querySelector('#productPhotos'), preview = document.querySelector('#photoPreview'); let photoData = [], editingProductId = null;
+
+    // ===== Фасування (варіанти товару) =====
+    const variantList = document.querySelector('#variantList');
+    const addVariantRow = (v = {}) => {
+      const row = document.createElement('div');
+      row.className = 'variant-row' + (v.enabled === false ? ' off' : '');
+      row.innerHTML = `<label class="v-on" title="Показувати це фасування на сайті"><input type="checkbox" class="v-enabled" ${v.enabled === false ? '' : 'checked'}> Увімк.</label>
+        <input type="text" class="v-label" placeholder="Назва, напр. 3 × 120 г" value="${esc(v.label || '')}">
+        <input type="number" class="v-weight" min="0" placeholder="Вага, г" value="${esc(v.weight ?? '')}">
+        <input type="number" class="v-price" min="0" step="0.01" placeholder="Ціна, грн" value="${esc(v.price ?? '')}">
+        <button type="button" class="v-del" title="Видалити">×</button>`;
+      row.querySelector('.v-enabled').addEventListener('change', e => row.classList.toggle('off', !e.target.checked));
+      row.querySelector('.v-del').addEventListener('click', () => row.remove());
+      variantList.appendChild(row);
+    };
+    document.querySelector('#addVariant').addEventListener('click', () => addVariantRow());
+    const collectVariants = () => Array.from(variantList.querySelectorAll('.variant-row')).map(row => ({
+      enabled: row.querySelector('.v-enabled').checked,
+      label: row.querySelector('.v-label').value.trim(),
+      weight: row.querySelector('.v-weight').value === '' ? null : Number(row.querySelector('.v-weight').value),
+      price: row.querySelector('.v-price').value === '' ? null : Number(row.querySelector('.v-price').value)
+    })).filter(v => v.label || v.weight || v.price !== null);
+
+    const openModal = async (product = null, id = null) => { editingProductId = id; document.querySelector('#productModalTitle').textContent = product ? 'Редагувати товар' : 'Новий товар'; modal.hidden = false; await loadProductCategories(); variantList.innerHTML = ''; (Array.isArray(product?.variants) ? product.variants : []).forEach(v => addVariantRow(v)); if (product) { ['Name', 'Article', 'Description', 'Characteristics', 'Composition', 'Price'].forEach(k => { const el = document.querySelector('#product' + k); el.value = product[k.toLowerCase()] ?? '' }); const selected = product.categoryIds || []; document.querySelectorAll('#productCategories option').forEach(o => o.selected = selected.includes(o.value)); photoData = product.images || [product.image].filter(Boolean); preview.innerHTML = photoData.map(src => `<img src="${esc(src)}">`).join('') } document.querySelector('#productName').focus() }, closeModal = () => { modal.hidden = true; form.reset(); photoData = []; editingProductId = null; preview.innerHTML = ''; variantList.innerHTML = '' };
+    document.querySelector('#addProduct').addEventListener('click', openModal); document.querySelector('#closeProduct').addEventListener('click', closeModal); document.querySelector('#cancelProduct').addEventListener('click', closeModal); modal.addEventListener('click', e => { if (e.target === modal) closeModal() });
+    photoInput.addEventListener('change', () => { photoData = []; preview.innerHTML = ''; Array.from(photoInput.files).forEach(file => { const reader = new FileReader(); reader.onload = () => { photoData.push(reader.result); const img = document.createElement('img'); img.src = reader.result; img.alt = file.name; preview.appendChild(img) }; reader.readAsDataURL(file) }) });
+    form.addEventListener('submit', async e => { e.preventDefault(); const save = e.submitter; save.disabled = true; try { if (!auth.currentUser) await signInAnonymously(auth); const data = { name: document.querySelector('#productName').value.trim(), article: document.querySelector('#productArticle').value.trim(), description: document.querySelector('#productDescription').value.trim(), characteristics: document.querySelector('#productCharacteristics').value.trim(), composition: document.querySelector('#productComposition').value.trim(), price: Number(document.querySelector('#productPrice').value), categoryIds: Array.from(document.querySelector('#productCategories').selectedOptions).map(o => o.value), images: photoData, image: photoData[0] || '', variants: collectVariants() }; if (editingProductId) await updateDoc(doc(db, 'products', editingProductId), data); else await addDoc(collection(db, 'products'), { ...data, createdAt: serverTimestamp() }); closeModal(); await loadProducts() } catch (error) { alert(`Не вдалося зберегти товар: ${error.message}`) } finally { save.disabled = false } });
+    productRoot.addEventListener('click', async e => { const button = e.target.closest('[data-edit-product]'); if (!button) return; const snapshot = await getDocs(collection(db, 'products')); const item = snapshot.docs.find(d => d.id === button.dataset.editProduct); if (item) openModal(item.data(), item.id) });
+
+    // ===== Склад =====
+    const stockRoot = document.querySelector('#stockList'), stockCount = document.querySelector('#stockCount'), stockPageEl = document.querySelector('#stockPage');
+    const STOCK_PAGE_SIZE = 10; let stockItems = [], stockPage = 0;
+    async function loadStock() {
+      stockRoot.innerHTML = '<div class="empty">Завантаження товарів…</div>';
+      try {
+        const snapshot = await getDocs(collection(db, 'products'));
+        stockItems = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        stockCount.textContent = `Товарів: ${stockItems.length}`;
+        stockPage = 0; renderStock(); loadLastSync();
+      } catch (error) { stockCount.textContent = 'Помилка'; stockRoot.innerHTML = `<div class="error">Не вдалося завантажити склад: ${esc(error.message)}</div>` }
+    }
+    function renderStock() {
+      const pages = Math.max(1, Math.ceil(stockItems.length / STOCK_PAGE_SIZE));
+      if (stockPage >= pages) stockPage = pages - 1;
+      const slice = stockItems.slice(stockPage * STOCK_PAGE_SIZE, (stockPage + 1) * STOCK_PAGE_SIZE);
+      stockPageEl.textContent = `Стор. ${stockPage + 1} з ${pages}`;
+      document.querySelector('#stockPrev').disabled = stockPage === 0;
+      document.querySelector('#stockNext').disabled = stockPage >= pages - 1;
+      if (!stockItems.length) { stockRoot.innerHTML = '<div class="empty">Товарів ще немає</div>'; return }
+      stockRoot.innerHTML = slice.map(p => {
+        const name = p.name || p.title || 'Без назви', images = p.images || [p.image, p.imageUrl].filter(Boolean);
+        const stock = p.stock ?? p.quantity ?? 0;
+        const fromCrm = p.stockSource === 'keycrm';
+        const crmInfo = fromCrm ? `<span class="crm-badge">KeyCRM</span> <span class="muted">Доступно: ${esc(stock)} · Усього: ${esc(p.crmQuantity ?? 0)} · Резерв: ${esc(p.crmReserve ?? 0)}</span>` : '';
+        const control = fromCrm
+          ? `<label class="muted">Залишок: <input class="stock-input" type="number" value="${esc(stock)}" disabled title="Залишок керується з KeyCRM"></label>`
+          : `<label class="muted">Залишок: <input class="stock-input" type="number" min="0" step="1" value="${esc(stock)}" data-stock-input="${esc(p.id)}"></label><button class="stock-save" data-stock-save="${esc(p.id)}">Зберегти</button>`;
+        return `<article class="product"><img src="${esc(images[0] || '')}" alt="${esc(name)}"><div><h3>${esc(name)}</h3><div class="muted">Артикул: ${esc(p.article || p.sku || '—')}</div><div>${crmInfo}</div></div><div class="product-actions">${control}</div></article>`
+      }).join('')
+    }
+    document.querySelector('#stockPrev').addEventListener('click', () => { if (stockPage > 0) { stockPage--; renderStock() } });
+    document.querySelector('#stockNext').addEventListener('click', () => { if (stockPage < (Math.ceil(stockItems.length / STOCK_PAGE_SIZE) - 1)) { stockPage++; renderStock() } });
+    stockRoot.addEventListener('click', async e => {
+      const button = e.target.closest('[data-stock-save]'); if (!button) return;
+      const id = button.dataset.stockSave, input = stockRoot.querySelector(`[data-stock-input="${id}"]`);
+      const value = Math.max(0, parseInt(input.value, 10) || 0);
+      button.disabled = true; button.textContent = '…';
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        await updateDoc(doc(db, 'products', id), { stock: value });
+        const item = stockItems.find(p => p.id === id); if (item) item.stock = value;
+        button.textContent = 'Збережено ✓'; setTimeout(() => { button.textContent = 'Зберегти'; button.disabled = false }, 1500);
+      } catch (error) { alert(`Не вдалося зберегти залишок: ${error.message}`); button.textContent = 'Зберегти'; button.disabled = false }
+    });
+    window.loadStock = loadStock;
+
+    // Шукає фото та артикул у будь-якій структурі товарної позиції в замовленні.
+    const imageKeys = ['image', 'imageUrl', 'photo', 'photoUrl', 'picture', 'thumbnail'];
+    const articleKeys = ['article', 'articul', 'sku', 'vendorCode', 'productCode', 'code', 'артикул'];
+    const clean = v => String(v ?? '').trim().toLowerCase().replace(/[\s_-]+/g, '');
+    function findPairs(value, pairs = []) {
+      if (!value || typeof value !== 'object') return pairs;
+      if (!Array.isArray(value)) {
+        const image = imageKeys.map(k => value[k]).find(v => typeof v === 'string' && /^https?:\/\//i.test(v));
+        const article = articleKeys.map(k => value[k]).find(v => v !== undefined && v !== null && String(v).trim());
+        if (image && article) pairs.push({ article: String(article), image });
+        Object.values(value).forEach(v => findPairs(v, pairs));
+      } else value.forEach(v => findPairs(v, pairs));
+      return pairs;
+    }
+    const productArticle = p => articleKeys.map(k => p[k]).find(v => v !== undefined && v !== null && String(v).trim());
+    async function syncOrderImages() {
+      const button = document.querySelector('#syncImages'); button.disabled = true; button.textContent = 'Синхронізація…';
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        const [orders, products] = await Promise.all([getDocs(collection(db, 'orders')), getDocs(collection(db, 'products'))]);
+        const photos = new Map(); orders.docs.forEach(order => findPairs(order.data()).forEach(pair => photos.set(clean(pair.article), pair.image)));
+        let updated = 0, matched = 0;
+        await Promise.all(products.docs.map(async product => {
+          const article = productArticle(product.data()); const image = article && photos.get(clean(article));
+          if (!image) return;
+          matched++;
+          const current = product.data().image || product.data().imageUrl || product.data().photo;
+          if (current !== image) { await updateDoc(doc(db, 'products', product.id), { image }); updated++ }
+        }));
+        button.textContent = `Готово: ${updated} фото оновлено`;
+        count.textContent = `Знайдено фото: ${photos.size}; збігів товарів: ${matched}; оновлено: ${updated}`;
+        setTimeout(() => { button.textContent = 'Підставити фото з замовлень'; button.disabled = false }, 4000);
+      } catch (error) { button.disabled = false; button.textContent = 'Помилка синхронізації'; count.textContent = `Не вдалося оновити фото: ${error.message}`; console.error(error) }
+    }
+    document.querySelector('#refresh').addEventListener('click', () => loadProductCategories().then(loadProducts)); document.querySelector('#syncImages').addEventListener('click', syncOrderImages); loadProductCategories().then(loadProducts);
+
+    // ===== KeyCRM: налаштування та синхронізація залишків =====
+    const KEYCRM_URL = 'https://openapi.keycrm.app/v1/offers/stocks';
+    const settingsMsg = document.querySelector('#settingsMessage'), keyInput = document.querySelector('#keycrmKey'), keyMaskedEl = document.querySelector('#keyMasked');
+    const maskKey = k => k ? `••••••••${String(k).slice(-4)}` : '';
+    let keycrmSettings = { apiKey: '', autoSync: false, intervalMinutes: 10 }, syncTimer = null, syncRunning = false;
+
+    async function loadSettings() {
+      try {
+        const snap = await getDoc(doc(db, 'settings', 'keycrm'));
+        if (snap.exists()) keycrmSettings = { apiKey: snap.data().apiKey || '', autoSync: !!snap.data().autoSync, intervalMinutes: Number(snap.data().intervalMinutes) || 10 };
+      } catch (error) { settingsMsg.textContent = `Не вдалося завантажити налаштування: ${error.message}` }
+      keyInput.value = '';
+      keyInput.placeholder = keycrmSettings.apiKey ? `Ключ збережено (${maskKey(keycrmSettings.apiKey)})` : 'Введіть API-ключ';
+      keyMaskedEl.textContent = keycrmSettings.apiKey ? `Збережений ключ: ${maskKey(keycrmSettings.apiKey)}` : 'Ключ ще не збережено';
+      document.querySelector('#keycrmAuto').checked = keycrmSettings.autoSync;
+      document.querySelector('#keycrmInterval').value = keycrmSettings.intervalMinutes;
+      setupAutoSync();
+    }
+    document.querySelector('#toggleKey').addEventListener('click', () => { const show = keyInput.type === 'password'; keyInput.type = show ? 'text' : 'password'; document.querySelector('#toggleKey').textContent = show ? 'Сховати' : 'Показати' });
+    document.querySelector('#saveSettings').addEventListener('click', async e => {
+      const button = e.target; button.disabled = true; settingsMsg.textContent = ''; settingsMsg.style.color = '';
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        const interval = Math.max(1, parseInt(document.querySelector('#keycrmInterval').value, 10) || 10);
+        const data = { autoSync: document.querySelector('#keycrmAuto').checked, intervalMinutes: interval, updatedAt: serverTimestamp() };
+        const newKey = keyInput.value.trim();
+        if (newKey) data.apiKey = newKey; // не перезаписуємо ключ, якщо поле не змінювалося
+        await setDoc(doc(db, 'settings', 'keycrm'), data, { merge: true });
+        if (newKey) keycrmSettings.apiKey = newKey;
+        keycrmSettings.autoSync = data.autoSync; keycrmSettings.intervalMinutes = interval;
+        keyInput.value = ''; keyInput.placeholder = `Ключ збережено (${maskKey(keycrmSettings.apiKey)})`;
+        keyMaskedEl.textContent = keycrmSettings.apiKey ? `Збережений ключ: ${maskKey(keycrmSettings.apiKey)}` : 'Ключ ще не збережено';
+        settingsMsg.style.color = '#227a3e'; settingsMsg.textContent = 'Налаштування збережено ✓';
+        setupAutoSync();
+      } catch (error) { settingsMsg.style.color = '#a52e2e'; settingsMsg.textContent = `Не вдалося зберегти: ${error.message}` }
+      finally { button.disabled = false }
+    });
+    document.querySelector('#testConnection').addEventListener('click', async e => {
+      const button = e.target; button.disabled = true; settingsMsg.textContent = 'Перевірка підключення…'; settingsMsg.style.color = '';
+      try {
+        const key = keyInput.value.trim() || keycrmSettings.apiKey;
+        if (!key) throw new Error('Ключ не задано. Введіть API-ключ і збережіть налаштування.');
+        const response = await fetch(`${KEYCRM_URL}?limit=1&page=1`, { headers: { Authorization: `Bearer ${key}`, Accept: 'application/json' } });
+        if (response.status === 401) throw new Error('Невірний API-ключ');
+        if (!response.ok) throw new Error(`KeyCRM відповів помилкою: HTTP ${response.status}`);
+        const json = await response.json();
+        settingsMsg.style.color = '#227a3e'; settingsMsg.textContent = `Підключено ✓ (товарів у KeyCRM: ${json.total ?? '—'})`;
+      } catch (error) { settingsMsg.style.color = '#a52e2e'; settingsMsg.textContent = `Помилка: ${error.message}` }
+      finally { button.disabled = false }
+    });
+
+    // Клієнт KeyCRM: пагінація, retry, затримки між сторінками
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    async function keycrmPage(key, page, retries = 3) {
+      for (let attempt = 0; attempt <= retries; attempt++) {
+        let response;
+        try {
+          response = await fetch(`${KEYCRM_URL}?limit=50&page=${page}&filter[details]=true`, { headers: { Authorization: `Bearer ${key}`, Accept: 'application/json' } });
+        } catch (error) { // мережева помилка
+          if (attempt === retries) throw new Error('Немає з\'єднання з KeyCRM. Перевірте мережу.');
+          await sleep(2000 * (attempt + 1)); continue;
+        }
+        if (response.status === 401) throw new Error('Невірний API-ключ');
+        if (response.status === 429 || response.status >= 500) {
+          if (attempt === retries) throw new Error(`KeyCRM тимчасово недоступний: HTTP ${response.status}`);
+          await sleep(3000 * (attempt + 1)); continue;
+        }
+        if (!response.ok) throw new Error(`KeyCRM відповів помилкою: HTTP ${response.status}`);
+        return response.json();
+      }
+    }
+    async function fetchAllStocks(key) {
+      const items = []; let page = 1;
+      while (true) {
+        const json = await keycrmPage(key, page);
+        items.push(...(json.data || []));
+        if (!json.data || !json.data.length || !json.next_page_url) break;
+        page++; await sleep(1100); // ~60 запитів/хв
+      }
+      return items;
+    }
+
+    // Синхронізація залишків
+    async function runKeycrmSync() {
+      if (syncRunning) return;
+      const key = keycrmSettings.apiKey;
+      if (!key) { setSyncStatus('err', 'Синхронізація неможлива: не задано API-ключ KeyCRM'); return }
+      syncRunning = true;
+      const syncButton = document.querySelector('#syncKeycrm');
+      if (syncButton) { syncButton.disabled = true; syncButton.textContent = 'Синхронізація…' }
+      const startedAt = new Date();
+      setSyncStatus('', 'Синхронізація виконується…');
+      // lock у Firestore — захист від одночасного запуску
+      const lockRef = doc(db, 'settings', 'keycrmSyncLock');
+      try {
+        const lock = await getDoc(lockRef);
+        if (lock.exists()) {
+          const started = lock.data().startedAt?.toDate?.() || new Date(0);
+          if (Date.now() - started.getTime() < 10 * 60 * 1000) throw new Error('Синхронізація вже виконується (запущена іншою сесією)');
+        }
+        await setDoc(lockRef, { startedAt: new Date() });
+        if (!auth.currentUser) await signInAnonymously(auth);
+        const stocks = await fetchAllStocks(key);
+        const bySku = new Map();
+        stocks.forEach(item => { const sku = String(item.sku ?? '').trim(); if (sku) bySku.set(clean(sku), item); else console.warn('KeyCRM: позиція без SKU пропущена', item.id) });
+        const snapshot = await getDocs(collection(db, 'products'));
+        let updated = 0, skipped = 0; const unmatched = []; const updates = [];
+        snapshot.docs.forEach(p => {
+          const product = p.data();
+          const sku = productArticle(product);
+          if (!sku) { skipped++; return }
+          const match = bySku.get(clean(sku));
+          if (!match) { unmatched.push(sku); return }
+          const quantity = Number(match.quantity) || 0, reserve = Number(match.reserve) || 0;
+          const available = Math.max(0, quantity - reserve);
+          updates.push({ ref: p.ref, data: { stock: available, crmQuantity: quantity, crmReserve: reserve, crmWarehouses: match.warehouse || [], crmSku: match.sku, stockSource: 'keycrm', stockSyncedAt: new Date().toISOString() } });
+          updated++;
+        });
+        // пакетне оновлення чанками по 450 операцій
+        for (let i = 0; i < updates.length; i += 450) {
+          const batch = writeBatch(db);
+          updates.slice(i, i + 450).forEach(u => batch.update(u.ref, u.data));
+          await batch.commit();
+        }
+        if (unmatched.length) console.warn('KeyCRM: товари без збігу SKU пропущені:', unmatched.join(', '));
+        const finishedAt = new Date();
+        await addDoc(collection(db, 'syncLogs'), { startedAt: startedAt.toISOString(), finishedAt: finishedAt.toISOString(), status: 'ok', processed: stocks.length, updated, skipped, error: '' });
+        setSyncStatus('ok', `Остання синхронізація: ${finishedAt.toLocaleString('uk-UA')} · Успіх · Оновлено товарів: ${updated}`);
+        if (document.querySelector('#stockSection') && !document.querySelector('#stockSection').hidden) loadStock();
+      } catch (error) {
+        const finishedAt = new Date();
+        try { await addDoc(collection(db, 'syncLogs'), { startedAt: startedAt.toISOString(), finishedAt: finishedAt.toISOString(), status: 'error', processed: 0, updated: 0, skipped: 0, error: error.message }) } catch { }
+        setSyncStatus('err', `Остання синхронізація: ${finishedAt.toLocaleString('uk-UA')} · Помилка: ${error.message}`);
+      } finally {
+        try { await deleteDoc(lockRef) } catch { }
+        syncRunning = false;
+        if (syncButton) { syncButton.textContent = 'Синхронізувати зараз'; syncButton.disabled = false }
+      }
+    }
+    function setSyncStatus(cls, text) { const el = document.querySelector('#syncStatus'); if (!el) return; el.className = `sync-status ${cls}`; el.textContent = text }
+    async function loadLastSync() {
+      try {
+        const snapshot = await getDocs(query(collection(db, 'syncLogs'), orderBy('finishedAt', 'desc')));
+        const last = snapshot.docs[0]?.data();
+        if (!last) { setSyncStatus('', 'Остання синхронізація: —'); return }
+        const when = new Date(last.finishedAt || last.startedAt).toLocaleString('uk-UA');
+        if (last.status === 'ok') setSyncStatus('ok', `Остання синхронізація: ${when} · Успіх · Оновлено товарів: ${last.updated}`);
+        else setSyncStatus('err', `Остання синхронізація: ${when} · Помилка: ${last.error || 'невідома'}`);
+      } catch { setSyncStatus('', 'Остання синхронізація: —') }
+    }
+    function setupAutoSync() {
+      if (syncTimer) { clearInterval(syncTimer); syncTimer = null }
+      if (keycrmSettings.autoSync && keycrmSettings.apiKey) {
+        const ms = Math.max(1, keycrmSettings.intervalMinutes) * 60 * 1000;
+        syncTimer = setInterval(runKeycrmSync, ms);
+      }
+    }
+    document.querySelector('#syncKeycrm').addEventListener('click', runKeycrmSync);
+    loadSettings(); loadLastSync();
+  </script>
+</body>
+
+</html>

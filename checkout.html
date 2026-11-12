@@ -1,0 +1,2510 @@
+<!doctype html>
+<html lang="uk">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Гостро — Оформлення</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Inter:wght@400;500;600&display=swap&subset=cyrillic,latin"
+    rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --color-accent: #FF6A1A;
+      --color-ink: #1B1B1B;
+      --color-cream: #FFF4E6;
+      --color-white: #FFFFFF;
+      --color-err: #DA291C;
+      --font-head: 'Montserrat', system-ui, sans-serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --radius-card: 16px;
+      --radius-tile: 14px;
+      --radius-pill: 999px;
+      --field-h: 48px;
+      --field-radius: 12px;
+      --field-bw: 2px;
+      --field-pad: 6px;
+      --field-ring-gap: 2px;
+      --field-ring: 3px;
+      --dur: 160ms;
+      --dur-step: 300ms;
+      --ease: ease-out;
+      --ease-step: ease-in-out
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box
+    }
+
+    html {
+      scrollbar-gutter: stable
+    }
+
+    body {
+      margin: 0;
+      background: var(--color-white);
+      color: var(--color-ink);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.3;
+      padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px))
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--font-head);
+      font-weight: 800;
+      margin: 0
+    }
+
+    img {
+      max-width: 100%
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+      color: inherit
+    }
+
+    button {
+      cursor: pointer
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--color-ink);
+      outline-offset: 2px
+    }
+
+    .container {
+      max-width: 1200px;
+      margin-inline: auto;
+      width: 100%
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      flex: none
+    }
+
+    /* Шапка */
+    .chead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 3px solid var(--color-ink)
+    }
+
+    .chead__title {
+      font-size: 1.15rem;
+      letter-spacing: -.01em
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.05rem;
+      text-decoration: none;
+      color: inherit
+    }
+
+    .logo__mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--color-ink);
+      color: var(--color-cream);
+      font-size: .9rem
+    }
+
+    .iconbtn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--color-cream);
+      color: var(--color-ink);
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur) var(--ease)
+    }
+
+    .iconbtn:hover {
+      background: var(--color-ink);
+      color: var(--color-cream)
+    }
+
+    .iconbtn:active {
+      transform: scale(.94)
+    }
+
+    .iconbtn .icon {
+      width: 22px;
+      height: 22px;
+      stroke-width: 2.4
+    }
+
+    /* Степпер */
+    .stepper {
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+      padding: 16px 0 4px
+    }
+
+    .stp {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      font: inherit;
+      color: inherit
+    }
+
+    .stp__circ {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      box-sizing: border-box;
+      border-radius: 50%;
+      background: var(--color-white);
+      border: 2px solid var(--color-ink);
+      color: var(--color-ink);
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur) var(--ease)
+    }
+
+    .stp__icon {
+      display: block;
+      width: 20px;
+      height: 20px;
+      flex: none;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      shape-rendering: geometricPrecision
+    }
+
+    .stp__label {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: .66rem;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      transition: color var(--dur) var(--ease)
+    }
+
+    .stp[aria-current="step"] .stp__circ {
+      opacity: 1;
+      background: var(--color-accent);
+      border-color: var(--color-ink)
+    }
+
+    .stp[aria-current="step"] .stp__label {
+      opacity: 1
+    }
+
+    .stp.is-done {
+      cursor: pointer
+    }
+
+    .stp.is-done .stp__circ,
+    .stp.is-done .stp__label {
+      opacity: 1
+    }
+
+    .stp.is-done .stp__circ {
+      background: var(--color-ink);
+      color: var(--color-cream)
+    }
+
+    .stp.is-done:hover .stp__circ {
+      background: var(--color-accent);
+      color: var(--color-ink)
+    }
+
+    .stp.is-done:active .stp__circ {
+      transform: scale(.94)
+    }
+
+    .stp:not(.is-done):not([aria-current="step"]) {
+      cursor: default
+    }
+
+    .stp__check {
+      display: none;
+      width: 18px;
+      height: 18px
+    }
+
+    .stp.is-done .stp__check {
+      display: block
+    }
+
+    /* Лінія прогресу між колами: малюється всередині кожного кроку — від його
+       центра до центра сусіднього кроку. Кінці лінії завжди ховаються під
+       непрозорими колами, тому лінія ніколи не виїжджає за межі кіл
+       на жодній ширині екрана (не залежить від gap і кількості кроків) */
+    .stp {
+      position: relative
+    }
+
+    .stp:not(:last-child)::before,
+    .stp:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 20px;
+      /* центр кола 40px */
+      left: 50%;
+      width: calc(100% + var(--sgap, 4px));
+      height: 3px;
+      transform: translateY(-50%)
+    }
+
+    .stp:not(:last-child)::before {
+      background: var(--color-cream)
+    }
+
+    .stp:not(:last-child)::after {
+      background: var(--color-ink);
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: left center;
+      transition: transform var(--dur-step) var(--ease-step)
+    }
+
+    .stp.is-filled::after {
+      transform: translateY(-50%) scaleX(1)
+    }
+
+    /* Слайд */
+    .stage {
+      position: relative;
+      overflow: hidden;
+      /* Запас під зовнішнє кільце фокуса; компенсується margin, тож макет не змінюється */
+      padding-inline: var(--field-pad);
+      margin-inline: calc(-1 * var(--field-pad));
+      transition: height var(--dur-step) var(--ease-step)
+    }
+
+    .slide {
+      transition: transform var(--dur-step) var(--ease-step), opacity var(--dur-step) var(--ease-step)
+    }
+
+    .slide.is-out-left,
+    .slide.is-in-left {
+      transform: translateX(-32px);
+      opacity: 0
+    }
+
+    .slide.is-out-right,
+    .slide.is-in-right {
+      transform: translateX(32px);
+      opacity: 0
+    }
+
+    .step-view {
+      padding: 16px 0 8px
+    }
+
+    .step-view h2 {
+      font-size: 1.3rem;
+      margin-bottom: 14px
+    }
+
+    .step-view h2:focus {
+      outline: none
+    }
+
+    /* Картки */
+    .card {
+      background: var(--color-cream);
+      border: 3px solid var(--color-ink);
+      border-radius: var(--radius-card);
+      padding: 16px
+    }
+
+    .sub {
+      background: var(--color-white);
+      border: 2px solid var(--color-ink);
+      border-radius: 12px;
+      padding: 12px
+    }
+
+    /* Форми */
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px
+    }
+
+    /* На кроці доставки спочатку вводимо дані отримувача, потім обираємо службу
+       доставки, а вже після цього заповнюємо адресу. */
+    #form-delivery > .sub {
+      order: 1
+    }
+
+    #form-delivery > fieldset {
+      order: 2
+    }
+
+    #form-delivery > #cond-np,
+    #form-delivery > #cond-up {
+      order: 3
+    }
+
+    #form-delivery > #note-toggle,
+    #form-delivery > #cond-note {
+      order: 4
+    }
+
+    .frow {
+      display: grid;
+      gap: 12px
+    }
+
+    @media(min-width:640px) {
+      .frow--2 {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .field label {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: .82rem
+    }
+
+    .inwrap {
+      position: relative
+    }
+
+    .inwrap .icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      opacity: .7;
+      pointer-events: none
+    }
+
+    /* Єдині стилі полів: default / hover / focus-visible / filled / disabled / error / autofill */
+    .inwrap input,
+    .inwrap textarea {
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+      min-height: var(--field-h);
+      padding: 12px 14px 12px 40px;
+      border: var(--field-bw) solid var(--color-ink);
+      border-radius: var(--field-radius);
+      background: var(--color-white);
+      font-weight: 500;
+      outline: none;
+      transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease)
+    }
+
+    .inwrap textarea {
+      min-height: 96px;
+      padding: 12px 14px;
+      resize: vertical
+    }
+
+    .inwrap input:hover:not(:disabled),
+    .inwrap textarea:hover:not(:disabled) {
+      background: var(--color-cream)
+    }
+
+    /* Фокус: один механізм (box-shadow), без outline і без зміщення макета */
+    .inwrap input:focus-visible,
+    .inwrap textarea:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 var(--field-ring-gap) var(--color-white), 0 0 0 calc(var(--field-ring-gap) + var(--field-ring)) var(--color-ink)
+    }
+
+    /* Помилка */
+    .inwrap input[aria-invalid="true"],
+    .inwrap textarea[aria-invalid="true"] {
+      border-color: var(--color-err)
+    }
+
+    .inwrap input[aria-invalid="true"]:focus-visible,
+    .inwrap textarea[aria-invalid="true"]:focus-visible {
+      box-shadow: 0 0 0 var(--field-ring-gap) var(--color-white), 0 0 0 calc(var(--field-ring-gap) + var(--field-ring)) var(--color-err)
+    }
+
+    .inwrap input:disabled,
+    .inwrap textarea:disabled {
+      opacity: .6;
+      cursor: not-allowed
+    }
+
+    /* Автозаповнення: без жовтого фону, колір тексту як у звичайному стані */
+    .inwrap input:-webkit-autofill,
+    .inwrap input:-webkit-autofill:hover,
+    .inwrap input:-webkit-autofill:focus {
+      -webkit-text-fill-color: var(--color-ink);
+      transition: background-color 9999s ease-in-out 0s
+    }
+
+    .ferr {
+      margin: 0;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--color-err);
+      display: none;
+      align-items: center;
+      gap: 6px
+    }
+
+    .ferr .icon {
+      width: 14px;
+      height: 14px;
+      stroke-width: 2.4
+    }
+
+    .ferr.is-on {
+      display: flex
+    }
+
+    /* Умовні блоки (fade + висота) */
+    .cond {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transition: grid-template-rows var(--dur-step) var(--ease-step), opacity var(--dur-step) var(--ease-step)
+    }
+
+    .cond>.cond__in {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      /* Відступ всередині обрізання: зовнішнє кільце фокуса має місце й не обрізається */
+      padding: var(--field-pad);
+      margin: calc(-1 * var(--field-pad));
+      transition: padding var(--dur-step) var(--ease-step), margin var(--dur-step) var(--ease-step)
+    }
+
+    .cond:not(.is-on)>.cond__in {
+      padding-block: 0;
+      margin-block: 0
+    }
+
+    .cond.is-on {
+      grid-template-rows: 1fr;
+      opacity: 1
+    }
+
+    /* Картки вибору */
+    .opts {
+      display: grid;
+      gap: 10px
+    }
+
+    .opt {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 2px solid var(--color-ink);
+      border-radius: var(--radius-tile);
+      background: var(--color-white);
+      cursor: pointer;
+      transition: background var(--dur) var(--ease), transform var(--dur) var(--ease)
+    }
+
+    .opt:hover {
+      background: var(--color-cream)
+    }
+
+    .opt.opt--disabled {
+      background: #f1eee9;
+      border-color: #aaa49b;
+      color: #77736d;
+      cursor: not-allowed;
+      opacity: .78
+    }
+
+    .opt.opt--disabled:hover,
+    .opt.opt--disabled:active {
+      background: #f1eee9;
+      transform: none
+    }
+
+    .opt.opt--disabled {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr) 22px;
+      column-gap: 12px;
+      row-gap: 2px;
+      align-items: center
+    }
+
+    .opt.opt--disabled .opt__icon {
+      grid-column: 1;
+      grid-row: 1 / span 2
+    }
+
+    .opt.opt--disabled .opt__t {
+      grid-column: 2;
+      grid-row: 1;
+      color: #77736d
+    }
+
+    .opt.opt--disabled .opt__dot {
+      grid-column: 3;
+      grid-row: 1 / span 2;
+      margin-left: 0
+    }
+
+    .opt__availability {
+      flex-basis: 100%;
+      width: 100%;
+      margin-top: -4px;
+      color: var(--color-accent);
+      font-size: .75rem;
+      font-weight: 700
+    }
+
+    .payment-proof {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      max-width: calc(100% - 24px);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: #e2f2e8;
+      color: #145c35;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.25;
+      text-align: center
+    }
+
+    .opt--online { padding-top: 42px }
+    .payment-note {
+      flex-basis: 100%;
+      width: 100%;
+      margin-top: -2px;
+      color: #145c35;
+      font-size: 13px;
+      font-weight: 600
+    }
+    .cod-details {
+      flex-basis: 100%;
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #fff8df;
+      color: #3d3521;
+      font-size: 13px;
+      line-height: 1.4
+    }
+    .cod-details__line { display: block }
+    .cod-details__sub { display: block; font-size: 12px; margin-top: 2px }
+    .cod-details__grand { display: block; margin-top: 5px; font-weight: 700 }
+    .cod-details__hint { display: block; margin-top: 8px; font-size: 12px; line-height: 1.35 }
+    .money { white-space: nowrap }
+    .cod-details strong { font-weight: 700 }
+    .cod-details__formula { display: block; font-size: 12px; margin-top: 2px }
+    .cod-details__total { display: block; margin-top: 5px }
+    @media (max-width: 600px) {
+      .payment-proof {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+        width: auto;
+        max-width: min(62%, 230px);
+        margin: 0;
+        padding: 3px 8px;
+        font-size: 10.5px;
+        line-height: 1.25;
+        text-align: right;
+      }
+      .opt--online { padding-top: 42px }
+      .opt--online .opt__t { grid-row: 2 }
+      .opt--online .opt__icon { grid-row: 2 / span 2 }
+      .opt--online .opt__dot { grid-row: 2 / span 2 }
+      .opt--online .payment-note { grid-column: 2; grid-row: 3 }
+    }
+    @media (max-width: 360px) {
+      .payment-proof { max-width: 58%; font-size: 10px; padding-inline: 7px }
+    }
+    @media (prefers-reduced-motion: reduce) { .payment-proof, .payment-note, .cod-details { transition: none } }
+
+    .opt.opt--disabled .opt__availability {
+      grid-column: 2;
+      grid-row: 2;
+      width: auto;
+      margin-top: 0;
+      color: var(--color-accent)
+    }
+
+    @media (max-width: 420px) {
+      .opt.opt--disabled {
+        column-gap: 9px;
+        padding: 11px 12px
+      }
+
+      .opt.opt--disabled .opt__availability {
+        font-size: .68rem
+      }
+    }
+
+    /* На вузьких екранах текст оплати має власні рядки й не зсуває радіокнопку */
+    @media (max-width: 600px) {
+      .opt {
+        display: grid;
+        grid-template-columns: 22px minmax(0, 1fr) 22px;
+        column-gap: 12px;
+        row-gap: 3px;
+        align-items: start;
+        padding: 13px 14px;
+      }
+
+      .opt__icon {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        margin-top: 2px;
+      }
+
+      .opt__t {
+        grid-column: 2;
+        grid-row: 1;
+        min-width: 0;
+        line-height: 1.25;
+      }
+
+      .opt__dot {
+        grid-column: 3;
+        grid-row: 1;
+        margin: 0;
+        align-self: center;
+      }
+
+      /* Плашка відправки має бути під описом, а не в окремій автокомірці grid. */
+      .opt__ship {
+        grid-column: 2;
+        grid-row: 2;
+        min-width: 0;
+        width: 100%;
+        margin-top: 0;
+        color: var(--color-cream);
+        background: var(--color-ink);
+      }
+
+      .opt__availability {
+        grid-column: 2;
+        grid-row: 3;
+        margin-top: 0;
+      }
+
+      .opt.opt--disabled .opt__t {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      .opt.opt--disabled .opt__dot {
+        grid-column: 3;
+        grid-row: 1 / span 3;
+        align-self: center;
+      }
+
+      .opt.opt--disabled .opt__availability {
+        grid-column: 2;
+        grid-row: 3;
+        margin-top: 0;
+      }
+    }
+
+    .opt:active {
+      transform: scale(.985)
+    }
+
+    .opt input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none
+    }
+
+    .opt img {
+      height: 22px;
+      width: auto
+    }
+
+    .opt__t {
+      font-weight: 600;
+      font-size: .95rem
+    }
+
+    .opt__d {
+      display: block;
+      font-size: .78rem;
+      font-weight: 500;
+      opacity: .7
+    }
+
+    .opt__icon {
+      color: var(--color-ink)
+    }
+
+    .opt__dot {
+      margin-left: auto;
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--color-ink);
+      border-radius: 50%;
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--dur) var(--ease)
+    }
+
+    .opt__dot .icon {
+      width: 12px;
+      height: 12px;
+      stroke-width: 3.2;
+      color: var(--color-cream);
+      opacity: 0;
+      transform: scale(.5);
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease)
+    }
+
+    .opt input:checked~.opt__dot {
+      background: var(--color-ink)
+    }
+
+    .opt input:checked~.opt__dot .icon {
+      opacity: 1;
+      transform: scale(1)
+    }
+
+    .opt input:focus-visible~.opt__dot {
+      outline: 3px solid var(--color-ink);
+      outline-offset: 2px
+    }
+
+    /* Плашка «Найближча відправка» біля Нової Пошти — завжди видима */
+    .opt__ship {
+      flex-basis: 100%;
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: -4px;
+      background: var(--color-ink, #1B1B1B);
+      color: var(--color-cream, #FFF4E6);
+      font-family: var(--font-head, Montserrat, sans-serif);
+      font-weight: 700;
+      font-size: .72rem;
+      letter-spacing: .01em;
+      padding: 6px 10px;
+      border-radius: 9px
+    }
+
+    .opt__ship .icon {
+      width: 13px;
+      height: 13px;
+      stroke-width: 2.2;
+      flex: none
+    }
+
+    /* Кнопки */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 52px;
+      padding: 14px 28px;
+      border: 0;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1rem;
+      text-align: center;
+      background: var(--color-accent);
+      color: var(--color-ink);
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur) var(--ease), opacity var(--dur) var(--ease)
+    }
+
+    .btn:hover {
+      background: var(--color-ink);
+      color: var(--color-cream)
+    }
+
+    .btn:active {
+      transform: scale(.97)
+    }
+
+    .btn[disabled] {
+      opacity: .6;
+      cursor: default;
+      transform: none
+    }
+
+    .btn--ghost {
+      background: transparent;
+      color: var(--color-ink);
+      border: 2px solid var(--color-ink)
+    }
+
+    .btn--ghost:hover {
+      background: var(--color-ink);
+      color: var(--color-cream)
+    }
+
+    .btn--ok {
+      background: var(--color-ink);
+      color: var(--color-cream)
+    }
+
+    .btn--err {
+      background: var(--color-err);
+      color: var(--color-white)
+    }
+
+    .btn__spin {
+      width: 20px;
+      height: 20px;
+      border: 3px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin .7s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .linkbtn {
+      background: none;
+      border: 0;
+      padding: 0;
+      font-weight: 600;
+      font-size: .85rem;
+      text-decoration: underline;
+      color: var(--color-ink)
+    }
+
+
+    /* Нижня панель (mobile) */
+    .bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 50;
+      background: var(--color-cream);
+      border-top: 3px solid var(--color-ink);
+      padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px))
+    }
+
+    .bar__row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 1200px;
+      margin-inline: auto
+    }
+
+    .bar__sum {
+      flex: 1;
+      min-width: 0
+    }
+
+    .sumtoggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: 0;
+      padding: 6px 0;
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.05rem;
+      min-height: 44px
+    }
+
+    .sumtoggle .icon {
+      width: 16px;
+      height: 16px;
+      transition: transform var(--dur) var(--ease)
+    }
+
+    .sumtoggle[aria-expanded="true"] .icon {
+      transform: rotate(180deg)
+    }
+
+    .sum-pop {
+      display: none;
+      padding: 10px 12px;
+      background: var(--color-white);
+      border: 2px solid var(--color-ink);
+      border-radius: 12px;
+      margin-bottom: 8px
+    }
+
+    .sum-pop.is-on {
+      display: block
+    }
+
+    .sum-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: .88rem;
+      padding: 3px 0
+    }
+
+    .sum-line b {
+      font-weight: 700
+    }
+
+    .bar .btn {
+      flex: none;
+      min-width: 0;
+      padding: 14px 20px;
+      font-size: .9rem
+    }
+
+    /* Підсумок (desktop) */
+    .summary {
+      display: none
+    }
+
+    @media(min-width:900px) {
+      .wrap {
+        display: grid;
+        grid-template-columns: 1.2fr .8fr;
+        gap: 24px;
+        align-items: start;
+        padding-bottom: 48px
+      }
+
+      .bar {
+        display: none
+      }
+
+      .summary {
+        display: flex;
+        position: sticky;
+        top: 24px;
+        flex-direction: column;
+        gap: 12px
+      }
+
+      .summary h2 {
+        font-size: 1.2rem
+      }
+
+      .summary .btn {
+        width: 100%
+      }
+
+      .sum-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        border-top: 3px solid var(--color-ink);
+        padding-top: 12px;
+        font-family: var(--font-head);
+        font-weight: 800;
+        font-size: 1.2rem
+      }
+    }
+
+    /* Кошик */
+    .citem {
+      position: relative;
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 4px 12px;
+      align-items: start;
+      padding: 12px 0;
+      border-bottom: 2px solid var(--color-ink)
+    }
+
+    .citem:last-child {
+      border-bottom: 0
+    }
+
+    .citem__ph {
+      width: 72px;
+      height: 72px;
+      border-radius: var(--radius-tile);
+      background: var(--color-accent);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .citem__ph img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .citem__name {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: .88rem;
+      line-height: 1.25;
+      margin: 0 30px 0 0;
+      padding-right: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical
+    }
+
+    .citem__price {
+      margin: 0;
+      font-size: .76rem;
+      font-weight: 500;
+      opacity: .75
+    }
+
+    .citem__del {
+      position: absolute;
+      top: 12px;
+      right: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--color-ink);
+      opacity: .75;
+      transition: opacity var(--dur) var(--ease), color var(--dur) var(--ease)
+    }
+
+    .citem__del:hover {
+      opacity: 1;
+      color: var(--color-err)
+    }
+
+    .citem__ctrl {
+      grid-column: 1/-1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 6px
+    }
+
+    .qty {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      border: 2px solid var(--color-ink);
+      border-radius: var(--radius-pill);
+      background: var(--color-cream);
+      padding: 2px
+    }
+
+    .qty button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--color-ink);
+      transition: background var(--dur) var(--ease)
+    }
+
+    .qty button:hover:not([disabled]) {
+      background: var(--color-accent)
+    }
+
+    .qty button[disabled] {
+      opacity: .35;
+      cursor: default
+    }
+
+    .qty output {
+      min-width: 26px;
+      text-align: center;
+      font-weight: 700;
+      font-size: .88rem
+    }
+
+    .citem__sum {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1rem;
+      white-space: nowrap
+    }
+
+    .citem__sum small {
+      font-weight: 800;
+      font-size: .8rem
+    }
+
+    /* Шкала доставки */
+    .shipbar {
+      position: relative;
+      margin: 16px 0;
+      padding: 16px;
+      border: 2px solid var(--color-ink);
+      border-radius: var(--radius-card);
+      background: var(--color-cream);
+      color: var(--color-ink);
+      transition: background 560ms var(--ease), color 560ms var(--ease)
+    }
+
+    .shipbar.is-free { background: var(--color-ink); color: var(--color-cream) }
+    .shipbar__head { display:flex; align-items:center; gap:10px; min-height:36px }
+    .shipbar__truck { display:grid; place-items:center; width:36px; height:36px; border-radius:50%; background:var(--color-ink); color:var(--color-cream); flex:none }
+    .shipbar.is-free .shipbar__truck { background:var(--color-cream); color:var(--color-ink) }
+    .shipbar__text { font:800 16px var(--font-head) }
+    .shipbar__scale { position:relative; margin-top:26px; padding-right:14px }
+    .shipbar .bar-track { position:relative; height:16px; border:2px solid var(--color-ink); border-radius:999px; background:var(--color-white); overflow:visible }
+    .shipbar.is-free .bar-track { height:8px; border:0 }
+    .shipbar .bar-track i { width:0; transition:width 560ms var(--ease) }
+    .shipbar__marker { position:absolute; top:50%; left:0; z-index:2; display:grid; place-items:center; width:28px; height:28px; border-radius:50%; background:var(--color-ink); color:var(--color-cream); transform:translate(-50%,-50%); transition:left 560ms var(--ease) }
+    .shipbar.is-free .shipbar__marker { background:var(--color-cream); color:var(--color-ink) }
+    .shipbar__marker .icon { width:17px; height:17px }
+    .shipbar__mid { position:absolute; left:50%; top:-3px; width:2px; height:22px; background:var(--color-ink) }
+    .shipbar__finish { position:absolute; right:0; top:-32px; display:grid; place-items:center; width:28px; height:28px; border-radius:var(--radius-tile); background:var(--color-cream); color:var(--color-ink) }
+    .shipbar__finish small { position:absolute; bottom:31px; right:-2px; white-space:nowrap; font:500 13px var(--font-body) }
+    .shipbar__suggest { margin-top:14px; overflow-x:auto }
+    .shipbar__suggest-title { margin:0 0 8px; font:800 14px var(--font-head) }
+    .shipbar__suggest-list { display:flex; gap:8px; width:max-content }
+    .shipbar__suggest-item { display:grid; grid-template-columns:56px 1fr 44px; align-items:center; gap:8px; width:210px; min-height:56px; padding:4px; border-radius:var(--radius-tile); background:var(--color-white) }
+    .shipbar__suggest-item img,.shipbar__suggest-ph { width:56px; height:56px; object-fit:cover; border-radius:var(--radius-tile); background:var(--color-accent) }
+    .shipbar__suggest-name { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font:600 14px var(--font-body) }
+    .shipbar__suggest-price { font:500 13px var(--font-body) }
+    .shipbar__suggest-add { width:44px; height:44px; border:0; border-radius:50%; background:var(--color-ink); color:var(--color-cream); font-size:24px }
+    .shipbar__confetti { position:absolute; inset:0; pointer-events:none; opacity:0 }
+    .shipbar__confetti::before,.shipbar__confetti::after { content:'•••••••••'; position:absolute; left:10%; top:15%; color:var(--color-accent); letter-spacing:18px; font-size:12px; transform:rotate(-15deg) }
+    .shipbar__confetti::after { left:45%; top:45%; color:var(--color-cream); transform:rotate(18deg) }
+    .shipbar.is-celebrating .shipbar__confetti { animation:shipbar-confetti 1s ease-out }
+    @keyframes shipbar-bounce { 50% { transform:translate(-50%,calc(-50% - 4px)) } }
+    @keyframes shipbar-confetti { 15% { opacity:1 } 100% { opacity:0; transform:translateY(18px) } }
+    .shipbar.is-celebrating .shipbar__marker { animation:shipbar-bounce 300ms ease-out }
+    @media (prefers-reduced-motion:reduce) { .shipbar,.shipbar .bar-track i,.shipbar__marker { transition:none } .shipbar.is-celebrating .shipbar__marker { animation:none } }
+
+    /* Компактний варіант шкали: усі елементи у звичайному потоці. */
+    .shipbar { display:grid; gap:8px; margin:12px 0; padding:10px 14px; border:0; border-radius:12px; background:var(--color-cream); color:var(--color-ink); transition:none }
+    .shipbar__head { display:flex; align-items:center; gap:6px; min-width:0; min-height:17px }
+    .shipbar__truck { display:flex; color:var(--color-ink); flex:none; background:none }
+    .shipbar__truck .icon { width:16px; height:16px }
+    .shipbar__text { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font:800 14px/1.2 var(--font-head) }
+    .shipbar__scale { display:flex; align-items:center; min-width:0; margin:0; padding:0 }
+    .shipbar .bar-track { position:relative; flex:1; height:8px; border:0; border-radius:999px; background:var(--color-white); overflow:visible }
+    .shipbar .bar-track i { display:block; width:0; height:100%; border-radius:999px; background:var(--color-accent); transition:width 400ms ease-out }
+    .shipbar__marker { position:relative; top:auto; left:auto; display:block; width:16px; height:16px; margin-left:-8px; border-radius:50%; background:var(--color-ink); transform:none; transition:none }
+    .shipbar__mid,.shipbar__finish,.shipbar__suggest,.shipbar__confetti { display:none }
+    .shipbar.is-free { display:flex; align-items:center; gap:8px; min-height:36px; background:var(--color-cream); color:var(--color-ink) }
+    .shipbar.is-free .shipbar__scale { display:none }
+    .shipbar.is-free .shipbar__head:before { content:'✓'; display:grid; place-items:center; width:20px; height:20px; border-radius:50%; background:var(--color-ink); color:var(--color-cream); font:800 13px var(--font-head) }
+    @media (prefers-reduced-motion:reduce) { .shipbar .bar-track i { transition:none } }
+
+    /* Фінальна компактна розмітка shipbar. */
+    .shipbar { margin:12px 0; padding:10px 14px; border-radius:12px; background:var(--color-cream); color:var(--color-ink); display:grid; gap:8px }
+    .shipbar__row { display:flex; align-items:center; gap:8px; min-width:0 }
+    .shipbar__icon { flex:none; width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round }
+    .shipbar__text { font:800 14px/1.2 var(--font-head); min-width:0; white-space:normal }
+    .shipbar__track { height:6px; border-radius:999px; background:var(--color-white); overflow:hidden }
+    .shipbar__fill { display:block; height:100%; width:0; border-radius:999px; background:var(--color-accent); transition:width .4s var(--ease) }
+    .shipbar.is-done { padding:8px 14px }
+    .shipbar.is-done .shipbar__track { display:none }
+    .shipbar.is-done .shipbar__icon { display:none }
+    .shipbar.is-done .shipbar__row:before { content:'✓'; display:grid; place-items:center; width:20px; height:20px; flex:none; border-radius:50%; background:var(--color-ink); color:var(--color-cream); font:800 13px var(--font-head) }
+    #shipbar-suggest { margin-top:12px }
+    @media (prefers-reduced-motion:reduce) { .shipbar__fill { transition:none } }
+
+    .shipbar p {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 8px;
+      font-size: .85rem;
+      font-weight: 600
+    }
+
+    .shipbar strong {
+      font-weight: 800
+    }
+
+    .bar-track {
+      height: 10px;
+      border: 2px solid var(--color-ink);
+      border-radius: var(--radius-pill);
+      background: var(--color-white);
+      overflow: hidden
+    }
+
+    .bar-track i {
+      display: block;
+      height: 100%;
+      background: var(--color-accent);
+      border-radius: var(--radius-pill);
+      transition: width .3s var(--ease)
+    }
+
+    /* Порожній кошик */
+    .empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      padding: 32px 8px
+    }
+
+    .empty__ic {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--color-white);
+      border: 3px solid var(--color-ink)
+    }
+
+    .empty__ic .icon {
+      width: 36px;
+      height: 36px;
+      stroke-width: 2
+    }
+
+    .empty h3 {
+      font-size: 1.15rem
+    }
+
+    .empty p {
+      margin: 0;
+      font-size: .9rem;
+      opacity: .75
+    }
+
+    /* Повідомлення */
+    .msg {
+      display: none;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 2px solid var(--color-err);
+      border-radius: 12px;
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--color-err);
+      background: var(--color-white)
+    }
+
+    .msg.is-on {
+      display: flex
+    }
+
+    .msg .icon {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2.2;
+      margin-top: 1px
+    }
+
+    /* Резюме на кроці оплати */
+    .resume {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .resume div {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: .9rem
+    }
+
+    .resume dt {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: .7
+    }
+
+    .resume dd {
+      margin: 0;
+      font-weight: 600;
+      text-align: right
+    }
+
+    .confirm {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      border: 2px solid var(--color-ink);
+      border-radius: 12px;
+      background: var(--color-white);
+      font-size: .92rem
+    }
+
+    .confirm .icon {
+      width: 24px;
+      height: 24px;
+      stroke-width: 2;
+      margin-top: 2px
+    }
+
+    /* Подяка */
+    .success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+      padding: 48px 16px 64px
+    }
+
+    .success.is-on {
+      display: flex
+    }
+
+    .check {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: var(--color-cream);
+      border: 3px solid var(--color-ink);
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .check .icon {
+      width: 48px;
+      height: 48px;
+      stroke-width: 3.2;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48
+    }
+
+    .success.is-on .check .icon {
+      animation: draw .5s var(--ease-step) .15s forwards
+    }
+
+    @keyframes draw {
+      to {
+        stroke-dashoffset: 0
+      }
+    }
+
+    .success h2 {
+      font-size: 1.6rem
+    }
+
+    .success p {
+      margin: 0;
+      opacity: .75;
+      max-width: 46ch
+    }
+
+    .order-no {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.05rem;
+      background: var(--color-cream);
+      border: 2px solid var(--color-ink);
+      border-radius: var(--radius-pill);
+      padding: 8px 20px
+    }
+
+    .dl {
+      display: grid;
+      gap: 10px;
+      text-align: left;
+      width: 100%;
+      max-width: 420px
+    }
+
+    .dl div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: space-between;
+      font-size: .92rem;
+      background: var(--color-cream);
+      border-radius: 12px;
+      padding: 10px 14px
+    }
+
+    .dl dt {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: .75
+    }
+
+    .dl dd {
+      margin: 0;
+      font-weight: 600;
+      text-align: right
+    }
+
+    /* Skeleton */
+    .skel {
+      border-radius: 8px;
+      background: linear-gradient(90deg, rgba(27, 27, 27, .08) 25%, rgba(27, 27, 27, .16) 50%, rgba(27, 27, 27, .08) 75%);
+      background-size: 200% 100%;
+      animation: skel 1.2s ease-in-out infinite;
+      height: 14px
+    }
+
+    @keyframes skel {
+      to {
+        background-position: -200% 0
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+
+      .slide,
+      .cond,
+      .opt__dot .icon,
+      .stp__circ,
+      .bar-track i,
+      .btn,
+      .iconbtn,
+      .sumtoggle .icon,
+      .check .icon {
+        transition: none !important;
+        animation: none !important
+      }
+
+      .check .icon {
+        stroke-dashoffset: 0
+      }
+    }
+
+    /* ===== Мобільна адаптація (розміщена в кінці, щоб перекривати базові правила) ===== */
+
+    /* Резерв місця під фіксовану нижню панель, щоб контент не ховався під нею */
+    .wrap {
+      padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px))
+    }
+
+    .success {
+      padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px))
+    }
+
+    /* Степпер: компактніший на вузьких екранах */
+    .stepper {
+      --sgap: 2px;
+      gap: 2px;
+      padding: 14px 0 4px
+    }
+
+    .stp__circ {
+      width: 36px;
+      height: 36px
+    }
+
+    .stp__circ .icon {
+      width: 16px;
+      height: 16px
+    }
+
+    .stp__label {
+      font-size: .6rem;
+      line-height: 1.15
+    }
+
+    .stp:not(:last-child)::before,
+    .stp:not(:last-child)::after {
+      top: 18px
+        /* центр кола 36px */
+    }
+
+    /* Картки товарів у кошику: повітряніше та більші цілі натискання */
+    .citem {
+      grid-template-columns: 64px 1fr;
+      gap: 2px 12px;
+      padding: 14px 0
+    }
+
+    .citem__ph {
+      width: 64px;
+      height: 64px
+    }
+
+    .citem__name {
+      font-size: .92rem;
+      margin-right: 40px
+    }
+
+    .citem__price {
+      font-size: .8rem
+    }
+
+    .citem__del {
+      top: 14px;
+      width: 40px;
+      height: 40px;
+      opacity: .85
+    }
+
+    .citem__ctrl {
+      margin-top: 8px
+    }
+
+    .qty {
+      padding: 3px
+    }
+
+    .qty button {
+      width: 38px;
+      height: 38px
+    }
+
+    .qty output {
+      min-width: 30px;
+      font-size: .95rem
+    }
+
+    .citem__sum {
+      font-size: 1.05rem
+    }
+
+    /* Вибір служби доставки/оплати: зручні рядки на мобільному */
+    .opt {
+      padding: 14px
+    }
+
+    .opt img {
+      height: 26px
+    }
+
+    .opt__t {
+      font-size: 1rem;
+      line-height: 1.3
+    }
+
+    .opt__dot {
+      width: 26px;
+      height: 26px
+    }
+
+    .opt__ship {
+      font-size: .78rem;
+      gap: 7px;
+      padding: 7px 11px;
+      margin-top: -2px;
+      line-height: 1.35
+    }
+
+    .opt__ship .icon {
+      width: 14px;
+      height: 14px
+    }
+
+    /* Нижня панель: довгі підписи не ламають макет */
+    .bar__row {
+      flex-wrap: wrap;
+      gap: 8px
+    }
+
+    .bar__sum {
+      flex: 0 1 auto;
+      min-width: 0
+    }
+
+    .bar .sumtoggle {
+      font-size: .95rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%
+    }
+
+    /* Кнопка і сума — в одному рядку */
+    .bar .btn {
+      flex: 1 1 auto;
+      min-width: 0;
+      font-size: .95rem;
+      padding: 14px 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    @media(max-width:359px) {
+      .stp__label {
+        font-size: .55rem
+      }
+
+      .chead__title {
+        font-size: 1rem
+      }
+
+      .step-view h2 {
+        font-size: 1.15rem
+      }
+    }
+
+    /* Повернення до десктопних розмірів */
+    @media(min-width:900px) {
+      .wrap {
+        padding-bottom: 48px
+      }
+
+      .stepper {
+        --sgap: 4px;
+        gap: 4px;
+        padding: 16px 0 4px
+      }
+
+      .stp__circ {
+        width: 40px;
+        height: 40px
+      }
+
+      .stp__circ .icon {
+        width: 18px;
+        height: 18px
+      }
+
+      .stp__label {
+        font-size: .66rem;
+        line-height: 1.3
+      }
+
+      .stp:not(:last-child)::before,
+      .stp:not(:last-child)::after {
+        top: 20px
+          /* центр кола 40px */
+      }
+
+      .citem {
+        grid-template-columns: 72px 1fr;
+        gap: 4px 12px;
+        padding: 12px 0
+      }
+
+      .citem__ph {
+        width: 72px;
+        height: 72px
+      }
+
+      .citem__name {
+        font-size: .88rem;
+        margin-right: 30px
+      }
+
+      .citem__price {
+        font-size: .76rem
+      }
+
+      .citem__del {
+        top: 12px;
+        width: 36px;
+        height: 36px
+      }
+
+      .citem__ctrl {
+        margin-top: 6px
+      }
+
+      .qty {
+        padding: 2px
+      }
+
+      .qty button {
+        width: 34px;
+        height: 34px
+      }
+
+      .qty output {
+        min-width: 26px;
+        font-size: .88rem
+      }
+
+      .citem__sum {
+        font-size: 1rem
+      }
+
+      .opt {
+        padding: 12px 14px
+      }
+
+      .opt img {
+        height: 22px
+      }
+
+      .opt__t {
+        font-size: .95rem
+      }
+
+      .opt__dot {
+        width: 22px;
+        height: 22px
+      }
+
+      .opt__ship {
+        font-size: .74rem;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 8px
+      }
+
+      .opt__ship .icon {
+        width: 13px;
+        height: 13px
+      }
+    }
+    /* Стабільний адаптивний степер: стан повністю задається data-state. */
+    .stepper {
+      --progress: 0;
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+      align-items: start;
+      padding: 14px 0 4px;
+      background: var(--color-white);
+      color: var(--color-ink);
+    }
+    .stepper::before,
+    .stepper::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      top: 32px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 3px;
+      border-radius: 3px;
+      pointer-events: none;
+    }
+    .stepper::before { background: #e4e4e4; }
+    .stepper::after {
+      right: auto;
+      width: calc(75% * var(--progress));
+      background: var(--color-ink);
+      transform-origin: left center;
+      transition: width var(--dur-step) var(--ease-step);
+    }
+    .stp {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      color: var(--color-ink);
+      cursor: default;
+    }
+    .stp:disabled { cursor: not-allowed; }
+    .stp.is-done { cursor: pointer; }
+    .stp__circ {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+      border: 2px solid #b9b9b9;
+      border-radius: 50%;
+      background: var(--color-white);
+      color: #777;
+      opacity: 1;
+      transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+    }
+    .stp__circ .icon { width: 16px; height: 16px; stroke-width: 2.2; }
+    .stp__label {
+      max-width: 100%;
+      overflow: hidden;
+      color: #777;
+      font-family: var(--font-head);
+      font-size: clamp(11px, 2.9vw, 13px);
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      opacity: 1;
+      transition: color var(--dur) var(--ease), font-weight var(--dur) var(--ease);
+    }
+    .stp[data-state="done"] .stp__circ { border-color: var(--color-ink); background: var(--color-ink); color: var(--color-white); }
+    .stp[data-state="done"] .stp__label { color: var(--color-ink); }
+    .stp[data-state="current"] .stp__circ { border: 2px solid var(--color-ink); background: var(--color-accent); color: var(--color-ink); }
+    .stp[data-state="current"] .stp__label { color: var(--color-ink); font-weight: 800; }
+    .stp[data-state="upcoming"] .stp__circ { border-color: #b9b9b9; color: #777; }
+    .stp[data-state="upcoming"] .stp__label { color: #777; }
+    .stp__check { display: none; width: 16px; height: 16px; }
+    .stp[data-state="done"] .stp__check { display: block; }
+    .stp[data-state="done"] .stp__step-icon { display: none; }
+    .stp:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
+    .stp:not(:last-child)::before, .stp:not(:last-child)::after { display: none; }
+    .stepper__sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @media (min-width: 768px) {
+      .stp__circ { width: 40px; height: 40px; flex-basis: 40px; }
+      .stp__circ .icon { width: 18px; height: 18px; }
+      .stepper::before, .stepper::after { top: 34px; }
+    }
+    @media (max-width: 359px) {
+      .stp__label { white-space: normal; min-height: 26px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .stepper::after, .stp__circ, .stp__label { transition: none !important; }
+    }
+
+    /* Підтвердження знайденого клієнта */
+    .customer-modal[hidden] { display: none; }
+    .customer-modal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgba(27,27,27,.58); }
+    .customer-modal__box { width: min(100%, 440px); padding: 26px; border: 3px solid var(--color-ink); border-radius: var(--radius-card); background: var(--color-white); box-shadow: 0 18px 60px rgba(0,0,0,.25); }
+    .customer-modal__box h2 { margin-bottom: 18px; font-size: 1.35rem; }
+    .customer-modal__data { display: grid; gap: 10px; margin: 0 0 22px; }
+    .customer-modal__data div { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 9px; border-bottom: 1px solid #e5e5e5; }
+    .customer-modal__data dt { color: #666; }
+    .customer-modal__data dd { margin: 0; font-weight: 700; text-align: right; }
+    .customer-modal__actions { display: flex; gap: 10px; }
+    .customer-modal__actions button { flex: 1; min-height: 46px; }
+    @media (max-width: 420px) { .customer-modal__actions { flex-direction: column; } }
+
+    /* Підтвердження замовлення */
+    .confirmation { display:grid; gap:16px; padding-bottom:24px; }
+    .confirm-block { background:var(--color-cream); border-radius:16px; padding:16px; }
+    .confirm-block h3 { display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:1rem; }
+    .confirm-block h3 > span { display:inline-flex; align-items:center; gap:8px; }
+    .confirm-block h3 .icon { width:21px; height:21px; stroke-width:2.3; }
+    .confirm-block p { margin:10px 0 0; font-weight:500; overflow-wrap:anywhere; }
+    .confirm-block .linkbtn { min-width:44px; min-height:44px; }
+    .confirm-items-head { display:grid; grid-template-columns:56px minmax(0,1fr) 76px 48px 92px; gap:10px; padding:14px 0 7px; color:#666; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+    .confirm-items-head span:nth-child(n+3) { text-align:right; }
+    .confirm-item { display:grid; grid-template-columns:56px minmax(0,1fr) 76px 48px 92px; gap:10px; align-items:center; padding:10px 0; border-bottom:2px solid var(--color-ink); }
+    .confirm-item:last-child { border-bottom:0; }
+    .confirm-item img, .confirm-item__placeholder { width:56px; height:56px; object-fit:cover; border-radius:12px; background:var(--color-accent); }
+    .confirm-item__placeholder { display:grid; place-items:center; }
+    .confirm-item__placeholder .icon { width:28px; height:28px; }
+    .confirm-item__description { min-width:0; display:flex; flex-direction:column; gap:4px; overflow-wrap:anywhere; }
+    .confirm-item__description strong { font-weight:700; }
+    .confirm-item__description small, .confirm-item__unit, .confirm-item__qty { color:#666; font-size:.78rem; }
+    .confirm-item__unit, .confirm-item__qty { text-align:right; white-space:nowrap; }
+    .confirm-item__price { white-space:nowrap; font-family:var(--font-head); font-weight:800; }
+    .confirm-totals p { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:28px; margin:4px 0; }
+    .confirm-totals p > span { display:inline-flex; align-items:center; gap:8px; min-width:0; }
+    .confirm-totals p .icon { width:20px; height:20px; flex:none; stroke-width:2.2; }
+    .confirm-totals p b { margin-left:auto; text-align:right; white-space:nowrap; }
+    .due-card { display:flex; flex-direction:column; gap:4px; padding:20px; border-radius:16px; background:var(--color-ink); color:var(--color-cream); }
+    .due-card strong { font-family:var(--font-head); font-weight:800; font-size:clamp(1.75rem,6vw,2.5rem); }
+    .due-card small { font-size:.82rem; }
+    .terms { display:flex; align-items:center; gap:10px; min-height:44px; cursor:pointer; }
+    .terms input { width:22px; height:22px; accent-color:var(--color-accent); flex:none; }
+    @media (max-width:600px) { .confirm-items-head { display:none; } .confirm-item { grid-template-columns:48px minmax(0,1fr) auto; gap:8px; } .confirm-item img, .confirm-item__placeholder { width:48px; height:48px; } .confirm-item__unit { display:none; } .confirm-item__qty { grid-column:2; text-align:left; } .confirm-item__price { grid-column:3; grid-row:1 / span 2; } }
+    @media (max-width:899px) { .confirmation { padding-bottom:110px; } .bar .btn { min-height:52px; } }
+    @media (min-width:900px) { .confirmation { padding-bottom:0; } }
+
+    /* Компактна картка товару в кошику */
+    .ci { display:grid; grid-template-columns:64px minmax(0,1fr); gap:12px; padding:12px 0; border-bottom:1px solid rgba(27,27,27,.15); min-width:0; }
+    .ci:first-child { padding-top:0; }
+    .ci:last-child { padding-bottom:0; border-bottom:0; }
+    .ci__img { width:64px; height:64px; border-radius:12px; background:var(--color-accent); overflow:hidden; display:grid; place-items:center; }
+    .ci__img img { width:100%; height:100%; object-fit:cover; }
+    .ci__img .icon { width:22px; height:22px; }
+    .ci__main { min-width:0; display:grid; gap:6px; align-content:start; }
+    .ci__top { display:flex; align-items:flex-start; gap:8px; min-width:0; }
+    .ci__title { flex:1; min-width:0; margin:0; font:800 15px/1.25 var(--font-head); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .ci__del { position:relative; flex:none; width:28px; height:28px; margin:-4px -4px 0 0; display:grid; place-items:center; border:0; border-radius:50%; background:transparent; color:var(--color-ink); opacity:.6; cursor:pointer; }
+    .ci__del::after { content:""; position:absolute; inset:-8px; }
+    .ci__del:hover, .ci__del:focus-visible { opacity:1; }
+    .ci__del .icon { width:18px; height:18px; stroke-width:2; }
+    .ci__grid { display:grid; grid-template-columns:minmax(0,1fr) auto; column-gap:8px; row-gap:4px; align-items:center; min-width:0; }
+    .ci__sku, .ci__unit { font:500 12px/1.3 var(--font-body); color:var(--color-ink); opacity:.65; min-width:0; }
+    .ci__sku { grid-area:1/1; overflow-wrap:anywhere; }
+    .ci__stepper { grid-area:1/2; justify-self:end; display:inline-flex; align-items:center; padding:2px; border:2px solid var(--color-ink); border-radius:999px; background:var(--color-white); white-space:nowrap; }
+    .ci__stepper button { position:relative; width:30px; height:30px; display:grid; place-items:center; border:0; border-radius:50%; background:transparent; color:var(--color-ink); cursor:pointer; }
+    .ci__stepper button::after { content:""; position:absolute; inset:-7px; }
+    .ci__stepper button:hover:not(:disabled) { background:var(--color-cream); }
+    .ci__stepper button:disabled { opacity:.35; cursor:not-allowed; }
+    .ci__stepper .icon { width:16px; height:16px; stroke-width:2.2; }
+    .ci__stepper output { min-width:26px; text-align:center; font:800 14px var(--font-head); }
+    .ci__unit { grid-area:2/1; overflow-wrap:anywhere; }
+    .ci__sum { grid-area:2/2; justify-self:end; font:800 16px/1.2 var(--font-head); white-space:nowrap; font-variant-numeric:tabular-nums; }
+    .ci__sum small { font-size:12px; font-weight:800; }
+    .ci__max { color:var(--color-ink); font-weight:600; }
+    #cart-error.msg:not(.is-on) { display:none; }
+    #cart-error:not(.is-on) { display:none !important; padding:0; border:0; height:0; margin:0; }
+    #shipbar[hidden] { display:none !important; }
+    /* The card owns its border; no parent height or clipping may cut its bottom. */
+    #cart-card, #cart-card #cart-items, #cart-card .ci, #cart-card .ci__main,
+    #cart-card .ci__grid { box-sizing:border-box; }
+    #cart-card { height:auto; max-height:none; min-height:0; overflow:visible; aspect-ratio:auto; }
+    #cart-card #cart-items { height:auto; max-height:none; min-height:0; overflow:visible; }
+    .ci { position:relative; margin:0; }
+    .ci__unit { display:flex; flex-wrap:wrap; align-items:baseline; column-gap:6px; row-gap:2px; min-width:0; }
+    .ci__unit-price, .ci__max { white-space:nowrap; }
+    .ci__limit-sep { white-space:nowrap; }
+    .ci__unit.is-wrapped .ci__limit-sep { display:none; }
+    .stage { box-sizing:border-box; height:auto; min-height:0; overflow:visible; }
+    .stage, .slide, .step-view, .wrap { max-height:none; }
+    @media (max-width:899px) {
+      .wrap { padding-bottom:calc(96px + env(safe-area-inset-bottom, 0px) + 16px); }
+    }
+    @media (min-width:900px) {
+      .ci { grid-template-columns:80px minmax(0,1fr); }
+      .ci__img { width:80px; height:80px; }
+      .ci__title { font-size:16px; }
+      .ci__sum { font-size:18px; }
+    }
+
+    /* Порожній кошик на мобільному */
+    .chead { position:sticky; top:0; z-index:20; background:var(--color-white); padding-top:env(safe-area-inset-top); }
+    .stepper { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .stp__label { font:800 12px/1.2 var(--font-head); white-space:normal; text-overflow:clip; }
+    .stepper.is-empty .stp:nth-child(n+2) { pointer-events:none; }
+    .card.is-empty { min-height:0; padding:32px 20px; }
+    .card.is-empty #cart-items { min-height:0; }
+    .card.is-empty .empty { gap:0; padding:0; }
+    .card.is-empty .empty__ic { margin-bottom:16px; }
+    .card.is-empty .empty h3 { margin:0 0 8px; font:800 22px/1.2 var(--font-head); }
+    .card.is-empty .empty p { margin:0 0 20px; font:500 16px/1.35 var(--font-body); color:var(--color-ink); opacity:.7; }
+    .card.is-empty .empty .btn { min-width:220px; height:52px; padding:0 28px; text-decoration:none; font:800 16px var(--font-head); color:var(--color-ink); background:var(--color-accent); border-radius:999px; }
+    .card.is-empty .empty .btn:hover, .card.is-empty .empty .btn:active { opacity:.9; }
+    body.is-cart-empty .bar { display:none; }
+    body.is-cart-empty .wrap { padding-bottom:0; }
+
+    /* Компактний адаптивний рядок товару */
+    .citem { grid-template-columns:56px minmax(0,1fr) auto; gap:2px 10px; padding:10px 0; border-bottom:1px solid #d8d8d8; }
+    .citem__ph { width:56px; height:56px; border-radius:10px; grid-row:1 / span 2; }
+    .citem__info { min-width:0; padding-right:4px; }
+    .citem__name { font-size:.78rem; line-height:1.2; margin:0; }
+    .citem__sku { margin:2px 0 0; color:#888; font-size:.62rem; line-height:1.2; }
+    .citem__price { margin:3px 0 0; color:#777; font-size:.68rem; opacity:1; }
+    .citem__del { top:5px; right:-3px; width:25px; height:25px; color:#888; opacity:.65; }
+    .citem__del:hover { color:#555; opacity:1; }
+    .citem__del .icon { width:15px; height:15px; stroke-width:2; }
+    .citem__ctrl { grid-column:2 / -1; margin-top:3px; gap:8px; }
+    .qty { border-width:1px; padding:1px; }
+    .qty button { width:25px; height:25px; }
+    .qty output { min-width:22px; font-size:.75rem; }
+    .citem__sum { font-size:.82rem; }
+    .citem__sum small { font-size:.65rem; }
+    @media (max-width:420px) {
+      .citem { grid-template-columns:48px minmax(0,1fr) auto; gap:2px 8px; }
+      .citem__ph { width:48px; height:48px; }
+      .citem__name { font-size:.72rem; }
+      .citem__sku, .citem__price { font-size:.6rem; }
+      .citem__sum { font-size:.76rem; }
+    }
+    /* Картка способу оплати: іконка / текст / radio без абсолютного бейджа. */
+    #paytype-opts { gap: 12px; }
+    #paytype-opts .opt { display:grid; grid-template-columns:40px minmax(0,1fr) 28px; column-gap:12px; align-items:start; min-height:72px; padding:16px; border:3px solid var(--color-ink); border-radius:16px; background:var(--color-white); transform:none; }
+    #paytype-opts .opt:hover, #paytype-opts .opt:has(input:checked) { background:var(--color-cream); }
+    #paytype-opts .opt:has(input:focus-visible) { outline:3px solid var(--color-accent); outline-offset:2px; }
+    #paytype-opts .opt--online { padding-top:16px; }
+    #paytype-opts .pay__icon { grid-column:1; grid-row:1; width:40px; min-height:28px; display:flex; align-items:flex-start; }
+    #paytype-opts .opt__icon { grid-column:1; grid-row:1; width:28px; height:28px; margin-top:0; }
+    #paytype-opts .opt__body { grid-column:2; grid-row:1; min-width:0; }
+    #paytype-opts .opt__t { display:block; font:800 17px/1.2 var(--font-head); color:var(--color-ink); }
+    #paytype-opts .opt__d { margin-top:4px; font:500 14px/1.35 var(--font-body); color:var(--color-ink); opacity:.7; }
+    #paytype-opts .pay__amount { display:block; margin-top:8px; font:500 14px/1.35 var(--font-body); color:var(--color-ink); }
+    #paytype-opts .payment-proof { position:static; display:inline-flex; width:auto; max-width:100%; margin-top:8px; padding:4px 10px; background:var(--color-accent); color:var(--color-ink); border-radius:999px; font:800 12px/1.2 var(--font-head); text-align:left; }
+    #paytype-opts .opt__dot { grid-column:3; grid-row:1; width:28px; height:28px; margin:0; }
+    #paytype-opts .opt__dot::before { content:''; position:absolute; width:44px; height:44px; }
+    #paytype-opts .opt.opt--disabled { display:none; }
+    @media (max-width:430px) { .step-view h2 { font:800 26px/1.2 var(--font-head); margin-top:20px; margin-bottom:16px; } }
+    @media (min-width:431px) { .step-view h2 { font:800 28px/1.2 var(--font-head); margin-top:20px; margin-bottom:16px; } }
+    .wrap { padding-bottom:calc(96px + env(safe-area-inset-bottom, 0px) + 16px); }
+    .bar { padding-bottom:calc(12px + env(safe-area-inset-bottom, 0px)); }
+    .bar__row { align-items:center; }
+    .bar .btn { min-width:160px; min-height:52px; }
+    .bar__sum { min-width:0; }
+    .sumtoggle { font-variant-numeric:tabular-nums; white-space:nowrap; }
+    @media (max-width:380px) { .bar__row { flex-direction:column; align-items:stretch; gap:8px; } .bar__sum, .bar .btn { width:100%; } .bar .btn { min-width:0; } }
+  </style>
+</head>
+
+<body>
+
+  <!-- SVG-спрайт: єдиний набір іконок (stroke, currentColor, round, 24×24) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-back" viewBox="0 0 24 24">
+      <path d="M19 12H5M11 6l-6 6 6 6" />
+    </symbol>
+    <symbol id="i-fwd" viewBox="0 0 24 24">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24">
+      <path d="M3 4h2l2.4 12.2a1 1 0 0 0 1 .8h9.4a1 1 0 0 0 1-.8L20.5 8H6" />
+      <circle cx="10" cy="20" r="1.4" />
+      <circle cx="17" cy="20" r="1.4" />
+    </symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24">
+      <path d="M2 6h11v10H2zM13 9h4l3 3v4h-7z" />
+      <circle cx="6.5" cy="18" r="1.6" />
+      <circle cx="16.5" cy="18" r="1.6" />
+    </symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24">
+      <rect x="3" y="6" width="18" height="13" rx="2" />
+      <path d="M3 10h18M16 14.5h2" />
+    </symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24">
+      <rect x="5" y="11" width="14" height="9" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <path d="M4 12.5l5 5L20 6.5" />
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24">
+      <path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6.5 7l1 13h9l1-13M10 11v6M14 11v6" />
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24">
+      <path d="M12 5v14M5 12h14" />
+    </symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24">
+      <path d="M5 12h14" />
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24">
+      <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </symbol>
+    <symbol id="i-building" viewBox="0 0 24 24">
+      <path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M16 9h3a1 1 0 0 1 1 1v11M3 21h18M8 7h2M8 11h2M8 15h2" />
+    </symbol>
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21c0-4 3.6-6 8-6s8 2 8 6" />
+    </symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24">
+      <path d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" />
+    </symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24">
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="M3 7l9 6 9-6" />
+    </symbol>
+    <symbol id="i-error" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7.5v5.5M12 16.5h.01" />
+    </symbol>
+    <symbol id="i-info" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 11v5M12 7.5h.01" />
+    </symbol>
+    <symbol id="i-cash" viewBox="0 0 24 24">
+      <rect x="2" y="6" width="20" height="12" rx="2" />
+      <circle cx="12" cy="12" r="3" />
+      <path d="M5.5 9.5h.01M18.5 14.5h.01" />
+    </symbol>
+    <symbol id="i-box" viewBox="0 0 24 24">
+      <path d="M21 8l-9-5-9 5v8l9 5 9-5V8zM3 8l9 5 9-5M12 13v8" />
+    </symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24">
+      <path d="M6 9l6 6 6-6" />
+    </symbol>
+  </svg>
+
+  <header class="chead container">
+    <button class="iconbtn" type="button" id="back-btn" aria-label="Назад"><svg class="icon" aria-hidden="true">
+        <use href="#i-back" />
+      </svg></button>
+    <h1 class="chead__title">Оформлення</h1>
+  </header>
+
+  <main class="container">
+    <div id="checkout-view">
+      <nav class="stepper" id="stepper" aria-label="Етапи оформлення"></nav>
+
+      <div class="wrap">
+        <section aria-label="Кроки оформлення">
+          <div class="stage" id="stage">
+            <div class="slide" id="slide">
+
+              <!-- Крок 1: Кошик -->
+              <div class="step-view" data-view="0">
+                <h2 tabindex="-1">Кошик</h2>
+                <div id="shipbar" class="shipbar" hidden>
+                  <div class="shipbar__row"><svg class="shipbar__icon" aria-hidden="true"><use href="#i-truck"></use></svg><span id="shipbar-text" class="shipbar__text" aria-live="polite"></span></div>
+                  <div id="shipbar-bar" class="shipbar__track" role="progressbar" aria-label="Прогрес до безкоштовної доставки" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i class="shipbar__fill"></i></div>
+                </div>
+                <div id="shipbar-suggest" hidden></div>
+                  <div class="card" id="cart-card">
+                  <div id="cart-items" aria-live="polite">
+                    <div class="skel" style="width:80%;margin-bottom:10px"></div>
+                    <div class="skel" style="width:60%;margin-bottom:10px"></div>
+                    <div class="skel" style="width:70%"></div>
+                  </div>
+                  <div class="msg" id="cart-error" role="alert"><svg class="icon"
+                      aria-hidden="true">
+                      <use href="#i-error" />
+                    </svg><span id="cart-error-text"></span></div>
+                </div>
+              </div>
+
+              <!-- Крок 2: Доставка -->
+              <div class="step-view" data-view="1" hidden>
+                <h2 tabindex="-1">Доставка</h2>
+                <form class="form" id="form-delivery" novalidate>
+                  <fieldset class="field" style="border:0;padding:0;margin:0">
+                    <legend
+                      style="font-family:var(--font-head);font-weight:700;font-size:.82rem;padding:0;margin-bottom:6px">
+                      Служба доставки</legend>
+                    <div class="opts" role="radiogroup" aria-label="Служба доставки">
+                      <label class="opt"><input type="radio" name="carrier" value="np" checked>
+                        <img src="image/novaposhta.png" alt="">
+                        <span class="opt__t">Нова Пошта<span class="opt__d">1–2 дні, від 80 грн</span></span>
+                        <span class="opt__dot" aria-hidden="true"><svg class="icon">
+                            <use href="#i-check" />
+                          </svg></span>
+                        <span class="opt__ship" role="status"><svg class="icon" aria-hidden="true">
+                            <use href="#i-info" />
+                          </svg><span id="np-ship-txt">…</span></span></label>
+                      <label class="opt"><input type="radio" name="carrier" value="up">
+                        <img src="image/ukrposhta.png" alt="">
+                        <span class="opt__t">Укрпошта<span class="opt__d">2–4 дні, від 60 грн</span></span>
+                        <span class="opt__dot" aria-hidden="true"><svg class="icon">
+                            <use href="#i-check" />
+                          </svg></span></label>
+                    </div>
+                  </fieldset>
+
+                  <!-- Нова пошта -->
+                  <div class="cond" id="cond-np">
+                    <div class="cond__in">
+                      <div class="field"><label for="np-city">Місто</label>
+                        <div class="inwrap"><svg class="icon" aria-hidden="true">
+                            <use href="#i-pin" />
+                          </svg>
+                          <input id="np-city" name="np-city" required autocomplete="address-level2" placeholder="Київ">
+                        </div>
+                        <p class="ferr" id="err-np-city" role="alert"><svg class="icon" aria-hidden="true">
+                            <use href="#i-error" />
+                          </svg>Вкажіть місто</p>
+                      </div>
+                      <div class="field"><label for="np-branch">Номер відділення або поштомату</label>
+                        <div class="inwrap"><svg class="icon" aria-hidden="true">
+                            <use href="#i-building" />
+                          </svg>
+                          <input id="np-branch" name="np-branch" required placeholder="№ 1, вул. Хрещатик 22">
+                        </div>
+                        <p class="ferr" id="err-np-branch" role="alert"><svg class="icon" aria-hidden="true">
+                            <use href="#i-error" />
+                          </svg>Вкажіть відділення</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Укрпошта -->
+                  <div class="cond" id="cond-up">
+                    <div class="cond__in">
+                      <div class="frow frow--2">
+                        <div class="field"><label for="up-city">Місто</label>
+                          <div class="inwrap"><svg class="icon" aria-hidden="true">
+                              <use href="#i-pin" />
+                            </svg>
+                            <input id="up-city" name="up-city" required autocomplete="address-level2"
+                              placeholder="Київ">
+                          </div>
+                          <p class="ferr" id="err-up-city" role="alert"><svg class="icon" aria-hidden="true">
+                              <use href="#i-error" />
+                            </svg>Вкажіть місто</p>
+                        </div>
+                        <div class="field"><label for="up-region">Область</label>
+                          <div class="inwrap"><svg class="icon" aria-hidden="true">
+                              <use href="#i-pin" />
+                            </svg>
+                            <input id="up-region" name="up-region" autocomplete="address-level1" placeholder="Київська">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="frow frow--2">
+                        <div class="field"><label for="up-district">Район</label>
+                          <div class="inwrap"><svg class="icon" aria-hidden="true">
+                              <use href="#i-pin" />
+                            </svg>
+                            <input id="up-district" name="up-district" placeholder="Броварський">
+                          </div>
+                        </div>
+                        <div class="field"><label for="up-index">Поштовий індекс</label>
+                          <div class="inwrap"><svg class="icon" aria-hidden="true">
+                              <use href="#i-mail" />
+                            </svg>
+                            <input id="up-index" name="up-index" inputmode="numeric" autocomplete="postal-code"
+                              placeholder="02000" maxlength="5">
+                          </div>
+                          <p class="ferr" id="err-up-index" role="alert"><svg class="icon" aria-hidden="true">
+                              <use href="#i-error" />
+                            </svg>Індекс — 5 цифр</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Отримувач -->
+                  <div class="sub" style="display:flex;flex-direction:column;gap:12px">
+                    <div class="frow frow--2">
+                      <div class="field"><label for="f-name">Ім’я та прізвище</label>
+                        <div class="inwrap"><svg class="icon" aria-hidden="true">
+                            <use href="#i-user" />
+                          </svg>
+                          <input id="f-name" name="name" required autocomplete="name" placeholder="Олена Шевченко">
+                        </div>
+                        <p class="ferr" id="err-name" role="alert"><svg class="icon" aria-hidden="true">
+                            <use href="#i-error" />
+                          </svg>Вкажіть ім’я та прізвище</p>
+                      </div>
+                      <div class="field"><label for="f-phone">Телефон</label>
+                        <div class="inwrap"><svg class="icon" aria-hidden="true">
+                            <use href="#i-phone" />
+                          </svg>
+                          <input id="f-phone" name="phone" required autocomplete="tel" inputmode="tel"
+                            placeholder="+380 67 123 45 67">
+                        </div>
+                        <p class="ferr" id="err-phone" role="alert"><svg class="icon" aria-hidden="true">
+                            <use href="#i-error" />
+                          </svg>Вкажіть коректний номер</p>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="linkbtn" type="button" id="note-toggle">Додати коментар</button>
+                  <div class="cond" id="cond-note">
+                    <div class="cond__in">
+                      <div class="field"><label for="f-note">Коментар до замовлення</label>
+                        <div class="inwrap"><textarea id="f-note" name="note"
+                            placeholder="Наприклад: зателефонуйте перед відправленням"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Крок 3: Тип оплати -->
+              <div class="step-view" data-view="2" hidden>
+                <h2 tabindex="-1">Тип оплати</h2>
+                <div class="opts" role="radiogroup" aria-label="Тип оплати" id="paytype-opts">
+                  <label class="pay opt opt--online"><input type="radio" name="paytype" value="online">
+                    <span class="pay__icon"><svg class="icon opt__icon" aria-hidden="true">
+                      <use href="#i-wallet" />
+                    </svg></span>
+                    <span class="pay__body opt__body"><span class="pay__title opt__t">Повна оплата</span><span class="pay__desc opt__d">Оплата відбудеться на захищеній сторінці платіжного сервісу.</span><span class="pay__amount" id="online-amount">До сплати: 0&nbsp;грн</span><span class="pay__badge payment-proof" id="online-share">Найпопулярніше</span></span>
+                    <span class="opt__dot" aria-hidden="true"><svg class="icon">
+                        <use href="#i-check" />
+                      </svg></span></label>
+                  <label class="pay opt" id="cod-option"><input type="radio" name="paytype" value="cod" checked>
+                    <span class="pay__icon"><svg class="icon opt__icon" aria-hidden="true">
+                      <use href="#i-cash" />
+                    </svg></span>
+                    <span class="pay__body opt__body"><span class="pay__title opt__t">Передоплата <span id="prepay-title-amount">100</span>&nbsp;грн</span><span class="pay__desc opt__d">Решту сплатите при отриманні</span><span class="pay__amount" id="cod-remaining">Решта при отриманні: 0&nbsp;грн</span></span>
+                    <span class="opt__availability" id="cod-availability" hidden>Доступно лише для доставки Новою Поштою</span>
+                    <span class="cod-details" id="cod-commission" aria-live="polite" hidden>
+                      <span class="cod-details__line">Сьогодні онлайн: <strong id="cod-prepayment" class="money">100&nbsp;грн</strong></span>
+                      <span class="cod-details__line">У відділенні: <strong id="cod-total" class="money">0&nbsp;грн</strong></span>
+                      <span class="cod-details__sub">У цю суму входить комісія Нової пошти <strong id="cod-commission-value" class="money">0&nbsp;грн</strong></span>
+                      <span class="cod-details__grand">Разом: <strong id="cod-grand-total" class="money">100&nbsp;грн</strong></span>
+                      <span class="cod-details__hint">Нова пошта бере 2% від суми, яку ви платите у відділенні (<span id="cod-base" class="money">0&nbsp;грн</span>), і ще <span id="cod-fixed-description" class="money">20&nbsp;грн</span>.</span>
+                    </span>
+                    <span class="opt__dot" aria-hidden="true"><svg class="icon">
+                        <use href="#i-check" />
+                      </svg></span></label>
+                </div>
+              </div>
+
+              <!-- Крок 4: Підтвердження -->
+              <div class="step-view" data-view="3" hidden>
+                <h2 tabindex="-1">Підтвердження замовлення</h2>
+                <div class="confirmation" id="confirmation">
+                  <section class="confirm-block"><h3><span><svg class="icon" aria-hidden="true"><use href="#i-user" /></svg>Контакти</span><button type="button" class="linkbtn" data-edit="1">Змінити</button></h3><p id="confirm-contact">—</p></section>
+                  <section class="confirm-block"><h3><span><svg class="icon" aria-hidden="true"><use href="#i-truck" /></svg>Доставка</span><button type="button" class="linkbtn" data-edit="1">Змінити</button></h3><p id="confirm-delivery">—</p><p id="confirm-shipping">—</p></section>
+                  <section class="confirm-block"><h3><span><svg class="icon" aria-hidden="true"><use href="#i-wallet" /></svg>Тип оплати</span><button type="button" class="linkbtn" data-edit="2">Змінити</button></h3><p id="confirm-payment">—</p></section>
+                  <section class="confirm-block"><h3><span><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>Товари</span></h3><div class="confirm-items-head" aria-hidden="true"><span></span><span>Товар / артикул</span><span>Ціна</span><span>К-сть</span><span>Сума</span></div><div id="confirm-items"></div></section>
+                  <section class="confirm-block confirm-totals"><p><span><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>Товари</span><b id="confirm-goods">—</b></p><p><span><svg class="icon" aria-hidden="true"><use href="#i-truck" /></svg>Доставка</span><b id="confirm-ship">—</b></p><p id="confirm-discount-row" hidden><span>Знижка</span><b id="confirm-discount">—</b></p></section>
+                  <section class="due-card"><span id="due-label">До сплати</span><strong id="due-amount">0 грн</strong><small id="due-note" hidden></small></section>
+                  <label class="terms"><input id="confirm-terms" type="checkbox"><span>Погоджуюсь з умовами замовлення</span></label>
+                  <div class="msg" id="pay-error" role="alert"><svg class="icon" aria-hidden="true"><use href="#i-error" /></svg><span id="pay-error-text"></span></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Підсумок (desktop) -->
+        <aside class="summary card" aria-label="Ваше замовлення">
+          <h2>Разом</h2>
+          <div class="sum-line"><span>Товари</span><span id="sum-goods">…</span></div>
+          <div class="sum-line"><span>Доставка</span><span id="sum-ship">…</span></div>
+          <div class="sum-total"><span>Разом</span><span><span id="sum-total">0</span> грн</span></div>
+          <button class="btn js-next" type="button"></button>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Нижня панель (mobile) -->
+    <div class="bar" id="bottom-bar">
+      <div class="sum-pop" id="sum-pop">
+        <div class="sum-line"><span>Товари</span><span id="pop-goods">…</span></div>
+        <div class="sum-line"><span>Доставка</span><span id="pop-ship">…</span></div>
+      </div>
+      <div class="bar__row">
+        <div class="bar__sum">
+          <button class="sumtoggle" type="button" id="sum-toggle" aria-expanded="false" aria-controls="sum-pop">
+            Разом: <span id="bar-total">0</span> грн <svg class="icon" aria-hidden="true">
+              <use href="#i-chev" />
+            </svg>
+          </button>
+        </div>
+        <button class="btn js-next" type="button"></button>
+      </div>
+    </div>
+
+    <!-- Екран подяки -->
+    <div class="success" id="success-view" role="status" aria-live="polite">
+      <div class="check" aria-hidden="true"><svg class="icon">
+          <use href="#i-check" />
+        </svg></div>
+      <h2>Дякуємо за замовлення!</h2>
+      <p class="order-no" id="ok-number">№ —</p>
+      <dl class="dl">
+        <div>
+          <dt><svg class="icon" aria-hidden="true">
+              <use href="#i-truck" />
+            </svg>Доставка</dt>
+          <dd id="ok-carrier">—</dd>
+        </div>
+        <div>
+          <dt><svg class="icon" aria-hidden="true">
+              <use href="#i-building" />
+            </svg>Відділення</dt>
+          <dd id="ok-branch">—</dd>
+        </div>
+        <div>
+          <dt><svg class="icon" aria-hidden="true">
+              <use href="#i-wallet" />
+            </svg>Оплата</dt>
+          <dd id="ok-pay">—</dd>
+        </div>
+        <div>
+          <dt><svg class="icon" aria-hidden="true">
+              <use href="#i-box" />
+            </svg>Кількість</dt>
+          <dd id="ok-count">—</dd>
+        </div>
+        <div>
+          <dt><svg class="icon" aria-hidden="true">
+              <use href="#i-cash" />
+            </svg>Сума</dt>
+          <dd id="ok-total">—</dd>
+        </div>
+      </dl>
+      <p id="ok-note">Ми зателефонуємо вам найближчим часом для підтвердження.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px">
+        <button class="btn" type="button" id="ok-track">Відстежити замовлення</button>
+        <a class="btn btn--ghost" href="index.html">Повернутись на головну</a>
+      </div>
+    </div>
+  </main>
+
+  <div class="customer-modal" id="customer-modal" role="dialog" aria-modal="true" aria-labelledby="customer-modal-title" hidden>
+    <div class="customer-modal__box">
+      <h2 id="customer-modal-title">Це ви?</h2>
+      <dl class="customer-modal__data">
+        <div><dt>ПІБ</dt><dd id="customer-found-name"></dd></div>
+        <div><dt>Телефон</dt><dd id="customer-found-phone"></dd></div>
+        <div><dt>Остання адреса</dt><dd id="customer-found-address"></dd></div>
+      </dl>
+      <div class="customer-modal__actions">
+        <button class="btn" type="button" id="customer-confirm">Так, це я</button>
+        <button class="btn btn--light" type="button" id="customer-dismiss">Ні</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="cart.js" defer></script>
+  <script src="checkout.js" defer></script>
+  <script type="module">
+    /* Покинуті кошики: доступ до Firestore (колекція abandonedCarts) для checkout.js */
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    import { getFirestore, doc, setDoc, deleteDoc, serverTimestamp, collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+    const config = { apiKey: 'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw', authDomain: 'my-magazin-81c96.firebaseapp.com', projectId: 'my-magazin-81c96', storageBucket: 'my-magazin-81c96.firebasestorage.app', messagingSenderId: '129061757346', appId: '1:129061757346:web:3e7bc5838cc5f7bda992fb' };
+    const app = initializeApp(config, 'checkout'), auth = getAuth(app), db = getFirestore(app);
+    async function ensureAuth() { if (!auth.currentUser) await signInAnonymously(auth); }
+    window.LatiaoAbandoned = {
+      save: async (id, data) => { await ensureAuth(); await setDoc(doc(db, 'abandonedCarts', id), { ...data, updatedAt: serverTimestamp() }, { merge: true }); },
+      remove: async (id) => { await ensureAuth(); await deleteDoc(doc(db, 'abandonedCarts', id)); }
+    };
+    /* Пошук клієнта виконується безпосередньо у Firebase, не в адмінці та не в localStorage. */
+    window.LatiaoCustomers = {
+      findByPhone: async phone => {
+        await ensureAuth();
+        const normalized = String(phone || '').replace(/\D/g, '').replace(/^380/, '');
+        const snapshot = await getDocs(query(collection(db, 'orders'), where('phoneDigits', '==', normalized)));
+        if (!snapshot.empty) return snapshot.docs.map(d => ({ id: d.id, ...d.data() })).filter(order => order.name).sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')))[0] || null;
+        /* Сумісність із замовленнями, де поле phoneDigits ще не створене. */
+        const all = await getDocs(collection(db, 'orders'));
+        return all.docs.map(d => ({ id: d.id, ...d.data() })).filter(order => String(order.phone || '').replace(/\D/g, '').replace(/^380/, '') === normalized && order.name).sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')))[0] || null;
+      }
+    };
+  </script>
+</body>
+
+</html>

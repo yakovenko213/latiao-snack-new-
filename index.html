@@ -1,0 +1,480 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Гостро головна A</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Inter:wght@400;500;600&display=swap&subset=cyrillic,latin" rel="stylesheet">
+<style>
+/* =========================================================
+   tokens.css — єдине джерело значень для всіх сторінок.
+   Джерело: styleguide-instagram.pdf (версія від 9.11.2026).
+   [PDF]  = значення прямо з PDF (макети 1080 px)
+   [PDF→] = значення з розділу 7 PDF «Рекомендація для сайту»
+   [Д]    = похідне/припущення, див. NOTES.md → «Припущення»
+   ========================================================= */
+:root {
+  /* ---------- Кольори [PDF §2] ---------- */
+  --color-accent: #FF6A1A;   /* помаранчевий: фон, акцентні заливки */
+  --color-ink:    #1B1B1B;   /* чорний: увесь текст, темні картки, лінії іконок */
+  --color-cream:  #FFF4E6;   /* кремовий: картки, кнопки, текст на темному */
+  --color-white:  #FFFFFF;   /* лише плитки під логотипи й емодзі/іконки */
+  --color-overlay: rgba(27, 27, 27, .6); /* [Д] затемнення = ink з прозорістю */
+
+  /* Службові логотипи [PDF §2] — без змін, лише на білій плитці */
+  --color-novaposhta: #DA291C;
+  --color-ukrposhta:  #FDBD0D;
+
+  /* ---------- Шрифти [PDF §3, §7] ---------- */
+  --font-head: 'Montserrat', system-ui, sans-serif; /* 800 */
+  --font-body: 'Inter', system-ui, sans-serif;      /* 400/500/600 */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-head: 800;
+
+  /* ---------- Типографіка (сайт) [PDF→] ---------- */
+  --fs-h1: clamp(2rem, 5vw, 3.5rem);   /* H1 92–128 px */
+  --fs-h2: clamp(1.5rem, 3vw, 2.25rem);/* [Д] між H1 і заголовком картки */
+  --fs-card-title: 1.25rem;            /* заголовок картки 44 px → 1.25–1.5rem */
+  --fs-card-title-lg: 1.5rem;
+  --fs-body: 1rem;                     /* основний текст 32 px → 1–1.125rem */
+  --fs-body-lg: 1.125rem;
+  --fs-label: 1rem;                    /* підпис над H1 34 px, Montserrat 800 */
+  --fs-small: 0.875rem;                /* [Д] допоміжний текст */
+  --fs-button: 1rem;                   /* кнопка 42–44 px → 1rem */
+
+  --lh-h1: 1.0;      /* H1 допис 1.0, H1 сторіз 1.02 [PDF §3] */
+  --lh-card-title: 1.15; /* 1.1–1.2 [PDF §3] */
+  --lh-body: 1.3;    /* 1.3–1.35 [PDF §3] */
+  --lh-intro: 1.35;
+  --ls-h1: -0.015em; /* −2 px на 128 px [PDF §3] */
+  --ls-label: 0;
+
+  /* ---------- Відступи [PDF→ + Д] ---------- */
+  --space-page: 24px;        /* поля макета 80 → 24–32 [PDF→] */
+  --space-page-lg: 32px;
+  --space-card-y: 12px;      /* відступ картки 26–36 → 12–16 [PDF→] */
+  --space-card-x: 16px;
+  --space-card-pad: 16px;
+  --space-card-pad-lg: 24px; /* [Д] картка зі сторіз 36×44 */
+  --space-gap: 8px;          /* проміжок між блоками 24 → ≈8–10 [Д] */
+  --space-gap-md: 12px;
+  --space-gap-lg: 16px;
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px; /* [Д] шкала на базі 4/8 */
+  --space-section: 48px;     /* [Д] між секціями на мобільному */
+  --space-section-lg: 80px;  /* [Д] на десктопі (поле макета 80) */
+  --container: 1200px;       /* [Д] */
+
+  /* ---------- Радіуси [PDF→] ---------- */
+  --radius-card: 16px;   /* 32–40 px → 12–16 */
+  --radius-tile: 14px;   /* 28–40 px → 10–16 */
+  --radius-pill: 999px;  /* кнопка, повністю округла */
+  --radius-circle: 50%;
+
+  /* ---------- Тіні, градієнти [PDF §4]: не використовуються ---------- */
+  --shadow-none: none;
+  --border-icon: 3px solid var(--color-ink); /* 12 px рамка на колі highlights → ≈3 px [Д] */
+
+  /* ---------- Кнопка [PDF→] ---------- */
+  --btn-pad-y: 14px;
+  --btn-pad-x: 28px;
+  --btn-h: 48px;           /* ≥44 px зона натискання */
+  --tap-min: 44px;
+
+  /* ---------- Підпис із лінією [PDF §4: 72×6, r3, gap 20] ---------- */
+  --label-line-w: 28px;    /* [Д] ÷2,6 */
+  --label-line-h: 3px;
+  --label-line-r: 2px;
+  --label-gap: 8px;
+
+  /* ---------- Плитки [PDF §4] ---------- */
+  --tile-lg: 64px;   /* біла плитка 170 → ≈64 [Д] */
+  --tile-sm: 48px;   /* мала плитка 130 → ≈48 [Д] */
+  --num-circle: 40px;/* чорне коло з цифрою 84 → ≈40 [Д] */
+  --icon-size: 24px;
+  --icon-stroke: 2;  /* лінія 14/400 → 2/24 з округленими кінцями [Д] */
+
+  /* ---------- Макет ---------- */
+  --header-h: 64px;  /* [Д] — у PDF висоти хедера немає */
+
+  /* ---------- Рух [Д] ---------- */
+  --dur: 160ms;
+  --ease: ease-out;
+
+  /* ---------- Брейкпоінти (довідково; у @media використовуються літерали) ---------- */
+  --bp-sm: 375px;
+  --bp-md: 768px;
+  --bp-lg: 1280px;
+  --bp-xl: 1440px;
+}
+
+/* shared.css — компоненти. Лише змінні з tokens.css. */
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+.lbl{font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-small)}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--color-white);color:var(--color-ink);font-family:var(--font-body);font-size:var(--fs-body);font-weight:var(--fw-medium);line-height:var(--lh-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--color-white)}
+h1,h2,h3,h4{font-family:var(--font-head);font-weight:var(--fw-head);margin:0;text-wrap:balance}
+h1{font-size:var(--fs-h1);line-height:var(--lh-h1);letter-spacing:var(--ls-h1)}
+h2{font-size:var(--fs-h2);line-height:1.1}
+h3{font-size:var(--fs-card-title);line-height:var(--lh-card-title)}
+p{margin:0}
+a{color:inherit}
+img,svg{max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--color-ink);outline-offset:2px}
+.on-ink :focus-visible,.card--ink :focus-visible,.footer :focus-visible{outline-color:var(--color-cream)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:8px;top:-60px;z-index:100;background:var(--color-ink);color:var(--color-cream);padding:12px 16px;border-radius:var(--radius-pill);font-family:var(--font-head);font-weight:var(--fw-head)}
+.skip:focus{top:8px}
+.icon{width:var(--icon-size);height:var(--icon-size);fill:none;stroke:currentColor;stroke-width:var(--icon-stroke);stroke-linecap:round;stroke-linejoin:round;flex:none}
+.container{max-width:var(--container);margin-inline:auto;width:100%}
+.section{padding-block:calc(var(--space-section)/2)}
+.section--tight{padding-block:var(--space-3)}
+@media(min-width:768px){.section{padding-block:calc(var(--space-section-lg)/2)}.section--tight{padding-block:var(--space-4)}}
+.section-head{display:flex;flex-direction:column;gap:var(--space-gap-lg);margin-bottom:var(--space-5)}
+.section-head--row{flex-direction:row;align-items:flex-end;justify-content:space-between;gap:var(--space-4)}
+.lead{font-size:var(--fs-body-lg);line-height:var(--lh-intro)}
+
+/* Підпис із лінією [PDF §4] */
+.label{display:inline-flex;align-items:center;gap:var(--label-gap);font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-label);letter-spacing:var(--ls-label)}
+.label::before{content:"";width:var(--label-line-w);height:var(--label-line-h);border-radius:var(--label-line-r);background:var(--color-ink)}
+.card--ink .label::before,.on-ink .label::before{background:var(--color-cream)}
+
+/* Кнопки */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:var(--btn-h);padding:var(--btn-pad-y) var(--btn-pad-x);border:0;border-radius:var(--radius-pill);font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-button);line-height:1;text-align:center;text-decoration:none;background:var(--color-cream);color:var(--color-ink);transition:background var(--dur) var(--ease),color var(--dur) var(--ease),transform var(--dur) var(--ease)}
+.btn:hover{background:var(--color-ink);color:var(--color-cream)}
+.btn:active{transform:scale(.97)}
+.btn--ink{background:var(--color-ink);color:var(--color-cream)}
+.btn--ink:hover{background:var(--color-cream);color:var(--color-ink)}
+.btn.is-added,.btn.is-added:hover{background:#1f7a3d;color:#fff;pointer-events:none}
+.btn--accent{background:var(--color-accent);color:var(--color-ink)}
+.btn--accent:hover{background:var(--color-cream)}
+.btn--block{width:100%}
+.btn--sm{min-height:var(--tap-min);padding:10px 20px}
+.btn[disabled],.btn[aria-disabled="true"]{opacity:.5;pointer-events:none}
+.iconbtn{display:inline-flex;align-items:center;justify-content:center;width:var(--tap-min);height:var(--tap-min);border:0;border-radius:var(--radius-circle);background:var(--color-ink);color:var(--color-cream);position:relative;text-decoration:none;transition:background var(--dur) var(--ease),color var(--dur) var(--ease),transform var(--dur) var(--ease)}
+.iconbtn:hover{background:var(--color-accent);color:var(--color-ink)}
+.iconbtn:active{transform:scale(.94)}
+.iconbtn--ink{background:var(--color-cream);color:var(--color-ink)}
+.iconbtn--ink:hover{background:var(--color-accent);color:var(--color-ink)}
+.iconbtn[disabled]{opacity:.4;pointer-events:none}
+
+/* Картки */
+.card{background:var(--color-cream);color:var(--color-ink);border-radius:var(--radius-card);padding:var(--space-card-pad)}
+.card--ink{background:var(--color-ink);color:var(--color-cream)}
+.card--lg{padding:var(--space-card-pad-lg)}
+.tile{display:flex;align-items:center;justify-content:center;background:var(--color-white);border-radius:var(--radius-tile);width:var(--tile-lg);height:var(--tile-lg);flex:none}
+.tile--sm{width:var(--tile-sm);height:var(--tile-sm)}
+.numcircle{display:inline-flex;align-items:center;justify-content:center;width:var(--num-circle);height:var(--num-circle);border-radius:var(--radius-circle);background:var(--color-ink);color:var(--color-cream);font-family:var(--font-head);font-weight:var(--fw-head);flex:none}
+.value{font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-card-title);line-height:1.1}
+.muted{font-weight:var(--fw-regular)}
+
+/* Бейдж */
+.badge{display:inline-flex;align-items:center;min-height:24px;padding:4px 12px;border-radius:var(--radius-pill);background:var(--color-ink);color:var(--color-cream);font-family:var(--font-head);font-weight:var(--fw-head);font-size:.75rem;line-height:1}
+.badge--accent{background:var(--color-cream);color:var(--color-ink)}
+
+/* Шкала гостроти 1–5 */
+.heat{display:inline-flex;align-items:center;gap:8px;font-size:var(--fs-small);font-weight:var(--fw-semibold)}
+.heat__dots{display:inline-flex;gap:4px}
+.heat__dots i{width:10px;height:10px;border-radius:var(--radius-circle);border:2px solid currentColor}
+.heat__dots i.on{background:currentColor}
+.heat--lg .heat__dots i{width:16px;height:16px}
+.heat--lg{font-size:var(--fs-body)}
+
+/* Плейсхолдер зображення — замініть вміст на <img> */
+.ph{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;background:var(--color-accent);border-radius:var(--radius-tile);overflow:hidden}
+.ph>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* Показувати лише завантажені фото: без фото плейсхолдер не малюємо */
+.ph:not(:has(>img)){display:none!important}
+.ph__disc{display:flex;align-items:center;justify-content:center;width:62%;aspect-ratio:1/1;border-radius:var(--radius-circle);background:var(--color-cream);border:var(--border-icon)}
+.ph__disc svg{width:56%;height:56%;fill:none;stroke:var(--color-ink);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.ph__disc svg .f{fill:var(--color-accent)}
+
+/* Картка товару */
+.pcard-wrap{container:pc/inline-size}
+.pcard{display:flex;flex-direction:column;gap:var(--space-3);background:var(--color-cream);border-radius:var(--radius-card);padding:var(--space-card-pad);position:relative;height:100%;transition:transform var(--dur) var(--ease)}
+.pcard:hover{transform:translateY(-2px)}
+.pcard__media{position:relative}
+.pcard__media .badge{position:absolute;left:8px;top:8px}
+.pcard__title{font-family:var(--font-head);font-weight:var(--fw-head);font-size:1rem;line-height:var(--lh-card-title);min-height:calc(1rem * var(--lh-card-title) * 2)}
+.pcard__title a{text-decoration:none}
+.pcard__title a::after{content:"";position:absolute;inset:0;border-radius:var(--radius-card)}
+.pcard__meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:var(--fs-small)}
+.pcard__foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto}
+.price{font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-card-title);line-height:1}
+.price small{font-size:var(--fs-small);font-weight:var(--fw-head)}
+.pcard .iconbtn,.pcard .btn{position:relative;z-index:2}
+.pcard .btn{padding-inline:16px}
+
+/* Сітка */
+.grid{display:grid;gap:var(--space-gap-lg)}
+.grid--cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:768px){.grid--cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1280px){.grid--cards{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@container pc (max-width:235px){.pcard .btn .t{display:none}.pcard .btn{padding-inline:0;width:var(--tap-min)}}
+.pcard__meta{flex-wrap:wrap}.pcard__meta span,.price,.price small{white-space:nowrap}
+
+/* Поля форм */
+.field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.field label,.field .lbl{font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-small)}
+.input,.select,.textarea{width:100%;min-height:var(--btn-h);padding:12px 16px;background:var(--color-cream);color:var(--color-ink);border:2px solid var(--color-ink);border-radius:var(--radius-tile);font-weight:var(--fw-medium);appearance:none;-webkit-appearance:none;transition:border-color var(--dur) var(--ease)}
+.card .input,.card .select,.card .textarea{background:var(--color-white)}
+.textarea{min-height:120px;resize:vertical}
+.input::placeholder,.textarea::placeholder{color:var(--color-ink);opacity:.6}
+.input:focus,.select:focus,.textarea:focus{outline:3px solid var(--color-ink);outline-offset:2px}
+.field.is-error .input{border-color:var(--color-accent);border-width:3px;background:var(--color-white)}
+.field.is-ok .input{border-style:solid}
+.hint{display:flex;align-items:center;gap:6px;font-size:var(--fs-small);font-weight:var(--fw-semibold)}
+.hint .icon{width:16px;height:16px}
+.hint--err{font-weight:var(--fw-head);font-family:var(--font-head)}
+.selectwrap{position:relative}
+.selectwrap .icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none}
+.selectwrap .select{padding-right:44px}
+.choice{display:flex;align-items:center;gap:12px;min-height:var(--tap-min);padding:12px 16px;border:2px solid var(--color-ink);border-radius:var(--radius-tile);cursor:pointer;background:var(--color-white)}
+.choice input{appearance:none;-webkit-appearance:none;width:22px;height:22px;border:2px solid var(--color-ink);border-radius:var(--radius-circle);background:var(--color-white);flex:none;margin:0;display:grid;place-content:center}
+.choice input::before{content:"";width:10px;height:10px;border-radius:var(--radius-circle);background:var(--color-cream);transform:scale(0)}
+.choice input[type=checkbox]{border-radius:6px}
+.choice input:checked{background:var(--color-ink)}
+.choice input:checked::before{transform:scale(1)}
+.choice:has(input:checked){background:var(--color-cream)}
+.choice:has(input:focus-visible){outline:3px solid var(--color-ink);outline-offset:2px}
+.choice__body{display:flex;flex-direction:column;min-width:0;flex:1}
+.choice__body b{font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-small)}
+.choice__body span{font-size:var(--fs-small);font-weight:var(--fw-regular)}
+.choice__price{font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-small);white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{text-decoration:none;color:inherit;display:inline-flex;align-items:center;min-height:var(--tap-min);padding:8px 18px;border:2px solid var(--color-ink);border-radius:var(--radius-pill);background:transparent;font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-small);cursor:pointer;transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
+.chip:hover{background:var(--color-cream)}
+.chip[aria-pressed="true"],.chip[aria-checked="true"],.chip.is-on{background:var(--color-ink);color:var(--color-cream)}
+.card .chip{background:var(--color-white)}
+.card .chip[aria-pressed="true"]{background:var(--color-ink)}
+.qty{display:inline-flex;align-items:center;gap:4px;background:var(--color-white);border:2px solid var(--color-ink);border-radius:var(--radius-pill);padding:2px}
+.qty button{width:40px;height:40px;border:0;border-radius:var(--radius-circle);background:transparent;display:inline-flex;align-items:center;justify-content:center}
+.qty button:hover{background:var(--color-ink);color:var(--color-cream)}
+.qty output{min-width:32px;text-align:center;font-family:var(--font-head);font-weight:var(--fw-head)}
+
+/* Хедер */
+.header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--color-white);margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.header__in{max-width:var(--container);margin-inline:auto;height:var(--header-h);display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.header__in>:last-child{justify-self:end}
+.logo{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-head);font-weight:var(--fw-head);font-size:1.25rem;letter-spacing:-0.02em;text-decoration:none;min-height:var(--tap-min)}
+.logo__mark{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:var(--radius-circle);background:var(--color-ink);color:var(--color-cream);font-size:1rem}
+.cartlink{display:inline-flex;align-items:center;gap:0}
+.count{position:absolute;right:-4px;top:-4px;min-width:22px;height:22px;padding:0 5px;border-radius:var(--radius-pill);background:var(--color-accent);color:var(--color-ink);font-family:var(--font-head);font-weight:var(--fw-head);font-size:.75rem;display:flex;align-items:center;justify-content:center}
+.iconbtn:hover .count{background:var(--color-ink);color:var(--color-cream)}
+.count.bump{animation:bump 240ms var(--ease)}
+@keyframes bump{50%{transform:scale(1.25)}}
+
+/* Панель меню */
+.drawer{position:fixed;inset:0;z-index:80;visibility:hidden;pointer-events:none}
+.drawer.is-open{visibility:visible;pointer-events:auto}
+.drawer__scrim{position:absolute;inset:0;background:var(--color-overlay);opacity:0;transition:opacity var(--dur) var(--ease)}
+.drawer__panel{position:absolute;top:0;left:0;bottom:0;width:min(420px,100%);background:var(--color-cream);color:var(--color-ink);padding:max(16px,env(safe-area-inset-top,0px)) 24px max(24px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));overflow-y:auto;transform:translateX(-100%);transition:transform var(--dur) var(--ease);display:flex;flex-direction:column;gap:var(--space-4)}
+.drawer.is-open .drawer__scrim{opacity:1}
+.drawer.is-open .drawer__panel{transform:none}
+.drawer__top{display:flex;align-items:center;justify-content:space-between;min-height:var(--header-h)}
+.menu{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.menu>li{border-bottom:2px solid var(--color-ink)}
+.menu>li:last-child{border-bottom:0}
+.menu__link{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:56px;padding:8px 0;background:none;border:0;text-align:left;text-decoration:none;font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-card-title)}
+.menu__link .icon{transition:transform var(--dur) var(--ease)}
+.menu__link[aria-expanded="true"] .icon{transform:rotate(180deg)}
+.submenu{list-style:none;margin:0;padding:0 0 12px;display:flex;flex-direction:column}
+.submenu a{display:flex;align-items:center;min-height:var(--tap-min);padding-left:16px;text-decoration:none;font-weight:var(--fw-semibold)}
+.submenu a:hover,.footer a:hover{text-decoration:underline}
+.social{display:flex;flex-wrap:wrap;gap:8px}
+.social a{display:inline-flex;align-items:center;gap:8px;min-height:var(--tap-min);padding:8px 16px 8px 8px;border-radius:var(--radius-pill);background:var(--color-ink);color:var(--color-cream);text-decoration:none;font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-small);transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
+.social a .ico{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:var(--radius-circle);background:var(--color-cream);color:var(--color-ink)}
+.social a .icon{width:16px;height:16px}
+.social a:hover{background:var(--color-accent);color:var(--color-ink);text-decoration:none}
+.social--sm a{padding:0;width:var(--tap-min);justify-content:center}
+
+/* Футер */
+.footer{background:var(--color-ink);color:var(--color-cream);margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:var(--space-section) max(16px,env(safe-area-inset-left,0px)) calc(var(--space-5) + env(safe-area-inset-bottom,0px));border-radius:var(--radius-card) var(--radius-card) 0 0}
+.footer__grid{max-width:var(--container);margin-inline:auto;display:grid;gap:var(--space-6);grid-template-columns:1fr}
+.footer h4{font-size:var(--fs-small);margin-bottom:12px}
+.footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.footer li a{display:inline-flex;align-items:center;min-height:36px;text-decoration:none;font-weight:var(--fw-medium)}
+.footer .logo__mark{background:var(--color-accent);color:var(--color-ink)}
+.footer__brand p{margin-top:12px;max-width:34ch;font-weight:var(--fw-regular)}
+.footer__brand .social{margin-top:16px}
+.footer .social a{background:var(--color-cream);color:var(--color-ink)}
+.footer .social a:hover{background:var(--color-accent)}
+.footer__bottom{max-width:var(--container);margin:var(--space-6) auto 0;padding-top:var(--space-5);border-top:2px solid var(--color-cream);display:flex;flex-direction:column;gap:var(--space-4);font-size:var(--fs-small)}
+.pay{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.pay li{display:inline-flex;align-items:center;min-height:32px;padding:4px 14px;border-radius:var(--radius-pill);background:var(--color-cream);color:var(--color-ink);font-family:var(--font-head);font-weight:var(--fw-head);font-size:.75rem}
+@media(min-width:768px){.footer__grid{grid-template-columns:1.4fr 1fr 1fr 1fr}.footer__bottom{flex-direction:row;justify-content:space-between;align-items:center}}
+
+/* Слайдер банерів */
+.slider{position:relative}
+.slider__viewport{overflow:hidden;border-radius:var(--radius-card);touch-action:pan-y}
+.slider__track{display:flex;transition:transform 360ms var(--ease)}
+.slide{flex:0 0 100%;min-width:0;padding:var(--space-6) var(--space-5);display:flex;flex-direction:column;justify-content:center;gap:var(--space-gap-lg);min-height:340px;background:var(--color-cream);color:var(--color-ink)}
+.slide--ink{background:var(--color-ink);color:var(--color-cream)}
+.slide--accent{background:var(--color-cream)}
+.slide h1,.slide h2{font-size:var(--fs-h1);line-height:var(--lh-h1);letter-spacing:var(--ls-h1)}
+.slide p{font-size:var(--fs-body-lg);line-height:var(--lh-intro);max-width:34ch}
+.slide .btn{align-self:flex-start;margin-top:8px;background:var(--color-ink);color:var(--color-cream)}
+.slide .btn:hover{background:var(--color-accent);color:var(--color-ink)}
+.slide--ink .btn{background:var(--color-accent);color:var(--color-ink)}
+.slide--ink .btn:hover{background:var(--color-cream)}
+.slider__ctrl{display:flex;align-items:center;justify-content:space-between;margin-top:var(--space-gap-lg)}
+.dots{display:flex;gap:8px}
+.dots button{width:var(--tap-min);height:var(--tap-min);background:none;border:0;display:flex;align-items:center;justify-content:center;padding:0}
+.dots button::before{content:"";width:12px;height:12px;border-radius:var(--radius-pill);border:2px solid var(--color-ink);transition:width var(--dur) var(--ease),background var(--dur) var(--ease)}
+.dots button[aria-current="true"]::before{width:28px;background:var(--color-ink)}
+.arrows{display:flex;gap:8px}
+@media(min-width:768px){.slide{padding:var(--space-7) var(--space-7);min-height:420px}}
+
+/* Карусель */
+.carousel{position:relative}
+.carousel__track{display:flex;gap:var(--space-gap-lg);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px));scroll-padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.carousel__track::-webkit-scrollbar{display:none}
+.carousel__track>*{flex:0 0 72%;scroll-snap-align:start;min-width:0}
+@media(min-width:600px){.carousel__track>*{flex-basis:calc((100% - 16px)/2)}}
+@media(min-width:900px){.carousel__track{margin-inline:0;padding-inline:0;scroll-padding-inline:0}.carousel__track>*{flex-basis:calc((100% - 48px)/4)}}
+
+/* Акордеон */
+.acc{display:flex;flex-direction:column;gap:var(--space-gap)}
+.acc__item{background:var(--color-cream);border-radius:var(--radius-card)}
+.acc__btn{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:56px;padding:12px var(--space-card-pad);background:none;border:0;border-radius:var(--radius-card);text-align:left;font-family:var(--font-head);font-weight:var(--fw-head);font-size:1rem;line-height:var(--lh-card-title)}
+.acc__btn .icon{transition:transform var(--dur) var(--ease)}
+.acc__btn[aria-expanded="true"] .icon{transform:rotate(180deg)}
+.acc__panel{padding:0 var(--space-card-pad) var(--space-card-pad);font-weight:var(--fw-regular)}
+.acc__panel[hidden]{display:none}
+
+/* Хлібні крихти, вкладки */
+.crumbs{display:flex;flex-wrap:wrap;gap:8px;font-size:var(--fs-small);font-weight:var(--fw-semibold);list-style:none;margin:0;padding:0}
+.crumbs a{text-decoration:none}
+.crumbs a:hover{text-decoration:underline}
+.crumbs li+li::before{content:"/";margin-right:8px}
+.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabpanel[hidden]{display:none}
+
+/* Банер-плашка */
+.cta{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-gap-lg);padding:var(--space-6) var(--space-5);border-radius:var(--radius-card);background:var(--color-ink);color:var(--color-cream)}
+.cta .btn{background:var(--color-accent)}
+.cta .btn:hover{background:var(--color-cream)}
+.cta p{font-size:var(--fs-body-lg);max-width:44ch}
+@media(min-width:768px){.cta{padding:var(--space-7)}}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:90;background:var(--color-ink);color:var(--color-cream);padding:12px 20px;border-radius:var(--radius-pill);font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-small);transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease);white-space:nowrap}
+.toast.is-on{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;scroll-behavior:auto!important}}
+
+
+.slide__txt{display:flex;flex-direction:column;gap:16px;align-items:flex-start;min-width:0}
+.slide__art{display:none}
+.benefits{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-gap-lg)}
+.benefit{display:flex;flex-direction:column;gap:12px}
+.benefit>div{display:flex;flex-direction:column;gap:2px;font-size:var(--fs-small)}
+.benefit b{font-family:var(--font-head);font-weight:var(--fw-head);font-size:1rem;line-height:1.15}
+.benefit .tile{background:var(--color-white);color:var(--color-ink)}
+@media(min-width:768px){.benefits{grid-template-columns:repeat(4,minmax(0,1fr))}.benefit{flex-direction:row;align-items:center}}
+.cats{display:grid;grid-template-columns:1fr;gap:var(--space-gap-lg)}
+.cat{display:flex;align-items:center;gap:16px;text-decoration:none;transition:transform var(--dur) var(--ease)}
+.cat:hover{transform:translateY(-2px)}
+.cat div:nth-child(2){flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.cat span{font-size:var(--fs-small)}
+.cat .ph{border-radius:var(--radius-tile)}
+@media(min-width:600px){.cats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1024px){.cats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.about{display:grid;gap:var(--space-6)}
+.about__txt{display:flex;flex-direction:column;gap:16px;max-width:60ch}
+.stats{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-gap-lg);grid-template-columns:1fr}
+.stat{display:flex;flex-direction:column;gap:8px}
+.stat__n{font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-h2);line-height:1}
+@media(min-width:768px){.about{grid-template-columns:1.2fr 1fr;align-items:start}}
+.reviews{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-gap-lg);grid-template-columns:1fr}
+@media(min-width:768px){.reviews{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1024px){.reviews{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.faqwrap{max-width:820px}
+.cta .tile{font-size:2.5rem}
+
+/* Варіант A: наступний банер трохи виглядає з-за краю */
+.slider__viewport{border-radius:0}
+.slider__track{gap:var(--space-gap-md)}
+.slide{flex:0 0 calc(100% - 40px);border-radius:var(--radius-card)}
+@media(min-width:768px){.slider__track{gap:var(--space-gap-lg)}.slide{flex-basis:calc(100% - 96px)}}
+
+</style>
+<a class="skip" href="#main">До змісту</a><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2.5l2 11h10.5l2-8H6.5"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></symbol><symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol><symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol><symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol><symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol><symbol id="i-down" viewBox="0 0 24 24"><path d="M5 9l7 7 7-7"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.7 1-5.9L3.5 9.7l5.9-.8z"/></symbol><symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></symbol><symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol><symbol id="i-instagram" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17 7h.01"/></symbol><symbol id="i-telegram" viewBox="0 0 24 24"><path d="M21 4L3 11.2l6.2 2.3L11 20l3.2-4.2L19 20zM9.2 13.5L21 4"/></symbol><symbol id="i-tiktok" viewBox="0 0 24 24"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5M14 4c.4 2.6 2 4.2 5 4.5"/></symbol><symbol id="i-facebook" viewBox="0 0 24 24"><path d="M14 21v-8h2.7l.5-3H14V8.2c0-.9.4-1.5 1.7-1.5H17V4.1C16.500 4 15.800 4 15 4c-2.300 0-4 1.400-4 4v2H8.500v3H11v8z"/></symbol><symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="18.500" r="1.500"/><circle cx="17" cy="18.500" r="1.500"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.500-3 8-7 10-4-2-7-5.500-7-10V6z"/><path d="M9 12l2.200 2.200L15.500 10"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10.500h18"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.500v.01"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol><symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.500"/></symbol><symbol id="i-box" viewBox="0 0 24 24"><path d="M3.500 8L12 4l8.500 4v8L12 20l-8.500-4zM3.500 8L12 12l8.500-4M12 12v8"/></symbol></defs></svg>
+<header class="header"><div class="header__in"><button class="iconbtn" type="button" data-menu-open aria-label="Відкрити меню" aria-expanded="false" aria-controls="drawer"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-menu"/></svg></button><a class="logo" href="index.html" aria-label="Гостро — на головну"><span class="logo__mark" aria-hidden="true">Г</span>Гостро</a><a class="iconbtn" href="cart.html" aria-label="Кошик, товарів: 3"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-cart"/></svg><span class="count" data-count aria-hidden="true">3</span></a></div></header>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Меню"><div class="drawer__scrim" data-menu-close></div><nav class="drawer__panel" aria-label="Головне меню"><div class="drawer__top"><a class="logo" href="index.html" aria-label="Гостро — на головну"><span class="logo__mark" aria-hidden="true">Г</span>Гостро</a><button class="iconbtn iconbtn--ink" type="button" data-menu-close aria-label="Закрити меню"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-close"/></svg></button></div><ul class="menu"><li><a class="menu__link" href="index.html">Головна</a></li><li><button class="menu__link" type="button" data-toggle aria-expanded="false" aria-controls="sub-cats">Категорії <svg class="icon " aria-hidden="true" focusable="false"><use href="#i-down"/></svg></button><ul class="submenu" id="sub-cats" hidden><li><a href="catalog.html">Локшина</a></li><li><a href="catalog.html">Чипси</a></li><li><a href="catalog.html">М'ясні снеки</a></li><li><a href="catalog.html">Соуси та олії</a></li><li><a href="catalog.html">Насіння та горіхи</a></li><li><a href="catalog.html">Набори</a></li></ul></li><li><a class="menu__link" href="delivery.html">Оплата та доставка</a></li><li><a class="menu__link" href="returns.html">Обмін та повернення</a></li><li><span class="menu__link" style="cursor:default">Соцмережі</span><div class="social "><a href="#" aria-label="Instagram"><span class="ico"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-instagram"/></svg></span>Instagram</a><a href="#" aria-label="Telegram"><span class="ico"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-telegram"/></svg></span>Telegram</a><a href="#" aria-label="TikTok"><span class="ico"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-tiktok"/></svg></span>TikTok</a><a href="#" aria-label="Facebook"><span class="ico"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-facebook"/></svg></span>Facebook</a></div><div style="height:12px"></div></li></ul></nav></div>
+<main id="main">
+<section class="section--tight" aria-label="Акції"><div class="container slider" data-slider aria-roledescription="карусель"><div class="slider__viewport"><div class="slider__track" aria-live="off"><div class="slide " role="group" aria-roledescription="слайд" aria-label="1 з 4"><div class="slide__txt"><span class="label">Новинки сезону</span><h1>Гострі снеки з Китаю</h1><p>Локшина, чипси й соуси з доставкою по Україні.</p><a class="btn" href="catalog.html">Замовити</a></div></div><div class="slide slide--ink" role="group" aria-roledescription="слайд" aria-label="2 з 4"><div class="slide__txt"><span class="label">Набір для початку</span><h2>Набір «Знайомство»</h2><p>П’ять снеків різної гостроти за 299 грн.</p><a class="btn" href="catalog.html">Обрати набір</a></div></div><div class="slide " role="group" aria-roledescription="слайд" aria-label="3 з 4"><div class="slide__txt"><span class="label">Доставка</span><h2>Безкоштовно від 799 грн</h2><p>Нова пошта та Укрпошта по всій Україні.</p><a class="btn" href="delivery.html">Умови доставки</a></div></div><div class="slide slide--ink" role="group" aria-roledescription="слайд" aria-label="4 з 4"><div class="slide__txt"><span class="label">Шкала гостроти</span><h2>Знайдіть свій рівень</h2><p>Від 1 до 5: оберіть снек за гостротою.</p><a class="btn" href="catalog.html">До каталогу</a></div></div></div></div><div class="slider__ctrl"><div class="dots"><button type="button" aria-label="Слайд 1"></button><button type="button" aria-label="Слайд 2"></button><button type="button" aria-label="Слайд 3"></button><button type="button" aria-label="Слайд 4"></button></div><div class="arrows"><button class="iconbtn" type="button" data-prev aria-label="Попередній слайд"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-left"/></svg></button><button class="iconbtn iconbtn--ink" type="button" data-next aria-label="Наступний слайд"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-right"/></svg></button></div></div></div></section><section class="section--tight" aria-label="Переваги"><div class="container"><ul class="benefits"><li class="card benefit"><span class="tile tile--sm"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-truck"/></svg></span><div><b>Швидка доставка</b><span>Відправка у день замовлення</span></div></li><li class="card benefit"><span class="tile tile--sm"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-shield"/></svg></span><div><b>Оригінальні снеки</b><span>Прямі поставки з Китаю</span></div></li><li class="card benefit"><span class="tile tile--sm"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-clock"/></svg></span><div><b>Свіжі партії</b><span>Щотижня нові надходження</span></div></li><li class="card benefit"><span class="tile tile--sm"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-card"/></svg></span><div><b>Зручна оплата</b><span>Картка або при отриманні</span></div></li></ul></div></section><section class="section" aria-labelledby="top-h"><div class="container"><div class="section-head section-head--row"><div style="display:flex;flex-direction:column;gap:12px"><h2 id="top-h">Топ товарів</h2></div></div><div class="carousel" data-carousel><div class="carousel__track" role="list" tabindex="-1"><div role="listitem"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="3" data-price="59" data-w="110" data-stock="1" data-cat="noodles" data-id="1"><div class="pcard__media"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M18 52h64a32 32 0 0 1-64 0z"/><path d="M36 42c0-8 8-8 8-16M52 42c0-8 8-8 8-16M68 42c0-8 8-8 8-16"/></svg></div></div><span class="badge ">Хіт</span></div><h3 class="pcard__title"><a href="product.html">Локшина «Гострий яловичий бульйон»</a></h3><div class="pcard__meta"><span class="heat " role="img" aria-label="Гострота 3 з 5"><span class="heat__dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><span>3/5</span></span><span>110 г</span></div><div class="pcard__foot"><span class="price">59 <small>грн</small></span><button class="btn btn--ink btn--sm" type="button" data-add aria-label="В кошик: Локшина «Гострий яловичий бульйон»"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-cart"/></svg><span class="t">В кошик</span></button></div></article></div></div><div role="listitem"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="5" data-price="79" data-w="120" data-stock="1" data-cat="noodles" data-id="2"><div class="pcard__media"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M18 52h64a32 32 0 0 1-64 0z"/><path d="M36 42c0-8 8-8 8-16M52 42c0-8 8-8 8-16M68 42c0-8 8-8 8-16"/></svg></div></div><span class="badge badge--accent">Новинка</span></div><h3 class="pcard__title"><a href="product.html">Локшина «Сичуанський малатан»</a></h3><div class="pcard__meta"><span class="heat " role="img" aria-label="Гострота 5 з 5"><span class="heat__dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span>5/5</span></span><span>120 г</span></div><div class="pcard__foot"><span class="price">79 <small>грн</small></span><button class="btn btn--ink btn--sm" type="button" data-add aria-label="В кошик: Локшина «Сичуанський малатан»"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-cart"/></svg><span class="t">В кошик</span></button></div></article></div></div><div role="listitem"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="4" data-price="129" data-w="50" data-stock="1" data-cat="meat" data-id="6"><div class="pcard__media"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M22 62L62 22a11 11 0 0 1 16 16L38 78A11 11 0 0 1 22 62z"/><path d="M34 54l12 12"/></svg></div></div><span class="badge ">Хіт</span></div><h3 class="pcard__title"><a href="product.html">М'ясні смужки «Гостра яловичина»</a></h3><div class="pcard__meta"><span class="heat " role="img" aria-label="Гострота 4 з 5"><span class="heat__dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><span>4/5</span></span><span>50 г</span></div><div class="pcard__foot"><span class="price">129 <small>грн</small></span><button class="btn btn--ink btn--sm" type="button" data-add aria-label="В кошик: М'ясні смужки «Гостра яловичина»"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-cart"/></svg><span class="t">В кошик</span></button></div></article></div></div><div role="listitem"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="3" data-price="79" data-w="120" data-stock="1" data-cat="seeds" data-id="10"><div class="pcard__media"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M50 16c14 16 20 26 20 38a20 20 0 0 1-40 0c0-12 6-22 20-38z"/><path d="M50 50v24"/></svg></div></div><span class="badge ">Хіт</span></div><h3 class="pcard__title"><a href="product.html">Арахіс з перцем хуаджяо</a></h3><div class="pcard__meta"><span class="heat " role="img" aria-label="Гострота 3 з 5"><span class="heat__dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><span>3/5</span></span><span>120 г</span></div><div class="pcard__foot"><span class="price">79 <small>грн</small></span><button class="btn btn--ink btn--sm" type="button" data-add aria-label="В кошик: Арахіс з перцем хуаджяо"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-cart"/></svg><span class="t">В кошик</span></button></div></article></div></div><div role="listitem"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="4" data-price="75" data-w="60" data-stock="1" data-cat="chips" data-id="4"><div class="pcard__media"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M50 18L84 78H16z"/><circle cx="50" cy="56" r="2"/><circle cx="40" cy="68" r="2"/><circle cx="60" cy="68" r="2"/></svg></div></div></div><h3 class="pcard__title"><a href="product.html">Чипси з лотоса «Сичуанський перець»</a></h3><div class="pcard__meta"><span class="heat " role="img" aria-label="Гострота 4 з 5"><span class="heat__dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><span>4/5</span></span><span>60 г</span></div><div class="pcard__foot"><span class="price">75 <small>грн</small></span><button class="btn btn--ink btn--sm" type="button" data-add aria-label="В кошик: Чипси з лотоса «Сичуанський перець»"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-cart"/></svg><span class="t">В кошик</span></button></div></article></div></div><div role="listitem"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="5" data-price="449" data-w="620" data-stock="1" data-cat="set" data-id="12"><div class="pcard__media"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M18 36l32-16 32 16v32L50 84 18 68z"/><path d="M18 36l32 16 32-16M50 52v32"/></svg></div></div><span class="badge badge--accent">Новинка</span></div><h3 class="pcard__title"><a href="product.html">Набір «Вогонь», 6 снеків</a></h3><div class="pcard__meta"><span class="heat " role="img" aria-label="Гострота 5 з 5"><span class="heat__dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span>5/5</span></span><span>620 г</span></div><div class="pcard__foot"><span class="price">449 <small>грн</small></span><button class="btn btn--ink btn--sm" type="button" data-add aria-label="В кошик: Набір «Вогонь», 6 снеків"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-cart"/></svg><span class="t">В кошик</span></button></div></article></div></div><div role="listitem"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="3" data-price="139" data-w="200" data-stock="1" data-cat="sauce" data-id="7"><div class="pcard__media"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M42 14h16v14l8 10v46H34V38l8-10z"/><path d="M34 58h32"/></svg></div></div></div><h3 class="pcard__title"><a href="product.html">Чилі-олія з хрусткою цибулею</a></h3><div class="pcard__meta"><span class="heat " role="img" aria-label="Гострота 3 з 5"><span class="heat__dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><span>3/5</span></span><span>200 г</span></div><div class="pcard__foot"><span class="price">139 <small>грн</small></span><button class="btn btn--ink btn--sm" type="button" data-add aria-label="В кошик: Чилі-олія з хрусткою цибулею"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-cart"/></svg><span class="t">В кошик</span></button></div></article></div></div><div role="listitem"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="2" data-price="69" data-w="70" data-stock="1" data-cat="chips" data-id="3"><div class="pcard__media"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M50 18L84 78H16z"/><circle cx="50" cy="56" r="2"/><circle cx="40" cy="68" r="2"/><circle cx="60" cy="68" r="2"/></svg></div></div></div><h3 class="pcard__title"><a href="product.html">Чипси картопляні «Перець чилі»</a></h3><div class="pcard__meta"><span class="heat " role="img" aria-label="Гострота 2 з 5"><span class="heat__dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span><span>2/5</span></span><span>70 г</span></div><div class="pcard__foot"><span class="price">69 <small>грн</small></span><button class="btn btn--ink btn--sm" type="button" data-add aria-label="В кошик: Чипси картопляні «Перець чилі»"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-cart"/></svg><span class="t">В кошик</span></button></div></article></div></div></div><div class="slider__ctrl"><span></span><div class="arrows"><button class="iconbtn" type="button" data-prev aria-label="Назад"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-left"/></svg></button><button class="iconbtn iconbtn--ink" type="button" data-next aria-label="Вперед"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-right"/></svg></button></div></div></div><div style="margin-top:24px"><a class="btn btn--ink" href="catalog.html">Усі товари <svg class="icon " aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></div></div></section><section class="section" aria-labelledby="cat-h"><div class="container"><div class="section-head"><h2 id="cat-h">Категорії</h2></div><div class="cats"><a class="cat  card" href="catalog.html"><div style="width:72px;flex:none"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M18 52h64a32 32 0 0 1-64 0z"/><path d="M36 42c0-8 8-8 8-16M52 42c0-8 8-8 8-16M68 42c0-8 8-8 8-16"/></svg></div></div></div><div><h3>Локшина</h3><span>24 товарів</span></div><svg class="icon cat__go" aria-hidden="true" focusable="false"><use href="#i-right"/></svg></a><a class="cat  card" href="catalog.html"><div style="width:72px;flex:none"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M50 18L84 78H16z"/><circle cx="50" cy="56" r="2"/><circle cx="40" cy="68" r="2"/><circle cx="60" cy="68" r="2"/></svg></div></div></div><div><h3>Чипси</h3><span>18 товарів</span></div><svg class="icon cat__go" aria-hidden="true" focusable="false"><use href="#i-right"/></svg></a><a class="cat  card" href="catalog.html"><div style="width:72px;flex:none"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M22 62L62 22a11 11 0 0 1 16 16L38 78A11 11 0 0 1 22 62z"/><path d="M34 54l12 12"/></svg></div></div></div><div><h3>М'ясні снеки</h3><span>15 товарів</span></div><svg class="icon cat__go" aria-hidden="true" focusable="false"><use href="#i-right"/></svg></a><a class="cat  card" href="catalog.html"><div style="width:72px;flex:none"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M42 14h16v14l8 10v46H34V38l8-10z"/><path d="M34 58h32"/></svg></div></div></div><div><h3>Соуси та олії</h3><span>21 товарів</span></div><svg class="icon cat__go" aria-hidden="true" focusable="false"><use href="#i-right"/></svg></a><a class="cat  card" href="catalog.html"><div style="width:72px;flex:none"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M50 16c14 16 20 26 20 38a20 20 0 0 1-40 0c0-12 6-22 20-38z"/><path d="M50 50v24"/></svg></div></div></div><div><h3>Насіння та горіхи</h3><span>19 товарів</span></div><svg class="icon cat__go" aria-hidden="true" focusable="false"><use href="#i-right"/></svg></a><a class="cat  card" href="catalog.html"><div style="width:72px;flex:none"><div class="ph " role="img" aria-label="Місце для фото товару"><div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M18 36l32-16 32 16v32L50 84 18 68z"/><path d="M18 36l32 16 32-16M50 52v32"/></svg></div></div></div><div><h3>Набори</h3><span>8 товарів</span></div><svg class="icon cat__go" aria-hidden="true" focusable="false"><use href="#i-right"/></svg></a></div></div></section><section class="section" aria-labelledby="ab-h"><div class="container about"><div class="about__txt"><h2 id="ab-h">Про магазин</h2><p class="lead">Ми привозимо гострі снеки з Китаю й перевіряємо кожну партію: термін придатності, склад і стан упаковки.</p><p>Кожен товар має шкалу гостроти від 1 до 5. Якщо ви вперше пробуєте сичуанський смак, почніть із набору «Знайомство».</p><p>Замовлення збираємо у день оформлення й відправляємо Новою поштою або Укрпоштою.</p></div><ul class="stats"><li class="card  stat"><span class="stat__n">120+</span><span>товарів у каталозі</span></li><li class="card card--ink stat"><span class="stat__n">15 000</span><span>замовлень доставлено</span></li><li class="card  stat"><span class="stat__n">4 роки</span><span>на ринку</span></li></ul></div></section><section class="section" aria-labelledby="rv-h"><div class="container"><div class="section-head"><h2 id="rv-h">Що кажуть покупці</h2></div><ul class="reviews"><li class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><span class="stars" role="img" aria-label="Оцінка 5 з 5" style="display:inline-flex;gap:2px"><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg></span><span class="muted" style="font-size:var(--fs-small)">28 жовтня 2026</span></div><p style="margin:12px 0">Замовила набір «Знайомство». Приїхало за два дні, все свіже. Мій улюблений — чипси з лотоса.</p><b class="value" style="font-size:1rem">Олена К.</b></li><li class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><span class="stars" role="img" aria-label="Оцінка 5 з 5" style="display:inline-flex;gap:2px"><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg></span><span class="muted" style="font-size:var(--fs-small)">24 жовтня 2026</span></div><p style="margin:12px 0">Шкала гостроти реально допомагає. Взяв рівень 3 і не пошкодував, а 5 залишив друзям.</p><b class="value" style="font-size:1rem">Андрій М.</b></li><li class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><span class="stars" role="img" aria-label="Оцінка 5 з 5" style="display:inline-flex;gap:2px"><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg></span><span class="muted" style="font-size:var(--fs-small)">19 жовтня 2026</span></div><p style="margin:12px 0">Оформила за хвилину. Нова пошта привезла наступного дня, упаковка ціла.</p><b class="value" style="font-size:1rem">Ірина Т.</b></li><li class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><span class="stars" role="img" aria-label="Оцінка 4 з 5" style="display:inline-flex;gap:2px"><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:none" aria-hidden="true"><use href="#i-star"/></svg></span><span class="muted" style="font-size:var(--fs-small)">12 жовтня 2026</span></div><p style="margin:12px 0">Малатан-локшина — вогонь. Хотілося б більше наборів на подарунок.</p><b class="value" style="font-size:1rem">Максим Д.</b></li><li class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><span class="stars" role="img" aria-label="Оцінка 5 з 5" style="display:inline-flex;gap:2px"><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg></span><span class="muted" style="font-size:var(--fs-small)">5 жовтня 2026</span></div><p style="margin:12px 0">Дуже зручно, що все видно одразу: вага, склад, гострота. Беру вже втретє.</p><b class="value" style="font-size:1rem">Софія Р.</b></li><li class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><span class="stars" role="img" aria-label="Оцінка 5 з 5" style="display:inline-flex;gap:2px"><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg><svg class="icon" style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#i-star"/></svg></span><span class="muted" style="font-size:var(--fs-small)">29 вересня 2026</span></div><p style="margin:12px 0">Чилі-олія з хрусткою цибулею — тепер додаю до всього. Рекомендую.</p><b class="value" style="font-size:1rem">Богдан Л.</b></li></ul></div></section><section class="section" aria-labelledby="fq-h"><div class="container faqwrap"><div class="section-head"><h2 id="fq-h">Часті питання</h2></div><div class="acc"><div class="acc__item"><h3><button class="acc__btn" type="button" data-toggle aria-expanded="false" aria-controls="faq0">Скільки йде доставка?<svg class="icon " aria-hidden="true" focusable="false"><use href="#i-down"/></svg></button></h3><div class="acc__panel" id="faq0" hidden>Нова пошта — 1–3 дні, Укрпошта — 3–6 днів, кур’єр по Києву — 1–2 дні. Відправляємо у день замовлення, якщо воно оформлене до 15:00.</div></div><div class="acc__item"><h3><button class="acc__btn" type="button" data-toggle aria-expanded="false" aria-controls="faq1">Що означає шкала гостроти 1–5?<svg class="icon " aria-hidden="true" focusable="false"><use href="#i-down"/></svg></button></h3><div class="acc__panel" id="faq1" hidden>1 — ледь відчутно, 3 — помірна, 5 — дуже гостро. Якщо ви не пробували китайські снеки, почніть із рівнів 1–3.</div></div><div class="acc__item"><h3><button class="acc__btn" type="button" data-toggle aria-expanded="false" aria-controls="faq2">Який термін придатності?<svg class="icon " aria-hidden="true" focusable="false"><use href="#i-down"/></svg></button></h3><div class="acc__panel" id="faq2" hidden>Зазвичай 6–12 місяців. Дату виробництва й «вжити до» ви бачите на сторінці товару та на упаковці.</div></div><div class="acc__item"><h3><button class="acc__btn" type="button" data-toggle aria-expanded="false" aria-controls="faq3">Як можна оплатити?<svg class="icon " aria-hidden="true" focusable="false"><use href="#i-down"/></svg></button></h3><div class="acc__panel" id="faq3" hidden>Карткою онлайн, Apple Pay, Google Pay або при отриманні на пошті. Накладений платіж коштує 20 грн + 2%.</div></div><div class="acc__item"><h3><button class="acc__btn" type="button" data-toggle aria-expanded="false" aria-controls="faq4">Чи можна повернути товар?<svg class="icon " aria-hidden="true" focusable="false"><use href="#i-down"/></svg></button></h3><div class="acc__panel" id="faq4" hidden>Їжу належної якості не повертаємо. Якщо упаковку пошкоджено або привезли не те, напишіть нам за 24 години, і ми все вирішимо.</div></div><div class="acc__item"><h3><button class="acc__btn" type="button" data-toggle aria-expanded="false" aria-controls="faq5">Від якої суми доставка безкоштовна?<svg class="icon " aria-hidden="true" focusable="false"><use href="#i-down"/></svg></button></h3><div class="acc__panel" id="faq5" hidden>Від 799 грн по Україні. Прогрес до безкоштовної доставки видно в кошику.</div></div><div class="acc__item"><h3><button class="acc__btn" type="button" data-toggle aria-expanded="false" aria-controls="faq6">Чи є снеки без м’яса?<svg class="icon " aria-hidden="true" focusable="false"><use href="#i-down"/></svg></button></h3><div class="acc__panel" id="faq6" hidden>Так. Фільтр у каталозі покаже локшину, чипси, тофу, горіхи й насіння. Склад завжди вказано на сторінці товару.</div></div></div></div></section><section class="section" aria-labelledby="cta-h"><div class="container"><div class="cta"><h2 id="cta-h">Готові спробувати?</h2><p>Оберіть снеки за рівнем гостроти й оформіть замовлення за хвилину.</p><a class="btn" href="catalog.html">Перейти до каталогу</a></div></div></section>
+</main>
+<footer class="footer"><div class="footer__grid"><div class="footer__brand"><a class="logo" href="index.html" aria-label="Гостро — на головну"><span class="logo__mark" aria-hidden="true">Г</span>Гостро</a><p>Гострі снеки з Китаю: локшина, чипси, соуси та м’ясні снеки. Свіжі партії щотижня.</p><div class="social social--sm"><a href="#" aria-label="Instagram"><span class="ico"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-instagram"/></svg></span></a><a href="#" aria-label="Telegram"><span class="ico"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-telegram"/></svg></span></a><a href="#" aria-label="TikTok"><span class="ico"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-tiktok"/></svg></span></a><a href="#" aria-label="Facebook"><span class="ico"><svg class="icon " aria-hidden="true" focusable="false"><use href="#i-facebook"/></svg></span></a></div></div><div><h4>Категорії</h4><ul><li><a href="catalog.html">Локшина</a></li><li><a href="catalog.html">Чипси</a></li><li><a href="catalog.html">М'ясні снеки</a></li><li><a href="catalog.html">Соуси та олії</a></li><li><a href="catalog.html">Насіння та горіхи</a></li></ul></div><div><h4>Інформація</h4><ul><li><a href="delivery.html">Оплата та доставка</a></li><li><a href="returns.html">Обмін та повернення</a></li><li><a href="about.html">Про нас</a></li><li><a href="cart.html">Кошик</a></li></ul></div><div><h4>Контакти</h4><ul><li><span>+380 44 000 00 00</span></li><li><span>hello@gostro.example</span></li><li><span>Щодня 9:00–20:00</span></li></ul></div></div><div class="footer__bottom"><ul class="pay" aria-label="Способи оплати"><li>Visa</li><li>Mastercard</li><li>Apple Pay</li><li>Google Pay</li><li>При отриманні</li></ul><span>© 2026 Гостро. Усі права захищено.</span></div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* Меню */
+var drawer=$('#drawer'),opener=$('[data-menu-open]'),lastFocus=null;
+function setDrawer(o){if(!drawer)return;drawer.classList.toggle('is-open',o);document.body.style.overflow=o?'hidden':'';opener&&opener.setAttribute('aria-expanded',String(o));
+ if(o){lastFocus=document.activeElement;setTimeout(function(){var c=$('[data-menu-close]',drawer);c&&c.focus()},30)}else if(lastFocus){lastFocus.focus()}}
+opener&&opener.addEventListener('click',function(){setDrawer(true)});
+$$('[data-menu-close]').forEach(function(b){b.addEventListener('click',function(){setDrawer(false)})});
+document.addEventListener('keydown',function(e){
+ if(e.key==='Escape'){if(drawer&&drawer.classList.contains('is-open'))setDrawer(false);var sh=$('.sheet.is-open');sh&&sheet(sh,false)}
+ if(e.key==='Tab'&&drawer&&drawer.classList.contains('is-open')){var f=$$('a,button',drawer).filter(function(x){return x.offsetParent!==null});if(!f.length)return;var a=f[0],z=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}});
+/* Розкривачі: підменю й акордеон */
+$$('[data-toggle]').forEach(function(b){var p=document.getElementById(b.getAttribute('aria-controls'));
+ b.addEventListener('click',function(){var o=b.getAttribute('aria-expanded')==='true';b.setAttribute('aria-expanded',String(!o));p.hidden=o})});
+/* Слайдер банерів */
+$$('[data-slider]').forEach(function(s){
+ var track=$('.slider__track',s),slides=$$('.slide',s),dots=$$('.dots button',s),vp=$('.slider__viewport',s),i=0,t=null,paused=false;
+ function off(){var st=slides.length>1?slides[1].offsetLeft-slides[0].offsetLeft:0,mx=Math.max(0,track.scrollWidth-vp.clientWidth);return Math.min(i*st,mx)}
+ function go(n){i=(n+slides.length)%slides.length;track.style.transform='translateX(-'+off()+'px)';
+  slides.forEach(function(x,k){x.setAttribute('aria-hidden',String(k!==i));$$('a,button',x).forEach(function(c){c.tabIndex=k===i?0:-1})});
+  dots.forEach(function(d,k){k===i?d.setAttribute('aria-current','true'):d.removeAttribute('aria-current')})}
+ function start(){stop();if(reduce)return;t=setInterval(function(){if(!paused)go(i+1)},5500)}
+ function stop(){clearInterval(t)}
+ $('[data-prev]',s).addEventListener('click',function(){go(i-1);start()});
+ $('[data-next]',s).addEventListener('click',function(){go(i+1);start()});
+ dots.forEach(function(d,k){d.addEventListener('click',function(){go(k);start()})});
+ ['mouseenter','focusin','touchstart'].forEach(function(e){s.addEventListener(e,function(){paused=true},{passive:true})});
+ ['mouseleave','focusout','touchend'].forEach(function(e){s.addEventListener(e,function(){paused=false},{passive:true})});
+ var x0=null;vp.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
+ vp.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40){go(i+(dx<0?1:-1));start()}x0=null});
+ s.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){go(i-1);start()}if(e.key==='ArrowRight'){go(i+1);start()}});
+ window.addEventListener('resize',function(){go(i)});
+ go(0);start()});
+/* Карусель */
+$$('[data-carousel]').forEach(function(c){var tr=$('.carousel__track',c),p=$('[data-prev]',c),n=$('[data-next]',c);
+ function step(){var k=tr.firstElementChild;return k?k.getBoundingClientRect().width+16:300}
+ function upd(){p.disabled=tr.scrollLeft<=2;n.disabled=tr.scrollLeft+tr.clientWidth>=tr.scrollWidth-2}
+ p.addEventListener('click',function(){tr.scrollBy({left:-step(),behavior:reduce?'auto':'smooth'})});
+ n.addEventListener('click',function(){tr.scrollBy({left:step(),behavior:reduce?'auto':'smooth'})});
+ tr.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd()});
+/* Кошик-лічильник */
+var cnt=$('[data-count]'),toast=$('#toast'),tt=null;
+function say(m){if(!toast)return;toast.textContent=m;toast.classList.add('is-on');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('is-on')},1800)}
+window.__say=say;
+$$('[data-add]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();if(cnt){cnt.textContent=String((+cnt.textContent||0)+1);cnt.classList.remove('bump');void cnt.offsetWidth;cnt.classList.add('bump')}})});
+/* Кількість */
+$$('[data-qty]').forEach(function(q){var o=$('output',q),b=$$('button',q);
+ b[0].addEventListener('click',function(){var v=Math.max(1,(+o.textContent)-1);o.textContent=v;q.dispatchEvent(new CustomEvent('qty',{bubbles:true}))});
+ b[1].addEventListener('click',function(){var v=Math.min(99,(+o.textContent)+1);o.textContent=v;q.dispatchEvent(new CustomEvent('qty',{bubbles:true}))})});
+/* Вкладки */
+$$('[data-tabs]').forEach(function(t){var tabs=$$('[role=tab]',t),panels=tabs.map(function(x){return document.getElementById(x.getAttribute('aria-controls'))});
+ function sel(k){tabs.forEach(function(x,j){x.setAttribute('aria-selected',String(j===k));x.tabIndex=j===k?0:-1;x.classList.toggle('is-on',j===k);panels[j].hidden=j!==k})}
+ tabs.forEach(function(x,k){x.addEventListener('click',function(){sel(k)});x.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){sel((k+1)%tabs.length);tabs[(k+1)%tabs.length].focus()}if(e.key==='ArrowLeft'){var m=(k-1+tabs.length)%tabs.length;sel(m);tabs[m].focus()}})});sel(0)});
+/* Нижня панель (фільтри на мобільному) */
+function sheet(el,o){el.classList.toggle('is-open',o);document.body.style.overflow=o?'hidden':'';if(o){var c=$('[data-sheet-close]',el);c&&c.focus()}}
+$$('[data-sheet-open]').forEach(function(b){b.addEventListener('click',function(){sheet(document.getElementById(b.getAttribute('data-sheet-open')),true)})});
+$$('[data-sheet-close]').forEach(function(b){b.addEventListener('click',function(){sheet(b.closest('.sheet'),false)})});
+})();
+
+
+</script>
+
+<script type="module">import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';import{getFirestore,collection,getDocs}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';const a=initializeApp({apiKey:'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw',authDomain:'my-magazin-81c96.firebaseapp.com',projectId:'my-magazin-81c96',storageBucket:'my-magazin-81c96.firebasestorage.app',messagingSenderId:'129061757346',appId:'1:129061757346:web:3e7bc5838cc5f7bda992fb'});try{const s=await getDocs(collection(getFirestore(a),'categories'));if(!s.empty)document.querySelectorAll('.submenu').forEach(m=>m.innerHTML=s.docs.map(d=>{const x=d.data();return`<li><a href="catalog.html?category=${encodeURIComponent(x.slug||d.id)}">${String(x.name||x.title||d.id).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}</a></li>`}).join(''))}catch(e){console.warn('Categories unavailable',e)}</script>
+<script src="shipbar.js" defer></script>
+<script src="cart.js" defer></script>
+</body></html>
