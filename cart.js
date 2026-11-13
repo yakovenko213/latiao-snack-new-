@@ -261,7 +261,7 @@
       return;
     }
     body.innerHTML = list.map(function (i) {
-      var ph = i.image ? '<img src="' + esc(i.image) + '" alt="">' : '🌶️';
+      var ph = i.image ? '<img src="' + esc(i.image) + '" alt="">' : '<img src="image/image-svgrepo-com.svg" alt="">';
       var st = itemStock(i.id);
       return '<div class="cart-item">'
         + '<div class="cart-item__ph">' + ph + '</div>'
@@ -331,6 +331,12 @@
     }
     document.addEventListener('click', function (e) {
       var b = e.target.closest('[data-add]'); if (!b) return;
+      /* Перевірка наявності по data-stock батьківської картки */
+      var card = b.closest('.pcard');
+      if (card && card.getAttribute('data-stock') === '0') {
+        notify('Товару немає в наявності');
+        return;
+      }
       var p = resolveProduct(b);
       if (p) { add(p); markAdded(b); }
     });

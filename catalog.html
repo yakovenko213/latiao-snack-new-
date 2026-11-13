@@ -2,7 +2,7 @@
 <html>
 
 <head>
-   <meta charset=utf8>
+   <meta charset="utf-8">
    <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
    <style>
       :root {
@@ -32,7 +32,22 @@
          display: none !important
       }
    </style>
-</head>
+<!-- BEGIN PLERDY CODE -->
+<script data-plerdy_code='1'>
+(function(w,d){
+  if(w.__plerdyCode)return;
+  w.__plerdyCode=1;
+  w._protocol=w.location.protocol=="https:"?"https://":"http://";
+  w._site_hash_code="224cf4fd0a65fbade8e94566cb3c4dfd";
+  w._suid=83127;
+  var s=d.createElement("script");
+  s.async=true;
+  s.referrerPolicy="strict-origin-when-cross-origin";
+  s.src="https://a.plerdy.com/public/js/click/main.js?v="+Math.random();
+  d.head.appendChild(s);
+})(window,document);
+</script>
+<!-- END PLERDY CODE --></head>
 
 <body>
    <title>Гостро каталог A</title>
@@ -785,6 +800,24 @@
          color: #fff;
          padding-inline: 0;
          width: var(--tap-min)
+      }
+
+      /* Out of stock styling */
+      .pcard[data-stock="0"] {
+         opacity: 0.5;
+         filter: grayscale(100%)
+      }
+
+      .pcard[data-stock="0"] .btn {
+         opacity: 0.4;
+         pointer-events: none;
+         cursor: default
+      }
+
+      .pcard[data-stock="0"] .price {
+         text-decoration: line-through;
+         text-decoration-color: var(--color-ink);
+         text-decoration-thickness: 2px
       }
 
       .pcard .btn.is-added .ic:not(.ic--ok) {
@@ -2005,6 +2038,91 @@
          padding: var(--space-6);
          text-align: center
       }
+
+      /* Skeleton loader for product cards */
+      .skeleton {
+         background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+         background-size: 200% 100%;
+         animation: skeleton-loading 1.5s infinite;
+         border-radius: var(--radius-card);
+         height: 100%;
+         min-height: 320px;
+         overflow: hidden
+      }
+
+      .skeleton__media {
+         aspect-ratio: 1/1;
+         background: #e8e8e8;
+         margin-bottom: 12px
+      }
+
+      .skeleton__title {
+         height: 20px;
+         background: #e8e8e8;
+         margin-bottom: 8px;
+         border-radius: 4px;
+         width: 90%
+      }
+
+      .skeleton__title--short {
+         width: 60%
+      }
+
+      .skeleton__meta {
+         height: 16px;
+         background: #e8e8e8;
+         margin-bottom: 12px;
+         border-radius: 4px;
+         width: 40%
+      }
+
+      .skeleton__foot {
+         display: flex;
+         justify-content: space-between;
+         margin-top: auto
+      }
+
+      .skeleton__price {
+         height: 24px;
+         background: #e8e8e8;
+         border-radius: 4px;
+         width: 80px
+      }
+
+      .skeleton__btn {
+         height: 40px;
+         background: #e8e8e8;
+         border-radius: var(--radius-pill);
+         width: 100px
+      }
+
+      @keyframes skeleton-loading {
+         0% {
+            background-position: 200% 0
+         }
+
+         100% {
+            background-position: -200% 0
+         }
+      }
+
+      .loading-grid {
+         display: grid;
+         gap: var(--space-gap-lg);
+         grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+
+      @media(min-width:768px) {
+         .loading-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr))
+         }
+      }
+
+      @media(min-width:1280px) {
+         .loading-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr))
+         }
+      }
    </style>
    <a class="skip" href="#main">До змісту</a><svg width="0" height="0" style="position:absolute" aria-hidden="true"
       focusable="false">
@@ -2225,6 +2343,103 @@
                      </div>
                   </div>
                   <div class="grid grid--cards" id="grid">
+                     <!-- Skeleton loading cards -->
+                     <div class="gi skeleton-card" id="skeleton-1">
+                        <div class="skeleton">
+                           <div class="skeleton__media"></div>
+                           <div class="skeleton__title"></div>
+                           <div class="skeleton__title skeleton__title--short"></div>
+                           <div class="skeleton__meta"></div>
+                           <div class="skeleton__foot">
+                              <div class="skeleton__price"></div>
+                              <div class="skeleton__btn"></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="gi skeleton-card" id="skeleton-2">
+                        <div class="skeleton">
+                           <div class="skeleton__media"></div>
+                           <div class="skeleton__title"></div>
+                           <div class="skeleton__title skeleton__title--short"></div>
+                           <div class="skeleton__meta"></div>
+                           <div class="skeleton__foot">
+                              <div class="skeleton__price"></div>
+                              <div class="skeleton__btn"></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="gi skeleton-card" id="skeleton-3">
+                        <div class="skeleton">
+                           <div class="skeleton__media"></div>
+                           <div class="skeleton__title"></div>
+                           <div class="skeleton__title skeleton__title--short"></div>
+                           <div class="skeleton__meta"></div>
+                           <div class="skeleton__foot">
+                              <div class="skeleton__price"></div>
+                              <div class="skeleton__btn"></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="gi skeleton-card" id="skeleton-4">
+                        <div class="skeleton">
+                           <div class="skeleton__media"></div>
+                           <div class="skeleton__title"></div>
+                           <div class="skeleton__title skeleton__title--short"></div>
+                           <div class="skeleton__meta"></div>
+                           <div class="skeleton__foot">
+                              <div class="skeleton__price"></div>
+                              <div class="skeleton__btn"></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="gi skeleton-card" id="skeleton-5">
+                        <div class="skeleton">
+                           <div class="skeleton__media"></div>
+                           <div class="skeleton__title"></div>
+                           <div class="skeleton__title skeleton__title--short"></div>
+                           <div class="skeleton__meta"></div>
+                           <div class="skeleton__foot">
+                              <div class="skeleton__price"></div>
+                              <div class="skeleton__btn"></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="gi skeleton-card" id="skeleton-6">
+                        <div class="skeleton">
+                           <div class="skeleton__media"></div>
+                           <div class="skeleton__title"></div>
+                           <div class="skeleton__title skeleton__title--short"></div>
+                           <div class="skeleton__meta"></div>
+                           <div class="skeleton__foot">
+                              <div class="skeleton__price"></div>
+                              <div class="skeleton__btn"></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="gi skeleton-card" id="skeleton-7">
+                        <div class="skeleton">
+                           <div class="skeleton__media"></div>
+                           <div class="skeleton__title"></div>
+                           <div class="skeleton__title skeleton__title--short"></div>
+                           <div class="skeleton__meta"></div>
+                           <div class="skeleton__foot">
+                              <div class="skeleton__price"></div>
+                              <div class="skeleton__btn"></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="gi skeleton-card" id="skeleton-8">
+                        <div class="skeleton">
+                           <div class="skeleton__media"></div>
+                           <div class="skeleton__title"></div>
+                           <div class="skeleton__title skeleton__title--short"></div>
+                           <div class="skeleton__meta"></div>
+                           <div class="skeleton__foot">
+                              <div class="skeleton__price"></div>
+                              <div class="skeleton__btn"></div>
+                           </div>
+                        </div>
+                     </div>
                      <div class="gi" data-pop="0">
                         <div class="pcard-wrap" style="height:100%">
                            <article class="pcard" data-heat="3" data-price="59" data-w="110" data-stock="1"
@@ -2899,7 +3114,7 @@
 
 
       (function () {
-         var grid = document.getElementById('grid'), items = [].slice.call(grid.querySelectorAll('.gi')), st = { heat: [], min: 0, max: 1e9, stock: false, w: [] };
+         var grid = document.getElementById('grid'), items = [].slice.call(grid.querySelectorAll('.gi:not(.skeleton-card)')), st = { heat: [], min: 0, max: 1e9, stock: false, w: [] };
          var shown = document.querySelector('[data-count-shown]'), more = document.querySelector('[data-more]');
          function apply() {
             var n = 0, exp = !more.hidden ? false : true;
@@ -2952,7 +3167,7 @@
       const firebaseConfig = { apiKey: 'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw', authDomain: 'my-magazin-81c96.firebaseapp.com', projectId: 'my-magazin-81c96', storageBucket: 'my-magazin-81c96.firebasestorage.app', messagingSenderId: '129061757346', appId: '1:129061757346:web:3e7bc5838cc5f7bda992fb' };
       const app = initializeApp(firebaseConfig), db = getFirestore(app), grid = document.getElementById('grid');
       const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-      function card(p, id) { const name = p.name || p.title || 'Товар', price = Number(p.price || 0), heat = Math.min(5, Math.max(1, Number(p.heat || p.spicy || 1))), weight = Number(p.weight || p.w || 0), image = p.image || p.imageUrl || p.photo || '', sku = ['article', 'articul', 'sku', 'vendorCode', 'productCode', 'code'].map(k => p[k]).find(v => v !== undefined && v !== null && String(v).trim()) || ''; return `<div class="gi"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="${heat}" data-price="${price}" data-w="${weight}" data-stock="${p.stock === false || p.inStock === false ? 0 : 1}" data-id="${esc(id)}" data-sku="${esc(sku)}"><div class="pcard__media">${image ? `<div class="ph" role="img" aria-label="${esc(name)}"><img src="${esc(image)}" alt="${esc(name)}" loading="lazy"></div>` : ''}${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}</div><h3 class="pcard__title"><a href="product.html?id=${encodeURIComponent(id)}">${esc(name)}</a></h3><p class="muted">${esc(p.description || '')}</p><div class="pcard__meta"><span class="heat" aria-label="Гострота ${heat} з 5"><span class="heat__peppers" aria-hidden="true">${'🌶️'.repeat(heat)}</span><span>${heat}/5</span></span><span>${weight ? weight + ' г' : ''}</span></div><div class="pcard__foot"><span class="price">${price} <small>грн</small></span><button class="btn btn--ink btn--sm" type="button" data-add data-id="${esc(id)}" data-name="${esc(name)}" data-price="${price}" data-image="${esc(image)}" data-sku="${esc(sku)}"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2.5l2 11h10.5l2-8H6.5"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg><svg class="ic ic--ok" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span class="t">В кошик</span></button></div></article></div></div>` }
+      function card(p, id) { const name = p.name || p.title || 'Товар', price = Number(p.price || 0), heat = Math.min(5, Math.max(1, Number(p.heat || p.spicy || 1))), weight = Number(p.weight || p.w || 0), image = p.image || p.imageUrl || p.photo || '', sku = ['article', 'articul', 'sku', 'vendorCode', 'productCode', 'code'].map(k => p[k]).find(v => v !== undefined && v !== null && String(v).trim()) || ''; return `<div class="gi"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="${heat}" data-price="${price}" data-w="${weight}" data-stock="${p.stock === false || p.inStock === false ? 0 : 1}" data-id="${esc(id)}" data-sku="${esc(sku)}"><div class="pcard__media">${image ? `<div class="ph" role="img" aria-label="${esc(name)}"><img src="${esc(image)}" alt="${esc(name)}" loading="lazy"></div>` : `<div class="ph" role="img" aria-label="${esc(name)}"><img src="image/image-svgrepo-com.svg" alt="" loading="lazy"></div>`}${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}</div><h3 class="pcard__title"><a href="product.html?id=${encodeURIComponent(id)}">${esc(name)}</a></h3><p class="muted">${esc(p.description || '')}</p><div class="pcard__meta"><span class="heat" aria-label="Гострота ${heat} з 5"><span class="heat__peppers" aria-hidden="true">${'🌶️'.repeat(heat)}</span><span>${heat}/5</span></span><span>${weight ? weight + ' г' : ''}</span></div><div class="pcard__foot"><span class="price">${price} <small>грн</small></span><button class="btn btn--ink btn--sm" type="button" data-add data-id="${esc(id)}" data-name="${esc(name)}" data-price="${price}" data-image="${esc(image || 'image/image-svgrepo-com.svg')}" data-sku="${esc(sku)}"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2.5l2 11h10.5l2-8H6.5"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg><svg class="ic ic--ok" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span class="t">В кошик</span></button></div></article></div></div>` }
       try {
          const snap = await getDocs(collection(db, 'products'));
          let docs = snap.docs;
@@ -2967,6 +3182,8 @@
                if (cd) { const c = cd.data(), cn = c.name || c.title || cd.id; const h1 = document.querySelector('h1'); if (h1) h1.textContent = cn; const crumb = document.querySelector('.crumbs li[aria-current]'); if (crumb) crumb.textContent = cn; document.title = cn + ' — Гостро'; }
             } catch (ce) { console.warn('Category filter unavailable:', ce); }
          }
+         // Remove skeleton cards first
+         grid.querySelectorAll('.skeleton-card').forEach(el => el.remove());
          if (docs.length) { grid.innerHTML = docs.map(d => card(d.data(), d.id)).join(''); document.querySelector('[data-count-shown]')?.replaceChildren(String(docs.length)); grid.querySelectorAll('[data-add]').forEach(b => b.onclick = () => { window.LatiaoCart?.add({ id: b.dataset.id, name: b.dataset.name, price: Number(b.dataset.price), image: b.dataset.image, sku: b.dataset.sku }); b.classList.add('is-added'); clearTimeout(b.__t); b.__t = setTimeout(() => b.classList.remove('is-added'), 1600); window.__say?.('Додано в кошик'); }); }
          else { grid.innerHTML = '<div class="empty" style="grid-column:1/-1;padding:32px 8px;color:#999">У цій категорії товарів ще немає</div>'; document.querySelector('[data-count-shown]')?.replaceChildren('0'); }
       }

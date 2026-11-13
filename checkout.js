@@ -289,7 +289,7 @@
     cartBox.innerHTML = items.map(function (i) {
       var st = cart.stockFor(i);
       var maxed = st !== null && st !== undefined && i.qty >= st;
-      var ph = i.image ? '<img src="' + esc(i.image) + '" alt="">' : icon('i-box');
+      var ph = i.image ? '<img src="' + esc(i.image) + '" alt="">' : '<img src="image/image-svgrepo-com.svg" alt="">';
        var maxNote = maxed ? '<span class="ci__limit-sep" aria-hidden="true">·</span><span class="ci__max">макс. ' + st + ' шт</span>' : '';
       return '<article class="ci">'
         + '<div class="ci__img">' + ph + '</div>'
@@ -515,7 +515,7 @@
     $('#confirm-items').innerHTML = cart.items().map(function (i) {
       var photo = i.image
         ? '<img src="' + esc(i.image) + '" alt="' + esc(i.name) + '">'
-        : '<span class="confirm-item__placeholder">' + icon('i-box') + '</span>';
+        : '<img src="image/image-svgrepo-com.svg" alt="" class="confirm-item__placeholder">';
       return '<div class="confirm-item">'
         + photo
         + '<div class="confirm-item__description"><strong>' + esc(i.name) + '</strong><small>Артикул: ' + esc(i.sku || '—') + '</small></div>'

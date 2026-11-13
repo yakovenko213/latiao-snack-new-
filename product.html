@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 
 <head>
@@ -806,7 +806,19 @@
     }
 
     .pcard .btn {
-      padding-inline: 16px
+      padding-inline: 14px;
+      white-space: nowrap;
+      gap: 6px;
+      font-size: .875rem
+    }
+
+    .pcard .btn .t {
+      white-space: nowrap
+    }
+
+    .pcard .btn .icon {
+      width: 18px;
+      height: 18px
     }
 
     /* Сітка */
@@ -1074,6 +1086,96 @@
       background: var(--color-ink)
     }
 
+    /* Недоступний варіант фасування — діагональне закреслення */
+    .chip.is-off {
+      position: relative;
+      opacity: .5;
+      pointer-events: none
+    }
+
+    .chip.is-off::after {
+      content: "";
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: 50%;
+      height: 2.5px;
+      background: currentColor;
+      transform: translateY(-50%) rotate(-14deg);
+      border-radius: 2px;
+      pointer-events: none
+    }
+
+    /* Бейдж знижки на варіанті фасування */
+    .chip-disc {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border-radius: var(--radius-pill);
+      background: var(--color-accent);
+      color: var(--color-ink);
+      font-size: .72em;
+      line-height: 1.5;
+      vertical-align: 1px
+    }
+
+    /* Ціна + економія всередині кнопки-пілюлі */
+    .chip {
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      text-align: center
+    }
+
+    .chip-price {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 6px;
+      white-space: nowrap
+    }
+
+    /* Діагональне закреслення старої ціни */
+    .chip-old {
+      position: relative;
+      display: inline-block;
+      opacity: .75
+    }
+
+    .chip-old::after {
+      content: "";
+      position: absolute;
+      left: -2px;
+      right: -2px;
+      top: 50%;
+      height: 2px;
+      background: currentColor;
+      transform: translateY(-50%) rotate(-12deg);
+      transform-origin: center;
+      border-radius: 1px;
+      pointer-events: none
+    }
+
+    .chip-save {
+      font-size: .72em;
+      font-weight: 400;
+      opacity: .8;
+      white-space: nowrap
+    }
+
+    /* Знижка біля ціни */
+    .pdiscount {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--color-accent);
+      color: var(--color-ink);
+      font-family: var(--font-head);
+      font-weight: var(--fw-head);
+      font-size: .75rem;
+      white-space: nowrap
+    }
+
     .qty {
       display: inline-flex;
       align-items: center;
@@ -1095,9 +1197,16 @@
       justify-content: center
     }
 
-    .qty button:hover {
+    .qty button:hover:not([disabled]) {
       background: var(--color-ink);
       color: var(--color-cream)
+    }
+
+    /* Ліміт залишку: «+» сірий і неактивний */
+    .qty button[disabled] {
+      color: var(--color-muted, #999);
+      opacity: .5;
+      cursor: not-allowed
     }
 
     .qty output {
@@ -1987,6 +2096,52 @@
       border-width: 2px
     }
 
+    /* Лайтбокс: перегляд фото з зумом та свайпами */
+    .gal__main img {
+      cursor: zoom-in
+    }
+
+    .lb {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, .92)
+    }
+
+    .lb.is-open {
+      display: flex
+    }
+
+    .lb img {
+      max-width: 100%;
+      max-height: 100%;
+      transition: transform .2s var(--ease);
+      will-change: transform;
+      touch-action: none
+    }
+
+    .lb.is-zoom img {
+      cursor: zoom-out
+    }
+
+    .lb__x {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: var(--radius-circle);
+      background: var(--color-ink);
+      color: var(--color-cream);
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer
+    }
+
     .heatbox {
       display: flex;
       flex-direction: column;
@@ -1997,7 +2152,8 @@
     .priceline {
       display: flex;
       align-items: baseline;
-      gap: 12px
+      flex-wrap: wrap;
+      gap: 8px 12px
     }
 
     .buy {
@@ -2053,6 +2209,143 @@
 
     .tabs .chip {
       white-space: nowrap
+    }
+
+    /* Плашка «Обмежені залишки» — стримана, адаптивна */
+    .stock-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      max-width: 100%;
+      padding: 8px 14px;
+      border-radius: var(--radius-tile);
+      background: rgba(255, 106, 26, .12);
+      font-size: var(--fs-small);
+      font-weight: var(--fw-semibold);
+      color: var(--color-ink);
+      line-height: 1.3
+    }
+
+    .stock-badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-circle);
+      background: var(--color-accent);
+      flex: none
+    }
+
+    .stock-badge b {
+      white-space: nowrap
+    }
+
+    /* Пояснення до вибору фасування */
+    .varsum {
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 6px;
+      align-items: center;
+      font-size: var(--fs-small);
+      font-weight: var(--fw-regular);
+      color: var(--color-ink)
+    }
+
+    .varsum b {
+      font-family: var(--font-head);
+      font-weight: var(--fw-head)
+    }
+
+    .varsum .sep {
+      opacity: .4
+    }
+
+    /* Кількість штук у варіанті фасування */
+    .chip-qty {
+      font-size: .78em;
+      font-weight: var(--fw-medium);
+      opacity: .75;
+      white-space: nowrap
+    }
+
+    /* Варіанти фасування — картки замість пілюль */
+    #vars {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px
+    }
+
+    #vars .chip {
+      flex: 1 1 0;
+      min-width: 0;
+      min-height: var(--tap-min);
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      text-align: left;
+      gap: 4px;
+      padding: 12px 14px;
+      border: 2px solid var(--color-ink);
+      border-radius: var(--radius-card);
+      background: transparent
+    }
+
+    #vars .chip-qty {
+      order: -1;
+      font-family: var(--font-head);
+      font-weight: var(--fw-head);
+      font-size: 1rem;
+      opacity: 1
+    }
+
+    #vars .chip-price {
+      font-family: var(--font-head);
+      font-weight: var(--fw-head);
+      font-size: 1.05rem
+    }
+
+    #vars .chip-disc {
+      border-radius: 6px
+    }
+
+    #vars .chip-save {
+      font-size: clamp(.68rem, 2.6vw, .75rem);
+      font-weight: var(--fw-regular);
+      opacity: .75;
+      white-space: nowrap
+    }
+
+    #vars .chip[aria-checked="true"] {
+      background: var(--color-ink);
+      color: var(--color-cream)
+    }
+
+    #vars .chip[aria-checked="true"] .chip-disc {
+      background: var(--color-accent);
+      color: var(--color-ink)
+    }
+
+    #vars .chip[aria-disabled="true"] {
+      opacity: .5;
+      cursor: not-allowed;
+      pointer-events: none
+    }
+
+    /* Без закреслення — натомість текст «Немає в наявності» */
+    #vars .chip.is-off::after {
+      display: none
+    }
+
+    #vars .chip:focus-visible {
+      outline: 2px solid var(--color-ink);
+      outline-offset: 2px
+    }
+
+    @media(max-width:359px) {
+      #vars .chip {
+        flex: 1 1 100%
+      }
     }
   </style>
   <a class="skip" href="#main">До змісту</a><svg width="0" height="0" style="position:absolute" aria-hidden="true"
@@ -2272,13 +2565,23 @@
                 aria-label="Гострота 5 з 5"><span class="heat__peppers"
                   aria-hidden="true">🌶️🌶️🌶️🌶️🌶️</span><span>5/5 · Вогонь</span></span></div>
             <div class="priceline"><span class="price" style="font-size:2rem" id="pprice">79
-                <small>грн</small></span><span class="muted" id="pw">120 г</span></div>
+                <small>грн</small></span><span class="muted" id="pw">1 шт</span><span class="pdiscount" id="pdiscount"
+                hidden></span></div>
+            <p class="stock-badge" id="stockbadge" role="status" hidden><span>Залишки обмежені — <b
+                  id="stockbadge-n"></b> на складі</span></p>
             <div class="field"><span class="lbl" id="vl">Фасування</span>
               <div class="chips" role="radiogroup" aria-labelledby="vl" id="vars"><button class="chip" type="button"
-                  role="radio" aria-checked="true" data-price="79" data-w="120 г">120 г</button><button class="chip"
-                  type="button" role="radio" aria-checked="false" data-price="219" data-w="360 г">3 × 120
-                  г</button><button class="chip" type="button" role="radio" aria-checked="false" data-price="349"
-                  data-w="600 г">5 × 120 г</button></div>
+                  role="radio" aria-checked="false" data-price="79" data-w="1 шт" data-count="1" data-savings="0"
+                  data-disc="0"><span class="chip-price"><span class="chip-now">79 грн</span></span><span
+                  class="chip-qty">1 шт</span></button><button class="chip" type="button" role="radio"
+                  aria-checked="false" data-price="219" data-w="3 шт" data-count="3" data-savings="18"
+                  data-disc="8"><span class="chip-price"><span class="chip-now">219 грн</span><span
+                      class="chip-disc">−8%</span></span><span class="chip-qty">3 шт</span><span
+                    class="chip-save">Економія 18 ₴</span></button><button class="chip" type="button" role="radio"
+                  aria-checked="false" data-price="349" data-w="5 шт" data-count="5" data-savings="46"
+                  data-disc="12"><span class="chip-price"><span class="chip-now">349 грн</span><span
+                      class="chip-disc">−12%</span></span><span class="chip-qty">5 шт</span><span
+                    class="chip-save">Економія 46 ₴</span></button></div>
             </div>
             <div class="buy">
               <div class="qty" data-qty><button type="button" aria-label="Менше"><svg class="icon " aria-hidden="true"
@@ -2293,6 +2596,7 @@
                   <use href="#i-cart" />
                 </svg> В кошик</button>
             </div>
+            <p class="varsum" id="varsum" aria-live="polite"></p>
             <p class="hint"><span><svg class="icon " aria-hidden="true" focusable="false">
                   <use href="#i-truck" />
                 </svg></span> Безкоштовна доставка від 1 100 грн</p>
@@ -2344,20 +2648,18 @@
                 <article class="pcard" data-heat="3" data-price="59" data-w="110" data-stock="1" data-cat="noodles"
                   data-id="1">
                   <div class="pcard__media">
-                    <div class="ph " role="img" aria-label="Місце для фото товару">
-                      <div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true">
-                          <path class="f" d="M18 52h64a32 32 0 0 1-64 0z" />
-                          <path d="M36 42c0-8 8-8 8-16M52 42c0-8 8-8 8-16M68 42c0-8 8-8 8-16" />
-                        </svg></div>
-                    </div><span class="badge ">Хіт</span>
+                    <div class="ph" role="img" aria-label="Локшина «Гострий яловичий бульйон»"><img
+                        src="image/image-svgrepo-com.svg" alt="Локшина «Гострий яловичий бульйон»" loading="lazy"></div>
+                    <span class="badge">Хіт</span>
                   </div>
-                  <h3 class="pcard__title"><a href="product.html">Локшина «Гострий яловичий бульйон»</a></h3>
-                  <div class="pcard__meta"><span class="heat " role="img" aria-label="Гострота 3 з 5"><span
-                        class="heat__dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i
-                          class=""></i><i class=""></i></span><span>3/5</span></span><span>110 г</span></div>
+                  <h3 class="pcard__title"><a href="product.html?id=1">Локшина «Гострий яловичий бульйон»</a></h3>
+                  <div class="pcard__meta"><span class="heat" role="img" aria-label="Гострота 3 з 5"><span
+                        class="heat__peppers" aria-hidden="true">🌶️🌶️🌶️</span><span>3/5</span></span></div>
                   <div class="pcard__foot"><span class="price">59 <small>грн</small></span><button
-                      class="btn btn--ink btn--sm" type="button" data-add
-                      aria-label="В кошик: Локшина «Гострий яловичий бульйон»"><svg class="icon " aria-hidden="true"
+                      class="btn btn--ink btn--sm" type="button" data-add data-id="1"
+                      data-name="Локшина «Гострий яловичий бульйон»" data-price="59" data-w="110"
+                      data-image="image/image-svgrepo-com.svg"
+                      aria-label="В кошик: Локшина «Гострий яловичий бульйон»"><svg class="icon" aria-hidden="true"
                         focusable="false">
                         <use href="#i-cart" />
                       </svg><span class="t">В кошик</span></button></div>
@@ -2369,22 +2671,17 @@
                 <article class="pcard" data-heat="4" data-price="75" data-w="60" data-stock="1" data-cat="chips"
                   data-id="4">
                   <div class="pcard__media">
-                    <div class="ph " role="img" aria-label="Місце для фото товару">
-                      <div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true">
-                          <path class="f" d="M50 18L84 78H16z" />
-                          <circle cx="50" cy="56" r="2" />
-                          <circle cx="40" cy="68" r="2" />
-                          <circle cx="60" cy="68" r="2" />
-                        </svg></div>
-                    </div>
+                    <div class="ph" role="img" aria-label="Чипси з лотоса «Сичуанський перець»"><img
+                        src="image/image-svgrepo-com.svg" alt="Чипси з лотоса «Сичуанський перець»" loading="lazy"></div>
                   </div>
-                  <h3 class="pcard__title"><a href="product.html">Чипси з лотоса «Сичуанський перець»</a></h3>
-                  <div class="pcard__meta"><span class="heat " role="img" aria-label="Гострота 4 з 5"><span
-                        class="heat__dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i
-                          class="on"></i><i class=""></i></span><span>4/5</span></span><span>60 г</span></div>
+                  <h3 class="pcard__title"><a href="product.html?id=4">Чипси з лотоса «Сичуанський перець»</a></h3>
+                  <div class="pcard__meta"><span class="heat" role="img" aria-label="Гострота 4 з 5"><span
+                        class="heat__peppers" aria-hidden="true">🌶️🌶️🌶️🌶️</span><span>4/5</span></span></div>
                   <div class="pcard__foot"><span class="price">75 <small>грн</small></span><button
-                      class="btn btn--ink btn--sm" type="button" data-add
-                      aria-label="В кошик: Чипси з лотоса «Сичуанський перець»"><svg class="icon " aria-hidden="true"
+                      class="btn btn--ink btn--sm" type="button" data-add data-id="4"
+                      data-name="Чипси з лотоса «Сичуанський перець»" data-price="75" data-w="60"
+                      data-image="image/image-svgrepo-com.svg"
+                      aria-label="В кошик: Чипси з лотоса «Сичуанський перець»"><svg class="icon" aria-hidden="true"
                         focusable="false">
                         <use href="#i-cart" />
                       </svg><span class="t">В кошик</span></button></div>
@@ -2396,20 +2693,18 @@
                 <article class="pcard" data-heat="4" data-price="129" data-w="50" data-stock="1" data-cat="meat"
                   data-id="6">
                   <div class="pcard__media">
-                    <div class="ph " role="img" aria-label="Місце для фото товару">
-                      <div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true">
-                          <path class="f" d="M22 62L62 22a11 11 0 0 1 16 16L38 78A11 11 0 0 1 22 62z" />
-                          <path d="M34 54l12 12" />
-                        </svg></div>
-                    </div><span class="badge ">Хіт</span>
+                    <div class="ph" role="img" aria-label="М'ясні смужки «Гостра яловичина»"><img
+                        src="image/image-svgrepo-com.svg" alt="М'ясні смужки «Гостра яловичина»" loading="lazy"></div>
+                    <span class="badge">Хіт</span>
                   </div>
-                  <h3 class="pcard__title"><a href="product.html">М'ясні смужки «Гостра яловичина»</a></h3>
-                  <div class="pcard__meta"><span class="heat " role="img" aria-label="Гострота 4 з 5"><span
-                        class="heat__dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i
-                          class="on"></i><i class=""></i></span><span>4/5</span></span><span>50 г</span></div>
+                  <h3 class="pcard__title"><a href="product.html?id=6">М'ясні смужки «Гостра яловичина»</a></h3>
+                  <div class="pcard__meta"><span class="heat" role="img" aria-label="Гострота 4 з 5"><span
+                        class="heat__peppers" aria-hidden="true">🌶️🌶️🌶️🌶️</span><span>4/5</span></span></div>
                   <div class="pcard__foot"><span class="price">129 <small>грн</small></span><button
-                      class="btn btn--ink btn--sm" type="button" data-add
-                      aria-label="В кошик: М'ясні смужки «Гостра яловичина»"><svg class="icon " aria-hidden="true"
+                      class="btn btn--ink btn--sm" type="button" data-add data-id="6"
+                      data-name="М'ясні смужки «Гостра яловичина»" data-price="129" data-w="50"
+                      data-image="image/image-svgrepo-com.svg"
+                      aria-label="В кошик: М'ясні смужки «Гостра яловичина»"><svg class="icon" aria-hidden="true"
                         focusable="false">
                         <use href="#i-cart" />
                       </svg><span class="t">В кошик</span></button></div>
@@ -2421,21 +2716,18 @@
                 <article class="pcard" data-heat="3" data-price="79" data-w="120" data-stock="1" data-cat="seeds"
                   data-id="10">
                   <div class="pcard__media">
-                    <div class="ph " role="img" aria-label="Місце для фото товару">
-                      <div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true">
-                          <path class="f" d="M50 16c14 16 20 26 20 38a20 20 0 0 1-40 0c0-12 6-22 20-38z" />
-                          <path d="M50 50v24" />
-                        </svg></div>
-                    </div><span class="badge ">Хіт</span>
+                    <div class="ph" role="img" aria-label="Арахіс з перцем хуаджяо"><img
+                        src="image/image-svgrepo-com.svg" alt="Арахіс з перцем хуаджяо" loading="lazy"></div>
+                    <span class="badge">Хіт</span>
                   </div>
-                  <h3 class="pcard__title"><a href="product.html">Арахіс з перцем хуаджяо</a></h3>
-                  <div class="pcard__meta"><span class="heat " role="img" aria-label="Гострота 3 з 5"><span
-                        class="heat__dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i
-                          class=""></i><i class=""></i></span><span>3/5</span></span><span>120 г</span></div>
+                  <h3 class="pcard__title"><a href="product.html?id=10">Арахіс з перцем хуаджяо</a></h3>
+                  <div class="pcard__meta"><span class="heat" role="img" aria-label="Гострота 3 з 5"><span
+                        class="heat__peppers" aria-hidden="true">🌶️🌶️🌶️</span><span>3/5</span></span></div>
                   <div class="pcard__foot"><span class="price">79 <small>грн</small></span><button
-                      class="btn btn--ink btn--sm" type="button" data-add
-                      aria-label="В кошик: Арахіс з перцем хуаджяо"><svg class="icon " aria-hidden="true"
-                        focusable="false">
+                      class="btn btn--ink btn--sm" type="button" data-add data-id="10"
+                      data-name="Арахіс з перцем хуаджяо" data-price="79" data-w="120"
+                      data-image="image/image-svgrepo-com.svg" aria-label="В кошик: Арахіс з перцем хуаджяо"><svg
+                        class="icon" aria-hidden="true" focusable="false">
                         <use href="#i-cart" />
                       </svg><span class="t">В кошик</span></button></div>
                 </article>
@@ -2568,15 +2860,90 @@
         var max = 99;
         function cap() {
           var id = new URLSearchParams(location.search).get('id'); var sku = (document.getElementById('partic-v') || {}).textContent || '';
-          if (window.LatiaoCart && window.LatiaoCart.stockFor) { var s = window.LatiaoCart.stockFor({ id: id, sku: sku.trim() }); if (s !== null && s !== undefined) max = Math.max(1, s) }
+          if (window.LatiaoCart && window.LatiaoCart.stockFor) { var s = window.LatiaoCart.stockFor({ id: id, sku: sku.trim() }); if (s !== null && s !== undefined) {
+            /* Врахувати кількість штук у вибраному фасуванні: qty × count ≤ залишок */
+            var sel = document.querySelector('#vars .chip[aria-checked="true"]:not([aria-disabled="true"])');
+            var cnt = sel ? Math.max(1, parseInt(sel.dataset.count || '1', 10)) : 1;
+            max = Math.max(1, Math.floor(s / cnt));
+          } }
         }
-        function clamp() { cap(); var v = Math.min(max, Math.max(1, +o.textContent || 1)); if (v !== +o.textContent) { o.textContent = v; window.__say?.('В наявності лише ' + max + ' шт') } }
+        function sync() { b[1].disabled = (+o.textContent) >= max; b[0].disabled = (+o.textContent) <= 1 }
+        function clamp() { cap(); var v = Math.min(max, Math.max(1, +o.textContent || 1)); if (v !== +o.textContent) { o.textContent = v; window.__say?.('В наявності лише ' + max + ' шт') } sync(); updateSummary() }
+        /* Пояснення: що обрано, скільки пачок і ціна за штуку */
+        function updateSummary() {
+          var el = document.getElementById('varsum');
+          if (!el) return;
+          var qty = +o.textContent || 1;
+          var sel = document.querySelector('#vars .chip[aria-checked="true"]:not([aria-disabled="true"])');
+          var cnt = sel ? Math.max(1, parseInt(sel.dataset.count || '1', 10)) : 1;
+          var unitPrice = sel ? +sel.dataset.price : (parseFloat((document.querySelector('#pprice').textContent || '').replace(/[^\d.,]/g, '').replace(',', '.')) || 0);
+          var totalPacks = qty * cnt;
+          var total = unitPrice * qty;
+          var per = totalPacks > 0 ? total / totalPacks : 0;
+          var packWord = totalPacks === 1 ? 'пачка' : (totalPacks < 5 ? 'пачки' : 'пачок');
+          var setName = sel ? (sel.querySelector('.chip-qty') ? sel.querySelector('.chip-qty').textContent : '1 шт') : '1 шт';
+          var parts = [];
+          if (cnt > 1) parts.push('<span>' + qty + ' × ' + setName + '</span><span class="sep">=</span><b>' + totalPacks + ' ' + packWord + '</b>');
+          else parts.push('<b>' + totalPacks + ' ' + packWord + '</b>');
+          parts.push('<span class="sep">·</span><span>Разом: <b>' + Math.round(total) + ' грн</b></span>');
+          if (totalPacks > 1 && per > 0) parts.push('<span class="sep">·</span><span>' + (Math.round(per * 100) / 100).toString().replace('.', ',') + ' грн/шт</span>');
+          el.innerHTML = parts.join(' ');
+        }
+        window.__updateSummary = updateSummary;
+        updateSummary();
         clamp();
         /* Перерахувати ліміт, коли залишки підтягнуться з Firestore */
         if (window.LatiaoCart && window.LatiaoCart.fetchStocks) window.LatiaoCart.fetchStocks().then(clamp);
-        b[0].addEventListener('click', function () { var v = Math.max(1, (+o.textContent) - 1); o.textContent = v; q.dispatchEvent(new CustomEvent('qty', { bubbles: true })) });
-        b[1].addEventListener('click', function () { clamp(); if ((+o.textContent) >= max) { window.__say?.('В наявності лише ' + max + ' шт'); return } o.textContent = (+o.textContent) + 1; q.dispatchEvent(new CustomEvent('qty', { bubbles: true })) })
+        b[0].addEventListener('click', function () { var v = Math.max(1, (+o.textContent) - 1); o.textContent = v; sync(); q.dispatchEvent(new CustomEvent('qty', { bubbles: true })) });
+        b[1].addEventListener('click', function () { clamp(); if ((+o.textContent) >= max) { window.__say?.('В наявності лише ' + max + ' шт'); return } o.textContent = (+o.textContent) + 1; sync(); q.dispatchEvent(new CustomEvent('qty', { bubbles: true })) })
+        /* Глобальний ре-синк: викликається після завантаження залишків/зміни фасування */
+        window.__syncQty = function () { clamp() };
+        /* Перерахувати ліміт при зміні фасування */
+        var varsEl = document.getElementById('vars');
+        if (varsEl) varsEl.addEventListener('click', function () { setTimeout(clamp, 0) });
+        if (varsEl) varsEl.addEventListener('click', function () { setTimeout(updateSummary, 0) });
       });
+      /* Закреслення недоступних фасувань за залишками (по штуках) */
+      function applyVarStock() {
+        var varsEl = document.getElementById('vars');
+        if (!varsEl) return;
+        var id = new URLSearchParams(location.search).get('id');
+        var sku = (document.getElementById('partic-v') || {}).textContent || '';
+        var stock = null;
+        if (window.LatiaoCart && window.LatiaoCart.stockFor) stock = window.LatiaoCart.stockFor({ id: id, sku: sku.trim() });
+        if (stock === null || stock === undefined) return;
+        /* Плашка «Обмежені залишки»: показувати при залишках 3 шт і менше */
+        var sb = document.getElementById('stockbadge');
+        if (sb) {
+          if (stock > 0 && stock <= 3) {
+            var n = document.getElementById('stockbadge-n');
+            if (n) n.textContent = 'лише ' + stock + ' шт';
+            sb.hidden = false;
+          } else sb.hidden = true;
+        }
+        var firstAvail = null;
+        varsEl.querySelectorAll('.chip').forEach(function (b) {
+          var count = parseInt(b.dataset.count || '1', 10);
+          var off = stock < count;
+          b.classList.toggle('is-off', off);
+          b.setAttribute('aria-disabled', String(off));
+          /* Нижній рядок: «Економія N ₴» або «Немає в наявності» */
+          var save = b.querySelector('.chip-save');
+          if (!save) { save = document.createElement('span'); save.className = 'chip-save'; b.appendChild(save) }
+          if (b.dataset.saveOrig === undefined) b.dataset.saveOrig = save.textContent || '';
+          save.textContent = off ? 'Немає в наявності' : b.dataset.saveOrig;
+          if (!off && !firstAvail) firstAvail = b;
+        });
+        var cur = varsEl.querySelector('.chip[aria-checked="true"]');
+        if (cur && cur.classList.contains('is-off') && firstAvail) firstAvail.click();
+        if (window.__syncQty) window.__syncQty();
+      }
+      window.__applyVarStock = applyVarStock;
+      function initVarStock() {
+        applyVarStock();
+        if (window.LatiaoCart && window.LatiaoCart.fetchStocks) window.LatiaoCart.fetchStocks().then(applyVarStock);
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initVarStock); else initVarStock();
       /* Вкладки */
       $$('[data-tabs]').forEach(function (t) {
         var tabs = $$('[role=tab]', t), panels = tabs.map(function (x) { return document.getElementById(x.getAttribute('aria-controls')) });
@@ -2591,15 +2958,88 @@
 
 
     (function () {
-      var pp = document.getElementById('pprice'), sp = document.getElementById('sprice'), pw = document.getElementById('pw');
+      var pp = document.getElementById('pprice'), sp = document.getElementById('sprice'), pw = document.getElementById('pw'), pd = document.getElementById('pdiscount');
+      var base = { h: pp.innerHTML, w: pw.textContent || '' };
       document.querySelectorAll('#vars .chip').forEach(function (b) {
         b.addEventListener('click', function () {
-          document.querySelectorAll('#vars .chip').forEach(function (x) { x.setAttribute('aria-checked', String(x === b)) });
-          var h = b.dataset.price + ' <small>грн</small>'; pp.innerHTML = h; sp.innerHTML = h; pw.textContent = b.dataset.w
+          if (b.classList.contains('is-off')) return;
+          var wasChecked = b.getAttribute('aria-checked') === 'true';
+          document.querySelectorAll('#vars .chip').forEach(function (x) { x.setAttribute('aria-checked', 'false') });
+          if (wasChecked) { /* повторний клік — скасувати вибір, повернути базову ціну */
+            var bh = (window.__varBase && window.__varBase.h) || base.h;
+            pp.innerHTML = bh; if (sp) sp.innerHTML = bh; pw.textContent = (window.__varBase && window.__varBase.w) || base.w;
+            if (pd) pd.hidden = true;
+            return;
+          }
+          b.setAttribute('aria-checked', 'true');
+          var h = b.dataset.price + ' <small>грн</small>'; pp.innerHTML = h; if (sp) sp.innerHTML = h; pw.textContent = b.dataset.w;
+          if (pd) { var s = +b.dataset.savings || 0, pc = +b.dataset.disc || 0; if (s > 0) { pd.textContent = '−' + s + ' грн (−' + pc + '%)'; pd.hidden = false } else pd.hidden = true }
         })
       });
       var th = document.querySelectorAll('.thumb'), m = document.querySelector('#gmain .ph__disc svg');
       th.forEach(function (t) { t.addEventListener('click', function () { th.forEach(function (x) { x.setAttribute('aria-pressed', String(x === t)) }); m.innerHTML = t.querySelector('svg').innerHTML }) })
+    })();
+  </script>
+  <script>
+    /* Галерея: лайтбокс із зумом, свайпами та автопрокруткою кожні 25 с */
+    (function () {
+      var lb = document.createElement('div');
+      lb.className = 'lb';
+      lb.innerHTML = '<button class="lb__x" type="button" aria-label="Закрити">✕</button><img alt="">';
+      document.body.appendChild(lb);
+      var img = lb.querySelector('img');
+      var idx = 0, zoom = false, tx = 0, ty = 0, sx = 0, sy = 0, moved = false;
+      function photos() {
+        if (window.__galPhotos && window.__galPhotos.length) return window.__galPhotos;
+        var im = document.querySelector('#gmain img');
+        return im && im.src ? [im.src] : [];
+      }
+      function apply() { img.style.transform = zoom ? 'translate(' + tx + 'px,' + ty + 'px) scale(2.5)' : '' }
+      function resetZoom() { zoom = false; tx = 0; ty = 0; lb.classList.remove('is-zoom'); apply() }
+      function show(i) {
+        var ph = photos(); if (!ph.length) return;
+        idx = (i + ph.length) % ph.length;
+        img.src = ph[idx];
+        var m = document.querySelector('#gmain img'); if (m) m.src = ph[idx];
+        window.__galIdx = idx;
+        document.querySelectorAll('.thumb[data-i]').forEach(function (t) { t.setAttribute('aria-pressed', String(+t.dataset.i === idx)) });
+        resetZoom(); bump();
+      }
+      window.__galShow = show;
+      function bump() { if (window.__galTimer) clearInterval(window.__galTimer); window.__galTimer = setInterval(function () { show(idx + 1) }, 25000) }
+      function open(i) { lb.classList.add('is-open'); show(i || window.__galIdx || 0) }
+      function close() { lb.classList.remove('is-open'); resetZoom() }
+      document.querySelector('#gmain').addEventListener('click', function (e) {
+        if (!e.target.closest('img')) return;
+        open(window.__galIdx || 0);
+      });
+      lb.querySelector('.lb__x').addEventListener('click', close);
+      lb.addEventListener('click', function (e) { if (e.target === lb) close() });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close() });
+      /* Свайпи та зум */
+      lb.addEventListener('touchstart', function (e) {
+        var t = e.touches[0]; sx = t.clientX; sy = t.clientY; moved = false; bump();
+      }, { passive: true });
+      lb.addEventListener('touchmove', function (e) {
+        var t = e.touches[0]; var dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 8 || Math.abs(dy) > 8) moved = true;
+        if (zoom) { tx += dx; ty += dy; sx = t.clientX; sy = t.clientY; apply() }
+      }, { passive: true });
+      lb.addEventListener('touchend', function (e) {
+        var t = e.changedTouches[0]; var dx = t.clientX - sx;
+        if (zoom) { if (!moved) { zoom = false; apply() } return }
+        if (moved && Math.abs(dx) > 40) { show(idx + (dx < 0 ? 1 : -1)) }
+        else if (!moved) {
+          zoom = true; lb.classList.add('is-zoom');
+          var r = img.getBoundingClientRect();
+          tx = (r.left + r.width / 2 - t.clientX) * 1.5; ty = (r.top + r.height / 2 - t.clientY) * 1.5; apply();
+        }
+      });
+      lb.addEventListener('click', function (e) {
+        if (e.target !== img) return;
+        if (!('ontouchstart' in window)) { zoom = !zoom; if (!zoom) resetZoom(); else { lb.classList.add('is-zoom'); var r = img.getBoundingClientRect(); tx = (r.left + r.width / 2 - e.clientX) * 1.5; ty = (r.top + r.height / 2 - e.clientY) * 1.5; apply() } }
+      });
+      bump();
     })();
   </script>
   <script type="module">
@@ -2615,7 +3055,7 @@
           document.querySelector('#pprice').innerHTML = `${Number(p.price || 0)} <small>грн</small>`;
           const spEl = document.querySelector('#sprice'); if (spEl) spEl.innerHTML = document.querySelector('#pprice').innerHTML;
           document.querySelector('#pw').textContent = p.weight ? `${p.weight} г` : '';
-          const dp = document.querySelector('#p1 p'); if (dp) dp.textContent = p.description || '';
+          const dp = document.querySelector('#p1 p'); if (dp) dp.textContent = p.description || 'Ой, опис загубився десь між упаковками латяо 🙈 Вже виправляємо — а товар точно смачний, беріть не сумнівайтеся!';
           document.querySelector('.crumbs li[aria-current]').textContent = name;
           /* Хлібні крихти: середній пункт — справжня категорія товару з Firestore */
           let catId = Array.isArray(p.categoryIds) ? (p.categoryIds.find(Boolean) || p.category || p.categoryId || p.cat) : (p.categoryIds || p.category || p.categoryId || p.cat);
@@ -2636,25 +3076,58 @@
           }
           const art = ['article', 'articul', 'sku', 'vendorCode', 'productCode', 'code'].map(k => p[k]).find(v => v !== undefined && v !== null && String(v).trim());
           if (art) { document.querySelector('#partic-v').textContent = String(art).trim(); document.querySelector('#partic').hidden = false; }
+          if (window.__syncQty) window.__syncQty();
           /* Варіанти фасування з Firestore */
           const varsEl = document.querySelector('#vars');
           if (varsEl && Array.isArray(p.variants)) {
             const enabled = p.variants.filter(v => v && v.enabled !== false && (v.label || v.weight || v.price != null));
             if (enabled.length) {
-              varsEl.innerHTML = enabled.map((v, i) => `<button class="chip" type="button" role="radio" aria-checked="${i === 0}" data-price="${Number(v.price ?? (p.price || 0))}" data-w="${v.weight ? `${v.weight} г` : (v.label || '')}">${v.label || (v.weight ? `${v.weight} г` : '')}</button>`).join('');
-              const setVar = b => { varsEl.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-checked', String(x === b))); const h = `${b.dataset.price} <small>грн</small>`; document.querySelector('#pprice').innerHTML = h; if (spEl) spEl.innerHTML = h; document.querySelector('#pw').textContent = b.dataset.w };
+              const basePrice = Number(p.price || 0);
+              varsEl.innerHTML = enabled.map((v, i) => {
+                const label = v.label || (v.weight ? `${v.weight} г` : '');
+                const cm = String(label).match(/(\d+)\s*[×xх*]/i);
+                const count = v.count ? Math.max(1, Number(v.count) || 1) : (cm ? parseInt(cm[1], 10) : 1);
+                const price = Number(v.price ?? basePrice);
+                const regular = basePrice * count;
+                const savings = regular > 0 && price < regular ? Math.round(regular - price) : 0;
+                const disc = savings > 0 ? Math.round(savings / regular * 100) : 0;
+                const badge = disc > 0 ? `<span class="chip-disc">−${disc}%</span>` : '';
+                const save = savings > 0 ? `<span class="chip-save">Економія ${savings} ₴</span>` : '';
+                const qty = count > 1 ? `<span class="chip-qty">${count} шт</span>` : '';
+                return `<button class="chip" type="button" role="radio" aria-checked="false" data-price="${price}" data-w="${label}" data-count="${count}" data-savings="${savings}" data-disc="${disc}"><span class="chip-price"><span class="chip-now">${price} грн</span>${badge}</span>${qty}${save}</button>`;
+              }).join('');
+              const baseH = `${basePrice} <small>грн</small>`, baseW = p.weight ? `${p.weight} г` : '';
+              window.__varBase = { h: baseH, w: baseW };
+              const setVar = b => {
+                if (b.classList.contains('is-off')) return;
+                const wasChecked = b.getAttribute('aria-checked') === 'true';
+                varsEl.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-checked', 'false'));
+                const d = document.querySelector('#pdiscount');
+                if (wasChecked) { /* повторний клік — скасувати вибір, повернути базову ціну */
+                  document.querySelector('#pprice').innerHTML = baseH; if (spEl) spEl.innerHTML = baseH; document.querySelector('#pw').textContent = baseW;
+                  if (d) d.hidden = true;
+                  return;
+                }
+                b.setAttribute('aria-checked', 'true');
+                const h = `${b.dataset.price} <small>грн</small>`; document.querySelector('#pprice').innerHTML = h; if (spEl) spEl.innerHTML = h; document.querySelector('#pw').textContent = b.dataset.w;
+                if (d) { const s = Number(b.dataset.savings || 0), pc = Number(b.dataset.disc || 0); if (s > 0) { d.textContent = `−${s} грн (−${pc}%)`; d.hidden = false } else d.hidden = true }
+              };
               varsEl.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => setVar(b)));
-              setVar(varsEl.querySelector('.chip'));
+              /* Ціна за замовчуванням — основна вартість товару; змінюється лише після вибору фасування */
+              /* Закреслити недоступні варіанти за залишками */
+              if (window.__applyVarStock) window.__applyVarStock();
+              if (window.LatiaoCart && window.LatiaoCart.fetchStocks) window.LatiaoCart.fetchStocks().then(() => { if (window.__applyVarStock) window.__applyVarStock(); });
             }
           }
           /* Галерея: усі фото товару — головне зображення + дублікати в мініатюрах */
           const photos = [...(Array.isArray(p.images) ? p.images : []), p.image, p.imageUrl, p.photo].filter(Boolean);
           const gmain = document.querySelector('#gmain'), gth = document.querySelector('.gal__th');
           if (photos.length && gmain) {
+            window.__galPhotos = photos; window.__galIdx = 0;
             gmain.innerHTML = `<div class="ph" role="img" aria-label="${name}"><img src="${photos[0]}" alt="${name}"></div>`;
             if (gth) {
               gth.innerHTML = photos.map((src, i) => `<button class="thumb" type="button" data-i="${i}" aria-label="Фото ${i + 1}" aria-pressed="${i === 0}"><div class="ph"><img src="${src}" alt=""></div></button>`).join('');
-              gth.addEventListener('click', e => { const b = e.target.closest('.thumb'); if (!b) return; gth.querySelectorAll('.thumb').forEach(x => x.setAttribute('aria-pressed', String(x === b))); const im = gmain.querySelector('img'); if (im) im.src = photos[+b.dataset.i]; });
+              gth.addEventListener('click', e => { const b = e.target.closest('.thumb'); if (!b) return; if (window.__galShow) window.__galShow(+b.dataset.i); });
             }
             /* Синхронізувати статичні мініатюри-плейсхолдери: прибрати ті, що без фото */
             gth && gth.querySelectorAll('.thumb:not([data-i])').forEach(x => x.remove());
