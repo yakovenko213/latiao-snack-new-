@@ -482,11 +482,61 @@
       gap: 8px
     }
 
+    .photo-item {
+      position: relative;
+      width: 72px
+    }
+
     .photos img {
       width: 72px;
       height: 72px;
       object-fit: cover;
-      border-radius: 6px
+      border-radius: 6px;
+      display: block
+    }
+
+    .photo-item .photo-num {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      display: grid;
+      place-items: center;
+      background: var(--orange);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    .photo-item .photo-controls {
+      display: flex;
+      justify-content: center;
+      gap: 3px;
+      margin-top: 3px
+    }
+
+    .photo-item .photo-controls button {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 4px;
+      padding: 1px 6px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      line-height: 1.4
+    }
+
+    .photo-item .photo-controls button:hover:not(:disabled) {
+      border-color: var(--orange);
+      color: var(--orange)
+    }
+
+    .photo-item .photo-controls button:disabled {
+      opacity: .35;
+      cursor: default
     }
 
     .modal-foot {
@@ -1025,8 +1075,8 @@
         </div>
         <div class="field"><label for="productName">Назва *</label><input id="productName" required></div>
         <div class="field"><label for="productArticle">Артикул *</label><input id="productArticle" required></div>
-        <div class="field full"><label for="productCategories">Категорії (можна обрати декілька)</label><select
-            id="productCategories" multiple size="4"></select></div>
+        <div class="field full"><label for="productCategories">Категорії * (обов'язково, можна обрати декілька)</label><select
+            id="productCategories" multiple size="4" required></select></div>
         <div class="field full"><label for="productDescription">Опис</label><textarea
             id="productDescription"></textarea></div>
         <div class="field full"><label for="productCharacteristics">Характеристики</label><textarea
@@ -1035,6 +1085,13 @@
             id="productComposition"></textarea></div>
         <div class="field"><label for="productPrice">Вартість, грн *</label><input id="productPrice" type="number"
             min="0" step="0.01" required></div>
+        <div class="field"><label for="productHeat">Гострота (1–5)</label><select id="productHeat">
+            <option value="1">🌶️ 1 — ледь відчутно</option>
+            <option value="2">🌶️🌶️ 2 — легка</option>
+            <option value="3">🌶️🌶️🌶️ 3 — середня</option>
+            <option value="4">🌶️🌶️🌶️🌶️ 4 — гостра</option>
+            <option value="5">🌶️🌶️🌶️🌶️🌶️ 5 — вогонь</option>
+          </select></div>
         <div class="field full"><label>Фасування (варіанти)</label>
           <div class="muted" style="margin-bottom:8px">Продаємо по штуках: вкажіть кількість у фасуванні та ціну за це фасування.
             Позначка (напр. «3 шт») генерується автоматично, знижку в картці товару система рахує від базової ціни.
@@ -1291,10 +1348,13 @@
       };
     }).filter(v => v.price !== null);
 
-    const openModal = async (product = null, id = null) => { editingProductId = id; document.querySelector('#productModalTitle').textContent = product ? 'Редагувати товар' : 'Новий товар'; modal.hidden = false; await loadProductCategories(); variantList.innerHTML = ''; (Array.isArray(product?.variants) ? product.variants : []).forEach(v => addVariantRow(v)); if (product) { ['Name', 'Article', 'Description', 'Characteristics', 'Composition', 'Price'].forEach(k => { const el = document.querySelector('#product' + k); el.value = product[k.toLowerCase()] ?? '' }); const selected = product.categoryIds || []; document.querySelectorAll('#productCategories option').forEach(o => o.selected = selected.includes(o.value)); photoData = product.images || [product.image].filter(Boolean); preview.innerHTML = photoData.map(src => `<img src="${esc(src)}">`).join('') } document.querySelector('#productName').focus() }, closeModal = () => { modal.hidden = true; form.reset(); photoData = []; editingProductId = null; preview.innerHTML = ''; variantList.innerHTML = '' };
+    const renderPhotos = () => { preview.innerHTML = photoData.map((src, i) => `<div class="photo-item"><img src="${esc(src)}" alt="Фото ${i + 1}"><span class="photo-num">${i + 1}</span><div class="photo-controls"><button type="button" data-photo-up="${i}" ${i === 0 ? 'disabled' : ''} title="Перемістити вище">↑</button><button type="button" data-photo-down="${i}" ${i === photoData.length - 1 ? 'disabled' : ''} title="Перемістити нижче">↓</button><button type="button" data-photo-del="${i}" title="Видалити фото">×</button></div></div>`).join('') };
+    const movePhoto = (i, dir) => { const j = i + dir; if (j < 0 || j >= photoData.length) return; [photoData[i], photoData[j]] = [photoData[j], photoData[i]]; renderPhotos() };
+    preview.addEventListener('click', e => { const up = e.target.closest('[data-photo-up]'), down = e.target.closest('[data-photo-down]'), del = e.target.closest('[data-photo-del]'); if (up) movePhoto(Number(up.dataset.photoUp), -1); else if (down) movePhoto(Number(down.dataset.photoDown), 1); else if (del) { photoData.splice(Number(del.dataset.photoDel), 1); renderPhotos() } });
+    const openModal = async (product = null, id = null) => { editingProductId = id; document.querySelector('#productModalTitle').textContent = product ? 'Редагувати товар' : 'Новий товар'; modal.hidden = false; await loadProductCategories(); variantList.innerHTML = ''; (Array.isArray(product?.variants) ? product.variants : []).forEach(v => addVariantRow(v)); if (product) { ['Name', 'Article', 'Description', 'Characteristics', 'Composition', 'Price'].forEach(k => { const el = document.querySelector('#product' + k); el.value = product[k.toLowerCase()] ?? '' }); document.querySelector('#productHeat').value = String(Math.min(5, Math.max(1, Number(product.heat ?? product.spicy ?? 3) || 3))); const selected = product.categoryIds || []; document.querySelectorAll('#productCategories option').forEach(o => o.selected = selected.includes(o.value)); photoData = product.images || [product.image].filter(Boolean); renderPhotos() } document.querySelector('#productName').focus() }, closeModal = () => { modal.hidden = true; form.reset(); photoData = []; editingProductId = null; preview.innerHTML = ''; variantList.innerHTML = '' };
     document.querySelector('#addProduct').addEventListener('click', openModal); document.querySelector('#closeProduct').addEventListener('click', closeModal); document.querySelector('#cancelProduct').addEventListener('click', closeModal); modal.addEventListener('click', e => { if (e.target === modal) closeModal() });
-    photoInput.addEventListener('change', () => { photoData = []; preview.innerHTML = ''; Array.from(photoInput.files).forEach(file => { const reader = new FileReader(); reader.onload = () => { photoData.push(reader.result); const img = document.createElement('img'); img.src = reader.result; img.alt = file.name; preview.appendChild(img) }; reader.readAsDataURL(file) }) });
-    form.addEventListener('submit', async e => { e.preventDefault(); const save = e.submitter; save.disabled = true; try { if (!auth.currentUser) await signInAnonymously(auth); const data = { name: document.querySelector('#productName').value.trim(), article: document.querySelector('#productArticle').value.trim(), description: document.querySelector('#productDescription').value.trim(), characteristics: document.querySelector('#productCharacteristics').value.trim(), composition: document.querySelector('#productComposition').value.trim(), price: Number(document.querySelector('#productPrice').value), categoryIds: Array.from(document.querySelector('#productCategories').selectedOptions).map(o => o.value), images: photoData, image: photoData[0] || '', variants: collectVariants() }; if (editingProductId) await updateDoc(doc(db, 'products', editingProductId), data); else await addDoc(collection(db, 'products'), { ...data, createdAt: serverTimestamp() }); closeModal(); await loadProducts() } catch (error) { alert(`Не вдалося зберегти товар: ${error.message}`) } finally { save.disabled = false } });
+    photoInput.addEventListener('change', () => { Array.from(photoInput.files).forEach(file => { const reader = new FileReader(); reader.onload = () => { photoData.push(reader.result); renderPhotos() }; reader.readAsDataURL(file) }) });
+    form.addEventListener('submit', async e => { e.preventDefault(); const save = e.submitter; const selectedCategories = Array.from(document.querySelector('#productCategories').selectedOptions).map(o => o.value); if (!selectedCategories.length) { alert('Виберіть хоча б одну категорію для товару'); save.disabled = false; return } save.disabled = true; try { if (!auth.currentUser) await signInAnonymously(auth); const data = { name: document.querySelector('#productName').value.trim(), article: document.querySelector('#productArticle').value.trim(), description: document.querySelector('#productDescription').value.trim(), characteristics: document.querySelector('#productCharacteristics').value.trim(), composition: document.querySelector('#productComposition').value.trim(), price: Number(document.querySelector('#productPrice').value), heat: Math.min(5, Math.max(1, Number(document.querySelector('#productHeat').value) || 3)), categoryIds: selectedCategories, images: photoData, image: photoData[0] || '', variants: collectVariants() }; if (editingProductId) await updateDoc(doc(db, 'products', editingProductId), data); else await addDoc(collection(db, 'products'), { ...data, createdAt: serverTimestamp() }); closeModal(); await loadProducts() } catch (error) { alert(`Не вдалося зберегти товар: ${error.message}`) } finally { save.disabled = false } });
     productRoot.addEventListener('click', async e => { const button = e.target.closest('[data-edit-product]'); if (!button) return; const snapshot = await getDocs(collection(db, 'products')); const item = snapshot.docs.find(d => d.id === button.dataset.editProduct); if (item) openModal(item.data(), item.id) });
 
     // ===== Склад =====

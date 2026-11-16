@@ -72,7 +72,16 @@
     return null; /* невідомо — не обмежуємо */
   }
 
+  var lastAdd = { id: null, t: 0 };
   function add(p) {
+    /* Захист від подвійного додавання в межах одного кліку: якщо на кнопці «В кошик»
+       вішається кілька обробників (напр., onclick на картці + глобальний слухач cart.js),
+       другий виклик add() з тим самим id протягом 50 мс ігнорується.
+       Людина фізично не може клікнути двічі за 50 мс, тому звичайні повторні
+       кліки (додати ще 1 шт) працюють як і раніше. */
+    var now = Date.now();
+    if (p && String(p.id) === String(lastAdd.id) && now - lastAdd.t < 50) return;
+    lastAdd = { id: p ? String(p.id) : null, t: now };
     var list = read();
     var found = null;
     for (var k = 0; k < list.length; k++) { if (String(list[k].id) === String(p.id)) { found = list[k]; break; } }

@@ -687,12 +687,9 @@
       object-fit: cover
     }
 
-    /* Показувати лише завантажені фото: без фото плейсхолдер не малюємо */
-    .ph:not(:has(>img)) {
-      display: none !important
-    }
-
-    .thumb:has(.ph:not(:has(>img))) {
+    /* Резервуємо місце під фото одразу, щоб при завантаженні не стрибав макет */
+    .gal__main.no-photo .ph,
+    .gal__th.no-photo .thumb {
       display: none !important
     }
 
@@ -2240,6 +2237,21 @@
       white-space: nowrap
     }
 
+    /* Кнопка «В кошик» при залишку 0 — сіра, неклікабельна */
+    .buy__btn.is-out,
+    .btn[data-add].is-out {
+      background: #c9c4bc;
+      color: #6f6a63;
+      border-color: #c9c4bc;
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 1
+    }
+
+    .buy__btn.is-out .icon {
+      display: none
+    }
+
     /* Пояснення до вибору фасування */
     .varsum {
       margin: 0;
@@ -2345,6 +2357,25 @@
     @media(max-width:359px) {
       #vars .chip {
         flex: 1 1 100%
+      }
+    }
+
+    /* Скелетон завантаження — світло-кремові/сірі блоки в стилі сайту */
+    .skl {
+      background: #efe9df;
+      border-radius: 8px;
+      animation: skl-pulse 1.2s ease-in-out infinite
+    }
+
+    @keyframes skl-pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .55
       }
     }
   </style>
@@ -2501,17 +2532,49 @@
   <main id="main">
     <section class="section--tight">
       <div class="container">
-        <nav aria-label="Навігація" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><a class="back-cat"
-            href="catalog.html" aria-label="Повернутися в каталог"><svg class="icon" aria-hidden="true"
-              focusable="false">
-              <use href="#i-left" />
-            </svg>Повернутися в каталог</a>
+        <nav aria-label="Навігація" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
           <ul class="crumbs">
             <li><a href="index.html">Головна</a></li>
             <li><a href="catalog.html">Локшина</a></li>
             <li aria-current="page">Малатан</li>
           </ul>
         </nav>
+        <!-- Скелетон: показується, поки дані товару завантажуються -->
+        <div class="pd" id="pskel" aria-hidden="true">
+          <div class="gal">
+            <div class="skl" style="aspect-ratio:1/1;border-radius:var(--radius-card)"></div>
+            <div class="skl-thumbs" style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-gap-md)">
+              <div class="skl" style="aspect-ratio:1/1;border-radius:var(--radius-card)"></div>
+              <div class="skl" style="aspect-ratio:1/1;border-radius:var(--radius-card)"></div>
+              <div class="skl" style="aspect-ratio:1/1;border-radius:var(--radius-card)"></div>
+              <div class="skl" style="aspect-ratio:1/1;border-radius:var(--radius-card)"></div>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="skl" style="width:90px;height:24px;border-radius:var(--radius-pill)"></div>
+            <div class="skl" style="width:70%;height:2.4rem"></div>
+            <div class="skl" style="width:100%;height:64px;border-radius:var(--radius-card)"></div>
+            <div class="skl" style="width:45%;height:2.2rem"></div>
+            <div class="skl" style="width:100%;height:72px;border-radius:var(--radius-card)"></div>
+            <div class="buy" style="gap:12px">
+              <div class="skl" style="width:132px;height:48px;border-radius:var(--radius-pill)"></div>
+              <div class="skl" style="flex:1;height:48px;border-radius:var(--radius-pill)"></div>
+            </div>
+            <div class="skl" style="width:100%;height:140px;border-radius:var(--radius-card)"></div>
+          </div>
+        </div>
+        <!-- Помилка завантаження -->
+        <div id="perror" hidden>
+          <div class="card"
+            style="display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center;padding:48px 24px">
+            <p style="font-family:var(--font-head);font-weight:var(--fw-head);font-size:var(--fs-card-title)">Не
+              вдалося завантажити товар</p>
+            <p class="muted">Перевірте з'єднання та спробуйте ще раз.</p>
+            <button class="btn btn--ink" type="button" id="pretry">Спробувати ще</button>
+          </div>
+        </div>
+        <!-- Реальний контент рендериться лише після отримання даних -->
+        <div id="productView" hidden>
         <div class="pd">
           <div class="gal">
             <div class="gal__main" id="gmain">
@@ -2640,101 +2703,53 @@
             </div>
           </div>
         </div>
-        <div class="section--tight">
+        <div class="section--tight" id="simsec">
           <h2 style="margin:var(--space-5) 0 var(--space-4)">Схожі товари</h2>
-          <div class="grid grid--cards sim">
+          <!-- Скелетони схожих товарів: висота зарезервована, замінюються реальними картками після завантаження -->
+          <div class="grid grid--cards sim" id="simgrid" style="min-height:320px">
             <div>
               <div class="pcard-wrap" style="height:100%">
-                <article class="pcard" data-heat="3" data-price="59" data-w="110" data-stock="1" data-cat="noodles"
-                  data-id="1">
-                  <div class="pcard__media">
-                    <div class="ph" role="img" aria-label="Локшина «Гострий яловичий бульйон»"><img
-                        src="image/image-svgrepo-com.svg" alt="Локшина «Гострий яловичий бульйон»" loading="lazy"></div>
-                    <span class="badge">Хіт</span>
+                <div class="pcard"><div class="skl" style="aspect-ratio:1/1;border-radius:var(--radius-tile)"></div>
+                  <div class="skl" style="height:1rem;margin-top:12px"></div>
+                  <div class="skl" style="height:1rem;width:50%;margin-top:8px"></div>
+                  <div class="skl" style="height:2.2rem;width:45%;margin-top:12px;border-radius:var(--radius-pill)">
                   </div>
-                  <h3 class="pcard__title"><a href="product.html?id=1">Локшина «Гострий яловичий бульйон»</a></h3>
-                  <div class="pcard__meta"><span class="heat" role="img" aria-label="Гострота 3 з 5"><span
-                        class="heat__peppers" aria-hidden="true">🌶️🌶️🌶️</span><span>3/5</span></span></div>
-                  <div class="pcard__foot"><span class="price">59 <small>грн</small></span><button
-                      class="btn btn--ink btn--sm" type="button" data-add data-id="1"
-                      data-name="Локшина «Гострий яловичий бульйон»" data-price="59" data-w="110"
-                      data-image="image/image-svgrepo-com.svg"
-                      aria-label="В кошик: Локшина «Гострий яловичий бульйон»"><svg class="icon" aria-hidden="true"
-                        focusable="false">
-                        <use href="#i-cart" />
-                      </svg><span class="t">В кошик</span></button></div>
-                </article>
+                </div>
               </div>
             </div>
             <div>
               <div class="pcard-wrap" style="height:100%">
-                <article class="pcard" data-heat="4" data-price="75" data-w="60" data-stock="1" data-cat="chips"
-                  data-id="4">
-                  <div class="pcard__media">
-                    <div class="ph" role="img" aria-label="Чипси з лотоса «Сичуанський перець»"><img
-                        src="image/image-svgrepo-com.svg" alt="Чипси з лотоса «Сичуанський перець»" loading="lazy"></div>
+                <div class="pcard"><div class="skl" style="aspect-ratio:1/1;border-radius:var(--radius-tile)"></div>
+                  <div class="skl" style="height:1rem;margin-top:12px"></div>
+                  <div class="skl" style="height:1rem;width:50%;margin-top:8px"></div>
+                  <div class="skl" style="height:2.2rem;width:45%;margin-top:12px;border-radius:var(--radius-pill)">
                   </div>
-                  <h3 class="pcard__title"><a href="product.html?id=4">Чипси з лотоса «Сичуанський перець»</a></h3>
-                  <div class="pcard__meta"><span class="heat" role="img" aria-label="Гострота 4 з 5"><span
-                        class="heat__peppers" aria-hidden="true">🌶️🌶️🌶️🌶️</span><span>4/5</span></span></div>
-                  <div class="pcard__foot"><span class="price">75 <small>грн</small></span><button
-                      class="btn btn--ink btn--sm" type="button" data-add data-id="4"
-                      data-name="Чипси з лотоса «Сичуанський перець»" data-price="75" data-w="60"
-                      data-image="image/image-svgrepo-com.svg"
-                      aria-label="В кошик: Чипси з лотоса «Сичуанський перець»"><svg class="icon" aria-hidden="true"
-                        focusable="false">
-                        <use href="#i-cart" />
-                      </svg><span class="t">В кошик</span></button></div>
-                </article>
+                </div>
               </div>
             </div>
             <div>
               <div class="pcard-wrap" style="height:100%">
-                <article class="pcard" data-heat="4" data-price="129" data-w="50" data-stock="1" data-cat="meat"
-                  data-id="6">
-                  <div class="pcard__media">
-                    <div class="ph" role="img" aria-label="М'ясні смужки «Гостра яловичина»"><img
-                        src="image/image-svgrepo-com.svg" alt="М'ясні смужки «Гостра яловичина»" loading="lazy"></div>
-                    <span class="badge">Хіт</span>
+                <div class="pcard"><div class="skl" style="aspect-ratio:1/1;border-radius:var(--radius-tile)"></div>
+                  <div class="skl" style="height:1rem;margin-top:12px"></div>
+                  <div class="skl" style="height:1rem;width:50%;margin-top:8px"></div>
+                  <div class="skl" style="height:2.2rem;width:45%;margin-top:12px;border-radius:var(--radius-pill)">
                   </div>
-                  <h3 class="pcard__title"><a href="product.html?id=6">М'ясні смужки «Гостра яловичина»</a></h3>
-                  <div class="pcard__meta"><span class="heat" role="img" aria-label="Гострота 4 з 5"><span
-                        class="heat__peppers" aria-hidden="true">🌶️🌶️🌶️🌶️</span><span>4/5</span></span></div>
-                  <div class="pcard__foot"><span class="price">129 <small>грн</small></span><button
-                      class="btn btn--ink btn--sm" type="button" data-add data-id="6"
-                      data-name="М'ясні смужки «Гостра яловичина»" data-price="129" data-w="50"
-                      data-image="image/image-svgrepo-com.svg"
-                      aria-label="В кошик: М'ясні смужки «Гостра яловичина»"><svg class="icon" aria-hidden="true"
-                        focusable="false">
-                        <use href="#i-cart" />
-                      </svg><span class="t">В кошик</span></button></div>
-                </article>
+                </div>
               </div>
             </div>
             <div>
               <div class="pcard-wrap" style="height:100%">
-                <article class="pcard" data-heat="3" data-price="79" data-w="120" data-stock="1" data-cat="seeds"
-                  data-id="10">
-                  <div class="pcard__media">
-                    <div class="ph" role="img" aria-label="Арахіс з перцем хуаджяо"><img
-                        src="image/image-svgrepo-com.svg" alt="Арахіс з перцем хуаджяо" loading="lazy"></div>
-                    <span class="badge">Хіт</span>
+                <div class="pcard"><div class="skl" style="aspect-ratio:1/1;border-radius:var(--radius-tile)"></div>
+                  <div class="skl" style="height:1rem;margin-top:12px"></div>
+                  <div class="skl" style="height:1rem;width:50%;margin-top:8px"></div>
+                  <div class="skl" style="height:2.2rem;width:45%;margin-top:12px;border-radius:var(--radius-pill)">
                   </div>
-                  <h3 class="pcard__title"><a href="product.html?id=10">Арахіс з перцем хуаджяо</a></h3>
-                  <div class="pcard__meta"><span class="heat" role="img" aria-label="Гострота 3 з 5"><span
-                        class="heat__peppers" aria-hidden="true">🌶️🌶️🌶️</span><span>3/5</span></span></div>
-                  <div class="pcard__foot"><span class="price">79 <small>грн</small></span><button
-                      class="btn btn--ink btn--sm" type="button" data-add data-id="10"
-                      data-name="Арахіс з перцем хуаджяо" data-price="79" data-w="120"
-                      data-image="image/image-svgrepo-com.svg" aria-label="В кошик: Арахіс з перцем хуаджяо"><svg
-                        class="icon" aria-hidden="true" focusable="false">
-                        <use href="#i-cart" />
-                      </svg><span class="t">В кошик</span></button></div>
-                </article>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        </div><!-- /#productView -->
       </div>
     </section>
   </main>
@@ -2921,6 +2936,22 @@
             sb.hidden = false;
           } else sb.hidden = true;
         }
+        /* Кнопка «В кошик»: сіра + надпис «Немає в наявності» при залишку 0 */
+        var buyBtn = document.querySelector('.buy__btn[data-add]');
+        if (buyBtn) {
+          if (stock <= 0) {
+            if (buyBtn.dataset.origHtml === undefined) buyBtn.dataset.origHtml = buyBtn.innerHTML;
+            buyBtn.innerHTML = 'Немає в наявності';
+            buyBtn.classList.add('is-out');
+            buyBtn.disabled = true;
+            buyBtn.setAttribute('aria-disabled', 'true');
+          } else if (buyBtn.classList.contains('is-out')) {
+            buyBtn.innerHTML = buyBtn.dataset.origHtml || buyBtn.innerHTML;
+            buyBtn.classList.remove('is-out');
+            buyBtn.disabled = false;
+            buyBtn.removeAttribute('aria-disabled');
+          }
+        }
         var firstAvail = null;
         varsEl.querySelectorAll('.chip').forEach(function (b) {
           var count = parseInt(b.dataset.count || '1', 10);
@@ -3006,7 +3037,14 @@
         resetZoom(); bump();
       }
       window.__galShow = show;
-      function bump() { if (window.__galTimer) clearInterval(window.__galTimer); window.__galTimer = setInterval(function () { show(idx + 1) }, 25000) }
+      function nextDelay() { return (20 + Math.random() * 10) * 1000 } /* 20–30 с */
+      function bump() {
+        if (window.__galTimer) clearTimeout(window.__galTimer);
+        if (photos().length < 2) return;
+        window.__galTimer = setTimeout(function () {
+          if (!document.hidden) show(idx + 1); else bump();
+        }, nextDelay());
+      }
       function open(i) { lb.classList.add('is-open'); show(i || window.__galIdx || 0) }
       function close() { lb.classList.remove('is-open'); resetZoom() }
       document.querySelector('#gmain').addEventListener('click', function (e) {
@@ -3016,10 +3054,31 @@
       lb.querySelector('.lb__x').addEventListener('click', close);
       lb.addEventListener('click', function (e) { if (e.target === lb) close() });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close() });
-      /* Свайпи та зум */
+      /* Свайпи та зум у лайтбоксі */
       lb.addEventListener('touchstart', function (e) {
         var t = e.touches[0]; sx = t.clientX; sy = t.clientY; moved = false; bump();
       }, { passive: true });
+      /* Свайпи по головному фото на сторінці товару */
+      var gsx = 0, gsy = 0, gmoved = false;
+      var gmainEl = document.querySelector('#gmain');
+      if (gmainEl) {
+        gmainEl.style.touchAction = 'pan-y';
+        gmainEl.addEventListener('touchstart', function (e) {
+          var t = e.touches[0]; gsx = t.clientX; gsy = t.clientY; gmoved = false; bump();
+        }, { passive: true });
+        gmainEl.addEventListener('touchmove', function (e) {
+          var t = e.touches[0];
+          if (Math.abs(t.clientX - gsx) > 8 || Math.abs(t.clientY - gsy) > 8) gmoved = true;
+        }, { passive: true });
+        gmainEl.addEventListener('touchend', function (e) {
+          if (photos().length < 2) return;
+          var t = e.changedTouches[0], dx = t.clientX - gsx, dy = t.clientY - gsy;
+          if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+            show(idx + (dx < 0 ? 1 : -1));
+            open(idx);
+          }
+        });
+      }
       lb.addEventListener('touchmove', function (e) {
         var t = e.touches[0]; var dx = t.clientX - sx, dy = t.clientY - sy;
         if (Math.abs(dx) > 8 || Math.abs(dy) > 8) moved = true;
@@ -3047,94 +3106,179 @@
     import { getFirestore, doc, getDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
     const firebaseConfig = { apiKey: 'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw', authDomain: 'my-magazin-81c96.firebaseapp.com', projectId: 'my-magazin-81c96', storageBucket: 'my-magazin-81c96.firebasestorage.app', messagingSenderId: '129061757346', appId: '1:129061757346:web:3e7bc5838cc5f7bda992fb' };
     const id = new URLSearchParams(location.search).get('id');
-    if (id) {
-      try {
-        const db = getFirestore(initializeApp(firebaseConfig)); const s = await getDoc(doc(db, 'products', id)); if (s.exists()) {
-          const p = s.data(), name = p.name || p.title || 'Товар';
-          document.querySelector('h1').textContent = name;
-          document.querySelector('#pprice').innerHTML = `${Number(p.price || 0)} <small>грн</small>`;
-          const spEl = document.querySelector('#sprice'); if (spEl) spEl.innerHTML = document.querySelector('#pprice').innerHTML;
-          document.querySelector('#pw').textContent = p.weight ? `${p.weight} г` : '';
-          const dp = document.querySelector('#p1 p'); if (dp) dp.textContent = p.description || 'Ой, опис загубився десь між упаковками латяо 🙈 Вже виправляємо — а товар точно смачний, беріть не сумнівайтеся!';
-          document.querySelector('.crumbs li[aria-current]').textContent = name;
-          /* Хлібні крихти: середній пункт — справжня категорія товару з Firestore */
-          let catId = Array.isArray(p.categoryIds) ? (p.categoryIds.find(Boolean) || p.category || p.categoryId || p.cat) : (p.categoryIds || p.category || p.categoryId || p.cat);
-          catId = String(catId || '').trim();
-          const catLi = document.querySelector('.crumbs li:nth-child(2)');
-          if (catLi) {
-            let cname = 'Каталог', clink = 'catalog.html';
-            if (catId) {
-              try {
-                const cs = await getDocs(collection(db, 'categories'));
-                const cd = cs.docs.find(d => d.id === catId || String(d.data().slug || '').trim() === catId || String(d.data().name || d.data().title || '').trim() === catId);
-                if (cd) { const c = cd.data(); cname = c.name || c.title || cd.id; clink = 'catalog.html?category=' + encodeURIComponent(c.slug || cd.id); }
-              } catch (ce) { console.warn('Categories unavailable:', ce); }
+    const productView = document.getElementById('productView'), pskel = document.getElementById('pskel'), perror = document.getElementById('perror');
+    const cacheKey = 'latiao:product:' + id;
+    let app = null, db = null;
+    const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&', '<': '<', '>': '>', '"': '"' }[c]));
+    function getDb() { db = db || getFirestore(app = app || initializeApp(firebaseConfig)); return db; }
+    function finish() { pskel.hidden = true; perror.hidden = true; productView.hidden = false; }
+    function fail() { pskel.hidden = true; productView.hidden = true; perror.hidden = false; }
+    function readCache() { try { const r = localStorage.getItem(cacheKey); return r ? JSON.parse(r) : null } catch (_) { return null } }
+
+    function show(p) {
+      const name = p.name || p.title || 'Товар';
+      document.querySelector('h1').textContent = name;
+      document.querySelector('#pprice').innerHTML = `${Number(p.price || 0)} <small>грн</small>`;
+      const spEl = document.querySelector('#sprice'); if (spEl) spEl.innerHTML = document.querySelector('#pprice').innerHTML;
+      document.querySelector('#pw').textContent = p.weight ? `${p.weight} г` : '';
+      /* Гострота: перчики з Firestore (1–5) */
+      const heat = Math.min(5, Math.max(1, Number(p.heat ?? p.spicy ?? 3) || 3));
+      const heatNames = { 1: 'Ледь відчутно', 2: 'Легка', 3: 'Середня', 4: 'Гостра', 5: 'Вогонь' };
+      const heatBox = document.querySelector('.heatbox .heat');
+      if (heatBox) {
+        heatBox.setAttribute('aria-label', `Гострота ${heat} з 5`);
+        const peppers = heatBox.querySelector('.heat__peppers');
+        if (peppers) peppers.textContent = '🌶️'.repeat(heat);
+        const tail = heatBox.querySelector('span:last-child');
+        if (tail) tail.textContent = `${heat}/5 · ${heatNames[heat]}`;
+      }
+      const dp = document.querySelector('#p1 p'); if (dp) { dp.textContent = p.description || 'Ой, опис загубився десь між упаковками латяо 🙈 Вже виправляємо — а товар точно смачний, беріть не сумнівайтеся!'; dp.style.whiteSpace = 'pre-line'; }
+      /* Склад: підтягується з адмін панелі (поле «Склад» товару) */
+      const cp = document.querySelector('#p2 p'); if (cp) {
+        cp.textContent = p.composition || p.characteristics || '';
+        cp.style.whiteSpace = 'pre-line';
+        /* Показ/приховування панелей керує тільки ініціалізатор вкладок (sel).
+           Тут лише ховаємо вкладку «Склад», якщо склад порожній. Активною
+           залишається «Опис», тому панель #p2 мусить залишатися прихованою. */
+        const empty = !cp.textContent.trim();
+        const panel2 = cp.closest('.card.tabpanel');
+        if (panel2 && empty) panel2.hidden = true;
+        const t2 = document.querySelector('#t2'); if (t2) t2.hidden = empty;
+      }
+      document.querySelector('.crumbs li[aria-current]').textContent = name;
+      /* Хлібні крихти: середній пункт — справжня категорія товару з Firestore */
+      let catId = Array.isArray(p.categoryIds) ? (p.categoryIds.find(Boolean) || p.category || p.categoryId || p.cat) : (p.categoryIds || p.category || p.categoryId || p.cat);
+      catId = String(catId || '').trim();
+      const catLi = document.querySelector('.crumbs li:nth-child(2)');
+      if (catLi) {
+        const putCat = (cname, clink) => {
+          const catA = catLi.querySelector('a') || document.createElement('a');
+          catA.textContent = cname; catA.href = clink;
+          if (!catA.parentNode) catLi.replaceChildren(catA);
+        };
+        let cname = 'Каталог', clink = 'catalog.html';
+        if (catId) {
+          getDocs(collection(getDb(), 'categories')).then(cs => {
+            const cd = cs.docs.find(d => d.id === catId || String(d.data().slug || '').trim() === catId || String(d.data().name || d.data().title || '').trim() === catId);
+            if (cd) { const c = cd.data(); cname = c.name || c.title || cd.id; clink = 'catalog.html?category=' + encodeURIComponent(c.slug || cd.id); }
+            putCat(cname, clink);
+          }).catch(ce => { console.warn('Categories unavailable:', ce); putCat(cname, clink); });
+        } else putCat(cname, clink);
+      }
+      const art = ['article', 'articul', 'sku', 'vendorCode', 'productCode', 'code'].map(k => p[k]).find(v => v !== undefined && v !== null && String(v).trim());
+      if (art) { document.querySelector('#partic-v').textContent = String(art).trim(); document.querySelector('#partic').hidden = false; }
+      if (window.__syncQty) window.__syncQty();
+      /* Варіанти фасування з Firestore */
+      const varsEl = document.querySelector('#vars');
+      if (varsEl && Array.isArray(p.variants)) {
+        const enabled = p.variants.filter(v => v && v.enabled !== false && (v.label || v.weight || v.price != null));
+        if (enabled.length) {
+          const basePrice = Number(p.price || 0);
+          varsEl.innerHTML = enabled.map((v) => {
+            const label = v.label || (v.weight ? `${v.weight} г` : '');
+            const cm = String(label).match(/(\d+)\s*[×xх*]/i);
+            const count = v.count ? Math.max(1, Number(v.count) || 1) : (cm ? parseInt(cm[1], 10) : 1);
+            const price = Number(v.price ?? basePrice);
+            const regular = basePrice * count;
+            const savings = regular > 0 && price < regular ? Math.round(regular - price) : 0;
+            const disc = savings > 0 ? Math.round(savings / regular * 100) : 0;
+            const badge = disc > 0 ? `<span class="chip-disc">−${disc}%</span>` : '';
+            const save = savings > 0 ? `<span class="chip-save">Економія ${savings} ₴</span>` : '';
+            const qty = count > 1 ? `<span class="chip-qty">${count} шт</span>` : '';
+            return `<button class="chip" type="button" role="radio" aria-checked="false" data-price="${price}" data-w="${esc(label)}" data-count="${count}" data-savings="${savings}" data-disc="${disc}"><span class="chip-price"><span class="chip-now">${price} грн</span>${badge}</span>${qty}${save}</button>`;
+          }).join('');
+          const baseH = `${basePrice} <small>грн</small>`, baseW = p.weight ? `${p.weight} г` : '';
+          window.__varBase = { h: baseH, w: baseW };
+          const setVar = b => {
+            if (b.classList.contains('is-off')) return;
+            const wasChecked = b.getAttribute('aria-checked') === 'true';
+            varsEl.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-checked', 'false'));
+            const d = document.querySelector('#pdiscount');
+            if (wasChecked) { /* повторний клік — скасувати вибір, повернути базову ціну */
+              document.querySelector('#pprice').innerHTML = baseH; if (spEl) spEl.innerHTML = baseH; document.querySelector('#pw').textContent = baseW;
+              if (d) d.hidden = true;
+              return;
             }
-            const catA = catLi.querySelector('a') || document.createElement('a');
-            catA.textContent = cname; catA.href = clink;
-            if (!catA.parentNode) catLi.replaceChildren(catA);
-          }
-          const art = ['article', 'articul', 'sku', 'vendorCode', 'productCode', 'code'].map(k => p[k]).find(v => v !== undefined && v !== null && String(v).trim());
-          if (art) { document.querySelector('#partic-v').textContent = String(art).trim(); document.querySelector('#partic').hidden = false; }
-          if (window.__syncQty) window.__syncQty();
-          /* Варіанти фасування з Firestore */
-          const varsEl = document.querySelector('#vars');
-          if (varsEl && Array.isArray(p.variants)) {
-            const enabled = p.variants.filter(v => v && v.enabled !== false && (v.label || v.weight || v.price != null));
-            if (enabled.length) {
-              const basePrice = Number(p.price || 0);
-              varsEl.innerHTML = enabled.map((v, i) => {
-                const label = v.label || (v.weight ? `${v.weight} г` : '');
-                const cm = String(label).match(/(\d+)\s*[×xх*]/i);
-                const count = v.count ? Math.max(1, Number(v.count) || 1) : (cm ? parseInt(cm[1], 10) : 1);
-                const price = Number(v.price ?? basePrice);
-                const regular = basePrice * count;
-                const savings = regular > 0 && price < regular ? Math.round(regular - price) : 0;
-                const disc = savings > 0 ? Math.round(savings / regular * 100) : 0;
-                const badge = disc > 0 ? `<span class="chip-disc">−${disc}%</span>` : '';
-                const save = savings > 0 ? `<span class="chip-save">Економія ${savings} ₴</span>` : '';
-                const qty = count > 1 ? `<span class="chip-qty">${count} шт</span>` : '';
-                return `<button class="chip" type="button" role="radio" aria-checked="false" data-price="${price}" data-w="${label}" data-count="${count}" data-savings="${savings}" data-disc="${disc}"><span class="chip-price"><span class="chip-now">${price} грн</span>${badge}</span>${qty}${save}</button>`;
-              }).join('');
-              const baseH = `${basePrice} <small>грн</small>`, baseW = p.weight ? `${p.weight} г` : '';
-              window.__varBase = { h: baseH, w: baseW };
-              const setVar = b => {
-                if (b.classList.contains('is-off')) return;
-                const wasChecked = b.getAttribute('aria-checked') === 'true';
-                varsEl.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-checked', 'false'));
-                const d = document.querySelector('#pdiscount');
-                if (wasChecked) { /* повторний клік — скасувати вибір, повернути базову ціну */
-                  document.querySelector('#pprice').innerHTML = baseH; if (spEl) spEl.innerHTML = baseH; document.querySelector('#pw').textContent = baseW;
-                  if (d) d.hidden = true;
-                  return;
-                }
-                b.setAttribute('aria-checked', 'true');
-                const h = `${b.dataset.price} <small>грн</small>`; document.querySelector('#pprice').innerHTML = h; if (spEl) spEl.innerHTML = h; document.querySelector('#pw').textContent = b.dataset.w;
-                if (d) { const s = Number(b.dataset.savings || 0), pc = Number(b.dataset.disc || 0); if (s > 0) { d.textContent = `−${s} грн (−${pc}%)`; d.hidden = false } else d.hidden = true }
-              };
-              varsEl.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => setVar(b)));
-              /* Ціна за замовчуванням — основна вартість товару; змінюється лише після вибору фасування */
-              /* Закреслити недоступні варіанти за залишками */
-              if (window.__applyVarStock) window.__applyVarStock();
-              if (window.LatiaoCart && window.LatiaoCart.fetchStocks) window.LatiaoCart.fetchStocks().then(() => { if (window.__applyVarStock) window.__applyVarStock(); });
-            }
-          }
-          /* Галерея: усі фото товару — головне зображення + дублікати в мініатюрах */
-          const photos = [...(Array.isArray(p.images) ? p.images : []), p.image, p.imageUrl, p.photo].filter(Boolean);
-          const gmain = document.querySelector('#gmain'), gth = document.querySelector('.gal__th');
-          if (photos.length && gmain) {
-            window.__galPhotos = photos; window.__galIdx = 0;
-            gmain.innerHTML = `<div class="ph" role="img" aria-label="${name}"><img src="${photos[0]}" alt="${name}"></div>`;
-            if (gth) {
-              gth.innerHTML = photos.map((src, i) => `<button class="thumb" type="button" data-i="${i}" aria-label="Фото ${i + 1}" aria-pressed="${i === 0}"><div class="ph"><img src="${src}" alt=""></div></button>`).join('');
-              gth.addEventListener('click', e => { const b = e.target.closest('.thumb'); if (!b) return; if (window.__galShow) window.__galShow(+b.dataset.i); });
-            }
-            /* Синхронізувати статичні мініатюри-плейсхолдери: прибрати ті, що без фото */
-            gth && gth.querySelectorAll('.thumb:not([data-i])').forEach(x => x.remove());
-          }
+            b.setAttribute('aria-checked', 'true');
+            const h = `${b.dataset.price} <small>грн</small>`; document.querySelector('#pprice').innerHTML = h; if (spEl) spEl.innerHTML = h; document.querySelector('#pw').textContent = b.dataset.w;
+            if (d) { const s = Number(b.dataset.savings || 0), pc = Number(b.dataset.disc || 0); if (s > 0) { d.textContent = `−${s} грн (−${pc}%)`; d.hidden = false } else d.hidden = true }
+          };
+          varsEl.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => setVar(b)));
+          /* Ціна за замовчуванням — основна вартість товару; змінюється лише після вибору фасування */
+          /* Закреслити недоступні варіанти за залишками */
+          if (window.__applyVarStock) window.__applyVarStock();
+          if (window.LatiaoCart && window.LatiaoCart.fetchStocks) window.LatiaoCart.fetchStocks().then(() => { if (window.__applyVarStock) window.__applyVarStock(); });
         }
-      } catch (e) { console.warn('Firestore product unavailable:', e); }
+      }
+      /* Галерея: усі фото товару — головне зображення + дублікати в мініатюрах */
+      const photos = [...(Array.isArray(p.images) ? p.images : []), p.image, p.imageUrl, p.photo].filter(Boolean);
+      const gmain = document.querySelector('#gmain'), gth = document.querySelector('#productView .gal__th');
+      if (photos.length && gmain) {
+        window.__galPhotos = photos; window.__galIdx = 0;
+        gmain.innerHTML = `<div class="ph" role="img" aria-label="${esc(name)}"><img src="${esc(photos[0])}" alt="${esc(name)}"></div>`;
+        if (gth) {
+          gth.innerHTML = photos.map((src, i) => `<button class="thumb" type="button" data-i="${i}" aria-label="Фото ${i + 1}" aria-pressed="${i === 0}"><div class="ph"><img src="${esc(src)}" alt=""></div></button>`).join('');
+          gth.addEventListener('click', e => { const b = e.target.closest('.thumb'); if (!b) return; if (window.__galShow) window.__galShow(+b.dataset.i); });
+        }
+        /* Синхронізувати статичні мініатюри-плейсхолдери: прибрати ті, що без фото */
+        gth && gth.querySelectorAll('.thumb:not([data-i])').forEach(x => x.remove());
+      } else if (gmain) {
+        /* Товар без фото — прибрати плейсхолдери й мініатюри */
+        gmain.classList.add('no-photo');
+        if (gth) gth.classList.add('no-photo');
+      }
+      /* Контент готовий: показати реальні дані */
+      finish();
+      renderSimilar(p);
     }
+
+    /* Схожі товари: рендериться з Firestore після завантаження основного товару */
+    async function renderSimilar(p) {
+      const grid = document.getElementById('simgrid');
+      if (!grid) return;
+      try {
+        const s = await getDocs(collection(getDb(), 'products'));
+        let catId = Array.isArray(p.categoryIds) ? (p.categoryIds.find(Boolean) || p.category || p.categoryId || p.cat) : (p.categoryIds || p.category || p.categoryId || p.cat);
+        catId = String(catId || '').trim();
+        const catOf = q => { const c = Array.isArray(q.categoryIds) ? (q.categoryIds.find(Boolean) || q.category || q.categoryId || q.cat) : (q.categoryIds || q.category || q.categoryId || q.cat); return String(c || '').trim() };
+        let items = s.docs.filter(x => x.id !== id);
+        const same = items.filter(x => catOf(x.data()) === catId);
+        if (same.length) items = same;
+        const cards = items.slice(0, 4).map(x => {
+          const q = x.data(); const nm = q.name || q.title || 'Товар'; const pr = Number(q.price || 0);
+          const ht = Math.min(5, Math.max(1, Number(q.heat ?? q.spicy ?? 3) || 3));
+          const img = [...(Array.isArray(q.images) ? q.images : []), q.image, q.imageUrl, q.photo].find(Boolean);
+          return `<div><div class="pcard-wrap" style="height:100%"><article class="pcard"><div class="pcard__media"><div class="ph" role="img" aria-label="${esc(nm)}">${img ? `<img src="${esc(img)}" alt="${esc(nm)}" loading="lazy">` : '<div class="ph__disc"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M18 52h64a32 32 0 0 1-64 0z"/><path d="M36 42c0-8 8-8 8-16M52 42c0-8 8-8 8-16M68 42c0-8 8-8 8-16"/></svg></div>'}</div></div><h3 class="pcard__title"><a href="product.html?id=${encodeURIComponent(x.id)}">${esc(nm)}</a></h3><div class="pcard__meta"><span class="heat" role="img" aria-label="Гострота ${ht} з 5"><span class="heat__peppers" aria-hidden="true">${'🌶️'.repeat(ht)}</span><span>${ht}/5</span></span></div><div class="pcard__foot"><span class="price">${pr} <small>грн</small></span><button class="btn btn--ink btn--sm" type="button" data-add data-id="${esc(x.id)}" data-name="${esc(nm)}" data-price="${pr}" data-w="${esc(q.weight || '')}"${img ? ` data-image="${esc(img)}"` : ''} aria-label="В кошик: ${esc(nm)}"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-cart" /></svg><span class="t">В кошик</span></button></div></article></div></div>`;
+        });
+        grid.style.minHeight = '';
+        grid.innerHTML = cards.join('');
+      } catch (e) {
+        console.warn('Similar products unavailable:', e);
+        grid.style.minHeight = '';
+        grid.innerHTML = '';
+      }
+    }
+
+    async function load(soft) {
+      if (!soft) { pskel.hidden = false; perror.hidden = true; productView.hidden = true; }
+      try {
+        const s = await getDoc(doc(getDb(), 'products', id));
+        if (!s.exists()) throw new Error('Товар не знайдено');
+        const p = s.data();
+        try { localStorage.setItem(cacheKey, JSON.stringify(p)) } catch (_) { }
+        show(p);
+      } catch (e) {
+        const cached = readCache();
+        if (cached) { show(cached); return }
+        console.warn('Firestore product unavailable:', e);
+        fail();
+      }
+    }
+    document.getElementById('pretry')?.addEventListener('click', () => load(false));
+    const cached = readCache();
+    if (!id) { fail(); }
+    else if (cached) { show(cached); load(true); }
+    else { load(false); }
   </script>
   <script
     type="module">import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'; import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'; const a = initializeApp({ apiKey: 'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw', authDomain: 'my-magazin-81c96.firebaseapp.com', projectId: 'my-magazin-81c96', storageBucket: 'my-magazin-81c96.firebasestorage.app', messagingSenderId: '129061757346', appId: '1:129061757346:web:3e7bc5838cc5f7bda992fb' }); try { const s = await getDocs(collection(getFirestore(a), 'categories')); if (!s.empty) document.querySelectorAll('.submenu').forEach(m => m.innerHTML = s.docs.map(d => { const x = d.data(); return `<li><a href="catalog.html?category=${encodeURIComponent(x.slug || d.id)}">${String(x.name || x.title || d.id).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</a></li>` }).join('')) } catch (e) { console.warn('Categories unavailable', e) }</script>

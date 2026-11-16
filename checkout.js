@@ -50,7 +50,8 @@
       step: 0,
       delivery: { carrier: 'np', np: { city: '', branch: '' }, up: { city: '', region: '', district: '', index: '' } },
       contact: { name: '', phone: '', note: '' },
-      payment: { method: 'online' }
+      payment: { method: 'online' },
+      promo: { code: '', applied: false }
     };
   }
   var vm = defaults();
@@ -155,6 +156,71 @@
   }
   function cartTotal() { return cart ? cart.total() : 0; }
   function hasMinimumOrder() { return cartTotal() >= MIN_ORDER; }
+
+  /* ---------- Промо-код ---------- */
+  var PROMO_CODES = {
+    'LATIAO10': { type: 'percent', value: 10, label: '−10% на замовлення' },
+    'LATIAO15': { type: 'percent', value: 15, label: '−15% на замовлення' },
+    'GOSTRO50': { type: 'fixed', value: 50, label: '−50 грн на замовлення' }
+  };
+  function promoDiscount() {
+    if (!vm.promo || !vm.promo.applied) return 0;
+    var p = PROMO_CODES[vm.promo.code];
+    if (!p) return 0;
+    var d = p.type === 'percent' ? Math.round(cartTotal() * p.value / 100) : Math.min(p.value, cartTotal());
+    return Math.max(0, Math.min(d, cartTotal()));
+  }
+  function discountedTotal() { return Math.max(0, cartTotal() - promoDiscount()); }
+  function promoMsg(text, kind) {
+    var m = $('#promo-msg');
+    if (!m) return;
+    m.textContent = text || '';
+    m.classList.toggle('is-on', !!text);
+    m.classList.toggle('is-ok', kind === 'ok');
+    m.classList.toggle('is-err', kind === 'err');
+  }
+  function applyPromo() {
+    var input = $('#promo-input');
+    if (!input) return;
+    var code = input.value.trim().toUpperCase();
+    if (!code) { promoMsg('Введіть промо-код', 'err'); return; }
+    var p = PROMO_CODES[code];
+    if (!p) { promoMsg('Такого промо-коду не існує', 'err'); haptic(30); return; }
+    vm.promo = { code: code, applied: true }; save();
+    promoMsg('Промо-код застосовано: ' + p.label, 'ok');
+    $('#promo-card').classList.add('is-applied');
+    haptic(15);
+    renderSummary();
+  }
+  function clearPromo() {
+    vm.promo = { code: '', applied: false }; save();
+    promoMsg('');
+    $('#promo-card').classList.remove('is-applied');
+    var input = $('#promo-input'); if (input) input.value = '';
+    renderSummary();
+  }
+  function initPromo() {
+    var toggle = $('#promo-toggle'), apply = $('#promo-apply'), input = $('#promo-input');
+    if (!toggle) return;
+    toggle.addEventListener('click', function () {
+      var on = $('#promo-body').classList.toggle('is-on');
+      toggle.setAttribute('aria-expanded', on ? 'true' : 'false');
+      haptic(10);
+      remeasure();
+    });
+    apply.addEventListener('click', applyPromo);
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); applyPromo(); } });
+    input.addEventListener('input', function () {
+      if (vm.promo && vm.promo.applied && this.value.trim().toUpperCase() !== vm.promo.code) clearPromo();
+    });
+    if (vm.promo && vm.promo.applied && PROMO_CODES[vm.promo.code]) {
+      input.value = vm.promo.code;
+      $('#promo-card').classList.add('is-applied');
+      $('#promo-body').classList.add('is-on');
+      toggle.setAttribute('aria-expanded', 'true');
+      promoMsg('Промо-код застосовано: ' + PROMO_CODES[vm.promo.code].label, 'ok');
+    }
+  }
   function showMinimumOrderError() {
     var error = $('#cart-error');
     if (!error) return;
@@ -351,8 +417,8 @@
     var goods = n + ' шт — ' + formatMoney(cartTotal()) + '\u00a0грн';
     ['sum-goods', 'pop-goods'].forEach(function (id) { $('#' + id).textContent = goods; });
     ['sum-ship', 'pop-ship'].forEach(function (id) { $('#' + id).textContent = shipLabel(); });
-    $('#sum-total').textContent = formatMoney(cartTotal());
-    $('#bar-total').textContent = formatMoney(cartTotal());
+    $('#sum-total').textContent = formatMoney(discountedTotal());
+    $('#bar-total').textContent = formatMoney(discountedTotal());
     renderPaymentDetails();
   }
 
@@ -477,7 +543,7 @@
   }
 
   function renderPaymentDetails() {
-    var total = cartTotal();
+    var total = discountedTotal();
     var onlineAmount = $('#online-amount');
     var remaining = $('#cod-remaining');
     var prepayTitle = $('#prepay-title-amount');
@@ -501,7 +567,7 @@
     nextBtns.forEach(function (b) { b.disabled = vm.step === 3 && !this.checked; }, this);
   });
 
-  function payableAmount() { return vm.payment.method === 'cod' && cartTotal() > PREPAY_AMOUNT ? PREPAY_AMOUNT : cartTotal(); }
+  function payableAmount() { return vm.payment.method === 'cod' && discountedTotal() > PREPAY_AMOUNT ? PREPAY_AMOUNT : discountedTotal(); }
   function renderConfirmation() {
     var d = vm.delivery, np = d.carrier === 'np';
     var city = np ? d.np.city : d.up.city;
@@ -511,6 +577,12 @@
     $('#confirm-shipping').textContent = cartTotal() >= FREE_SHIP ? 'Доставка: Безкоштовно' : 'Доставка: за тарифом перевізника';
     $('#confirm-payment').textContent = vm.payment.method === 'cod' && cartTotal() > PREPAY_AMOUNT ? 'Передоплата ' + formatMoney(PREPAY_AMOUNT) + ' грн' : 'Повна оплата';
     $('#confirm-goods').textContent = formatMoney(cartTotal()) + ' грн';
+    var discRow = $('#confirm-discount-row'), discVal = $('#confirm-discount');
+    if (discRow && discVal) {
+      var disc = promoDiscount();
+      discRow.hidden = !disc;
+      if (disc) discVal.textContent = '−' + formatMoney(disc) + ' грн';
+    }
     $('#confirm-ship').textContent = cartTotal() >= FREE_SHIP ? 'Безкоштовно' : 'За тарифом';
     $('#confirm-items').innerHTML = cart.items().map(function (i) {
       var photo = i.image
@@ -524,11 +596,11 @@
         + '<strong class="confirm-item__price">' + formatMoney(i.price * i.qty) + ' грн</strong>'
         + '</div>';
     }).join('');
-    var prepay = vm.payment.method === 'cod' && cartTotal() > PREPAY_AMOUNT;
+    var prepay = vm.payment.method === 'cod' && discountedTotal() > PREPAY_AMOUNT;
     $('#due-label').textContent = prepay ? 'До сплати зараз' : 'До сплати';
     $('#due-amount').textContent = formatMoney(payableAmount()) + ' грн';
     $('#due-note').hidden = !prepay;
-    $('#due-note').textContent = 'Залишок ' + formatMoney(cartTotal() - PREPAY_AMOUNT) + ' грн сплатите при отриманні';
+    $('#due-note').textContent = 'Залишок ' + formatMoney(discountedTotal() - PREPAY_AMOUNT) + ' грн сплатите при отриманні';
     $('#confirm-terms').checked = false;
   }
 
@@ -621,7 +693,9 @@
       paymentAmount: payableAmount(),
       status: 'Очікує оплати',
       payId: payId || '',
-      items: cart.items(), total: cart.total()
+      items: cart.items(), total: discountedTotal(),
+      promo: vm.promo && vm.promo.applied ? vm.promo.code : '',
+      discount: promoDiscount()
     };
     try {
       var orders = JSON.parse(localStorage.getItem('latiao_orders') || '[]');
@@ -747,6 +821,7 @@
       $('#note-toggle').textContent = 'Приховати коментар';
     }
     document.querySelector('input[name="paytype"][value="' + vm.payment.method + '"]').checked = true;
+    initPromo();
     applyCarrier(false);
     applyPaymentAvailability();
     renderConfirmation();

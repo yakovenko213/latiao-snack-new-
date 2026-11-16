@@ -802,22 +802,126 @@
          width: var(--tap-min)
       }
 
-      /* Out of stock styling */
+      /* Out of stock styling — читабельно, без «мертвого» сірого */
       .pcard[data-stock="0"] {
-         opacity: 0.5;
-         filter: grayscale(100%)
+         opacity: 1;
+         filter: none;
+         position: relative
       }
 
-      .pcard[data-stock="0"] .btn {
-         opacity: 0.4;
-         pointer-events: none;
-         cursor: default
+      .pcard[data-stock="0"]:hover {
+         transform: none
       }
 
+      /* Приглушуємо лише фото */
+      .pcard[data-stock="0"] .ph img {
+         filter: grayscale(0.7);
+         opacity: .75
+      }
+
+      /* Текст лишається кольору чорнила й добре читається */
+      .pcard[data-stock="0"] .pcard__title,
+      .pcard[data-stock="0"] .pcard__meta,
+      .pcard[data-stock="0"] .muted {
+         color: var(--color-ink, #1B1B1B);
+         opacity: .8
+      }
+
+      /* Ціна без перекреслення — світліша й не жирна */
       .pcard[data-stock="0"] .price {
-         text-decoration: line-through;
-         text-decoration-color: var(--color-ink);
-         text-decoration-thickness: 2px
+         opacity: .6;
+         font-weight: 400;
+         text-decoration: none
+      }
+
+      /* Кнопка «Повідомити про наявність»: контур, дзвіночок */
+      .pcard[data-stock="0"] .btn--out {
+         background: transparent;
+         color: var(--color-ink, #1B1B1B);
+         border: 2px solid var(--color-ink, #1B1B1B);
+         opacity: 1;
+         pointer-events: auto;
+         cursor: pointer
+      }
+
+      .pcard[data-stock="0"] .btn--out:hover {
+         background: var(--color-ink, #1B1B1B);
+         color: var(--color-cream, #FFF4E6)
+      }
+
+      .pcard[data-stock="0"] .btn--out .ic--ok {
+         display: none !important
+      }
+
+      .pcard[data-stock="0"] .btn--out .t {
+         font-size: .78rem;
+         white-space: nowrap
+      }
+
+      /* Плашка «Немає в наявності» на фото */
+      .pcard[data-stock="0"] .badge--out {
+         position: absolute;
+         top: 10px;
+         left: 10px;
+         z-index: 2;
+         background: var(--color-ink, #1B1B1B);
+         color: var(--color-cream, #FFF4E6);
+         font-size: 12px;
+         font-weight: 700;
+         line-height: 1.2;
+         padding: 5px 10px;
+         border-radius: 8px;
+         opacity: 1
+      }
+
+      /* Спливаюча форма «Повідомити мене» */
+      .notify-pop {
+         position: absolute;
+         right: 10px;
+         bottom: 58px;
+         z-index: 30;
+         background: var(--color-cream, #FFF4E6);
+         border: 2px solid var(--color-ink, #1B1B1B);
+         border-radius: var(--radius-md, 14px);
+         padding: 12px;
+         width: min(250px, calc(100vw - 32px));
+         box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+         font-size: .85rem;
+         color: var(--color-ink, #1B1B1B)
+      }
+
+      .notify-pop label {
+         display: block;
+         margin-bottom: 6px;
+         font-weight: 700
+      }
+
+      .notify-pop input {
+         width: 100%;
+         box-sizing: border-box;
+         border: 2px solid var(--color-ink, #1B1B1B);
+         border-radius: 999px;
+         padding: 8px 12px;
+         font: inherit;
+         margin-bottom: 8px;
+         background: #fff;
+         color: var(--color-ink, #1B1B1B)
+      }
+
+      .notify-pop .btn {
+         width: 100%
+      }
+
+      .notify-pop p {
+         margin: 0;
+         font-weight: 700
+      }
+
+      .pcard[data-stock="0"] :focus-visible,
+      .notify-pop :focus-visible,
+      .pcard__title a:focus-visible {
+         outline: 2px solid var(--color-ink, #1B1B1B);
+         outline-offset: 2px
       }
 
       .pcard .btn.is-added .ic:not(.ic--ok) {
@@ -967,6 +1071,103 @@
          font-family: var(--font-head)
       }
 
+      /* Кастомний випадаючий список */
+      .dd {
+         position: relative;
+         width: 100%
+      }
+
+      .dd__btn {
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         gap: 10px;
+         width: 100%;
+         min-height: var(--btn-h);
+         padding: 12px 16px;
+         background: var(--color-cream);
+         color: var(--color-ink);
+         border: 2px solid var(--color-ink);
+         border-radius: var(--radius-tile);
+         font-weight: var(--fw-medium);
+         font-size: 1rem;
+         cursor: pointer;
+         transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease)
+      }
+
+      .dd__btn:hover {
+         background: var(--color-white)
+      }
+
+      .dd__chev {
+         flex: 0 0 auto;
+         transition: transform var(--dur) var(--ease)
+      }
+
+      .dd.is-open .dd__chev {
+         transform: rotate(180deg)
+      }
+
+      .dd__list {
+         position: absolute;
+         z-index: 60;
+         top: calc(100% + 6px);
+         left: 0;
+         right: 0;
+         margin: 0;
+         padding: 6px;
+         list-style: none;
+         background: var(--color-cream);
+         border: 2px solid var(--color-ink);
+         border-radius: var(--radius-tile);
+         box-shadow: 4px 4px 0 var(--color-ink);
+         opacity: 0;
+         visibility: hidden;
+         transform: translateY(-6px);
+         transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility var(--dur)
+      }
+
+      .dd.is-open .dd__list {
+         opacity: 1;
+         visibility: visible;
+         transform: translateY(0)
+      }
+
+      .dd__opt {
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         gap: 8px;
+         min-height: var(--tap-min);
+         padding: 10px 12px;
+         border-radius: calc(var(--radius-tile) - 6px);
+         font-weight: var(--fw-medium);
+         cursor: pointer;
+         transition: background var(--dur) var(--ease)
+      }
+
+      .dd__opt:hover,
+      .dd__opt:focus-visible {
+         background: var(--color-white);
+         outline: none
+      }
+
+      .dd__opt.is-sel {
+         font-weight: var(--fw-head);
+         background: var(--color-white)
+      }
+
+      .dd__opt.is-sel::after {
+         content: '';
+         flex: 0 0 auto;
+         width: 10px;
+         height: 10px;
+         border: 2px solid var(--color-ink);
+         border-top: 0;
+         border-left: 0;
+         transform: rotate(45deg) translateY(-2px)
+      }
+
       .selectwrap {
          position: relative
       }
@@ -981,6 +1182,46 @@
 
       .selectwrap .select {
          padding-right: 44px
+      }
+
+      /* Чекбокс у стилі сайту: квадрат з помаранчевою галочкою */
+      .fs input[type="checkbox"] {
+         appearance: none;
+         -webkit-appearance: none;
+         flex: 0 0 auto;
+         width: 22px;
+         height: 22px;
+         margin: 0;
+         border: 2px solid var(--color-ink);
+         border-radius: 7px;
+         background: var(--color-white);
+         display: inline-grid;
+         place-content: center;
+         cursor: pointer;
+         transition: background var(--dur) var(--ease)
+      }
+
+      .fs input[type="checkbox"]::before {
+         content: '';
+         width: 12px;
+         height: 12px;
+         transform: scale(0);
+         transition: transform var(--dur) var(--ease);
+         clip-path: polygon(14% 44%, 0 60%, 40% 100%, 100% 16%, 84% 2%, 39% 68%);
+         background: #fff
+      }
+
+      .fs input[type="checkbox"]:checked {
+         background: var(--color-accent)
+      }
+
+      .fs input[type="checkbox"]:checked::before {
+         transform: scale(1)
+      }
+
+      .fs input[type="checkbox"]:focus-visible {
+         outline: 3px solid var(--color-ink);
+         outline-offset: 2px
       }
 
       .choice {
@@ -2132,6 +2373,10 @@
             <circle cx="9" cy="20" r="1.5" />
             <circle cx="17" cy="20" r="1.5" />
          </symbol>
+         <symbol id="i-bell" viewBox="0 0 24 24">
+            <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.7 21a2 2 0 01-3.4 0" />
+         </symbol>
          <symbol id="i-menu" viewBox="0 0 24 24">
             <path d="M4 7h16M4 12h16M4 17h16" />
          </symbol>
@@ -2316,15 +2561,8 @@
                         <legend class="lbl">Наявність</legend><label class="choice"><input type="checkbox"
                               data-f-stock><span class="choice__body"><b>Лише в наявності</b></span></label>
                      </fieldset>
-                     <fieldset class="fs">
-                        <legend class="lbl">Вага</legend>
-                        <div class="chips"><button class="chip" type="button" aria-pressed="false" data-f-w="0-100">до
-                              100 г</button><button class="chip" type="button" aria-pressed="false"
-                              data-f-w="100-200">100–200 г</button><button class="chip" type="button"
-                              aria-pressed="false" data-f-w="200-9999">понад 200 г</button></div>
-                     </fieldset>
-                  </form><button class="btn btn--block" type="button" data-reset
-                     style="margin-top:16px;background:var(--color-white)">Скинути</button>
+                  </form><button class="btn btn--ink btn--block" type="button" data-reset
+                     style="margin-top:16px">Скинути</button>
                </aside>
                <div class="main">
                   <div class="bar"><button class="btn btn--ink mf" type="button" data-sheet-open="sheet"><svg
@@ -2332,14 +2570,24 @@
                            <use href="#i-filter" />
                         </svg> Фільтри</button>
                      <div class="field sortf"><label for="sort">Сортування</label>
-                        <div class="selectwrap"><select class="select" id="sort" data-sort>
+                        <div class="dd" data-dd>
+                           <select class="select" id="sort" data-sort hidden>
                               <option value="pop">Популярні</option>
                               <option value="asc">Від дешевих до дорогих</option>
                               <option value="desc">Від дорогих до дешевих</option>
                               <option value="heat">За гостротою</option>
-                           </select><svg class="icon " aria-hidden="true" focusable="false">
-                              <use href="#i-down" />
-                           </svg></div>
+                           </select>
+                           <button type="button" class="dd__btn" aria-haspopup="listbox" aria-expanded="false">
+                              <span class="dd__label">Популярні</span>
+                              <svg class="icon dd__chev" aria-hidden="true" focusable="false"><use href="#i-down" /></svg>
+                           </button>
+                           <ul class="dd__list" role="listbox" tabindex="-1">
+                              <li class="dd__opt is-sel" role="option" aria-selected="true" data-value="pop" tabindex="0">Популярні</li>
+                              <li class="dd__opt" role="option" aria-selected="false" data-value="asc" tabindex="0">Від дешевих до дорогих</li>
+                              <li class="dd__opt" role="option" aria-selected="false" data-value="desc" tabindex="0">Від дорогих до дешевих</li>
+                              <li class="dd__opt" role="option" aria-selected="false" data-value="heat" tabindex="0">За гостротою</li>
+                           </ul>
+                        </div>
                      </div>
                   </div>
                   <div class="grid grid--cards" id="grid">
@@ -2674,7 +2922,11 @@
                                           class="on"></i><i class="on"></i><i
                                           class="on"></i></span><span>5/5</span></span><span>150 г</span></div>
                               <div class="pcard__foot"><span class="price">119 <small>грн</small></span><span
-                                    class="btn btn--sm" aria-disabled="true">Немає</span></div>
+                                    class="btn btn--ink btn--sm btn--out" type="button" data-notify
+                                    aria-label="Повідомити про наявність"><svg class="ic" aria-hidden="true"
+                                      focusable="false">
+                                      <use href="#i-bell" />
+                                    </svg><span class="t">Повідомити</span></button></div>
                            </article>
                         </div>
                      </div>
@@ -2949,8 +3201,8 @@
                         aria-pressed="false" data-f-heat="2">2</button><button class="chip" type="button"
                         aria-pressed="false" data-f-heat="3">3</button><button class="chip" type="button"
                         aria-pressed="false" data-f-heat="4">4</button><button class="chip" type="button"
-                        aria-pressed="false" data-f-heat="5">5</button></div><span class="hint muted">1 — ледь відчутно,
-                     5 — вогонь</span>
+                        aria-pressed="false" data-f-heat="5">5</button></div><span class="hint muted">1 — ледь
+                     відчутно, 5 — вогонь</span>
                </fieldset>
                <fieldset class="fs">
                   <legend class="lbl">Ціна, грн</legend>
@@ -2965,16 +3217,10 @@
                   <legend class="lbl">Наявність</legend><label class="choice"><input type="checkbox" data-f-stock><span
                         class="choice__body"><b>Лише в наявності</b></span></label>
                </fieldset>
-               <fieldset class="fs">
-                  <legend class="lbl">Вага</legend>
-                  <div class="chips"><button class="chip" type="button" aria-pressed="false" data-f-w="0-100">до 100
-                        г</button><button class="chip" type="button" aria-pressed="false" data-f-w="100-200">100–200
-                        г</button><button class="chip" type="button" aria-pressed="false" data-f-w="200-9999">понад 200
-                        г</button></div>
-               </fieldset>
             </form>
-            <div class="sheet__foot"><button class="btn btn--ink btn--block" type="button" data-sheet-close>Показати
-                  товари</button><button class="btn btn--block" type="button" data-reset>Скинути</button></div>
+            <div class="sheet__foot"><button class="btn btn--block" type="button" data-sheet-close
+                  style="background:var(--color-accent);color:#fff;border-color:var(--color-ink)">Показати
+                  товари</button><button class="btn btn--ink btn--block" type="button" data-reset>Скинути</button></div>
          </div>
       </div>
    </main>
@@ -3114,10 +3360,11 @@
 
 
       (function () {
-         var grid = document.getElementById('grid'), items = [].slice.call(grid.querySelectorAll('.gi:not(.skeleton-card)')), st = { heat: [], min: 0, max: 1e9, stock: false, w: [] };
+         var grid = document.getElementById('grid'), st = { heat: [], min: 0, max: 1e9, stock: false, w: [] };
          var shown = document.querySelector('[data-count-shown]'), more = document.querySelector('[data-more]');
          function apply() {
             var n = 0, exp = !more.hidden ? false : true;
+            var items = [].slice.call(grid.querySelectorAll('.gi:not(.skeleton-card)'));
             items.forEach(function (it) {
                var c = it.querySelector('.pcard'), h = +c.dataset.heat, p = +c.dataset.price, w = +c.dataset.w, s = +c.dataset.stock;
                var ok = (!st.heat.length || st.heat.indexOf(h) > -1) && p >= st.min && p <= st.max && (!st.stock || s) && (!st.w.length || st.w.some(function (r) { return w >= r[0] && w < r[1] }));
@@ -3149,12 +3396,54 @@
             if (t.matches('[data-f-stock]')) st.stock = t.checked;
             if (t.matches('[data-sort]')) {
                var v = t.value; document.querySelectorAll('[data-sort]').forEach(function (s) { s.value = v });
-               items.sort(function (a, b) { var A = a.querySelector('.pcard'), B = b.querySelector('.pcard'); return v === 'asc' ? A.dataset.price - B.dataset.price : v === 'desc' ? B.dataset.price - A.dataset.price : v === 'heat' ? B.dataset.heat - A.dataset.heat : a.dataset.pop - b.dataset.pop }).forEach(function (i) { grid.appendChild(i) })
+               var items = [].slice.call(grid.querySelectorAll('.gi:not(.skeleton-card)'));
+               /* Спочатку за наявністю (в наявності — перші), потім за обраним сортуванням */
+               items.sort(function (a, b) { var A = a.querySelector('.pcard'), B = b.querySelector('.pcard'); if (+A.dataset.stock !== +B.dataset.stock) return +B.dataset.stock - +A.dataset.stock; return v === 'asc' ? A.dataset.price - B.dataset.price : v === 'desc' ? B.dataset.price - A.dataset.price : v === 'heat' ? B.dataset.heat - A.dataset.heat : a.dataset.pop - b.dataset.pop }).forEach(function (i) { grid.appendChild(i) })
             }
             sync(); apply()
          });
          more.addEventListener('click', function () { document.querySelectorAll('.extra').forEach(function (x) { x.classList.remove('extra') }); apply() });
+         window.__applyFilters = apply;
          apply();
+      })();
+
+      /* Кастомний випадаючий список (сортування) */
+      (function () {
+         document.querySelectorAll('[data-dd]').forEach(function (dd) {
+            var btn = dd.querySelector('.dd__btn'),
+               lbl = dd.querySelector('.dd__label'),
+               list = dd.querySelector('.dd__list'),
+               sel = dd.querySelector('select[data-sort]');
+
+            function close() { dd.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false') }
+            function open() { dd.classList.add('is-open'); btn.setAttribute('aria-expanded', 'true') }
+
+            btn.addEventListener('click', function (e) {
+               e.stopPropagation();
+               dd.classList.contains('is-open') ? close() : open()
+            });
+
+            list.addEventListener('click', function (e) {
+               var opt = e.target.closest('.dd__opt'); if (!opt) return;
+               list.querySelectorAll('.dd__opt').forEach(function (o) { o.classList.toggle('is-sel', o === opt); o.setAttribute('aria-selected', String(o === opt)) });
+               lbl.textContent = opt.textContent;
+               sel.value = opt.dataset.value;
+               sel.dispatchEvent(new Event('input', { bubbles: true }));
+               close();
+               btn.focus()
+            });
+
+            list.addEventListener('keydown', function (e) {
+               var opts = [].slice.call(list.querySelectorAll('.dd__opt')), i = opts.indexOf(document.activeElement);
+               if (e.key === 'ArrowDown') { e.preventDefault(); (opts[i + 1] || opts[0]).focus() }
+               else if (e.key === 'ArrowUp') { e.preventDefault(); (opts[i - 1] || opts[opts.length - 1]).focus() }
+               else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); document.activeElement.click() }
+               else if (e.key === 'Escape') { close(); btn.focus() }
+            });
+
+            document.addEventListener('click', function (e) { if (!dd.contains(e.target)) close() });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close() });
+         });
       })();
 
    </script>
@@ -3167,7 +3456,30 @@
       const firebaseConfig = { apiKey: 'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw', authDomain: 'my-magazin-81c96.firebaseapp.com', projectId: 'my-magazin-81c96', storageBucket: 'my-magazin-81c96.firebasestorage.app', messagingSenderId: '129061757346', appId: '1:129061757346:web:3e7bc5838cc5f7bda992fb' };
       const app = initializeApp(firebaseConfig), db = getFirestore(app), grid = document.getElementById('grid');
       const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-      function card(p, id) { const name = p.name || p.title || 'Товар', price = Number(p.price || 0), heat = Math.min(5, Math.max(1, Number(p.heat || p.spicy || 1))), weight = Number(p.weight || p.w || 0), image = p.image || p.imageUrl || p.photo || '', sku = ['article', 'articul', 'sku', 'vendorCode', 'productCode', 'code'].map(k => p[k]).find(v => v !== undefined && v !== null && String(v).trim()) || ''; return `<div class="gi"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="${heat}" data-price="${price}" data-w="${weight}" data-stock="${p.stock === false || p.inStock === false ? 0 : 1}" data-id="${esc(id)}" data-sku="${esc(sku)}"><div class="pcard__media">${image ? `<div class="ph" role="img" aria-label="${esc(name)}"><img src="${esc(image)}" alt="${esc(name)}" loading="lazy"></div>` : `<div class="ph" role="img" aria-label="${esc(name)}"><img src="image/image-svgrepo-com.svg" alt="" loading="lazy"></div>`}${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}</div><h3 class="pcard__title"><a href="product.html?id=${encodeURIComponent(id)}">${esc(name)}</a></h3><p class="muted">${esc(p.description || '')}</p><div class="pcard__meta"><span class="heat" aria-label="Гострота ${heat} з 5"><span class="heat__peppers" aria-hidden="true">${'🌶️'.repeat(heat)}</span><span>${heat}/5</span></span><span>${weight ? weight + ' г' : ''}</span></div><div class="pcard__foot"><span class="price">${price} <small>грн</small></span><button class="btn btn--ink btn--sm" type="button" data-add data-id="${esc(id)}" data-name="${esc(name)}" data-price="${price}" data-image="${esc(image || 'image/image-svgrepo-com.svg')}" data-sku="${esc(sku)}"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2.5l2 11h10.5l2-8H6.5"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg><svg class="ic ic--ok" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span class="t">В кошик</span></button></div></article></div></div>` }
+      function card(p, id) { const name = p.name || p.title || 'Товар', price = Number(p.price || 0), heat = Math.min(5, Math.max(1, Number(p.heat || p.spicy || 1))), weight = Number(p.weight || p.w || 0), image = p.image || p.imageUrl || p.photo || '', sku = ['article', 'articul', 'sku', 'vendorCode', 'productCode', 'code'].map(k => p[k]).find(v => v !== undefined && v !== null && String(v).trim()) || '', out = p.stock === false || p.inStock === false || (p.stock !== undefined && p.stock !== null && Number(p.stock) <= 0); return `<div class="gi"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="${heat}" data-price="${price}" data-w="${weight}" data-stock="${out ? 0 : 1}" data-id="${esc(id)}" data-sku="${esc(sku)}"><div class="pcard__media">${image ? `<div class="ph" role="img" aria-label="${esc(name)}"><img src="${esc(image)}" alt="${esc(name)}" loading="lazy"></div>` : `<div class="ph" role="img" aria-label="${esc(name)}"><img src="image/image-svgrepo-com.svg" alt="" loading="lazy"></div>`}${out ? `<span class="badge badge--out">Немає в наявності</span>` : (p.badge ? `<span class="badge">${esc(p.badge)}</span>` : '')}</div><h3 class="pcard__title"><a href="product.html?id=${encodeURIComponent(id)}">${esc(name)}</a></h3><p class="muted">${esc(p.description || '')}</p><div class="pcard__meta"><span class="heat" aria-label="Гострота ${heat} з 5"><span class="heat__peppers" aria-hidden="true">${'🌶️'.repeat(heat)}</span><span>${heat}/5</span></span><span>${weight ? weight + ' г' : ''}</span></div><div class="pcard__foot"><span class="price">${price} <small>грн</small></span>${out ? `<button class="btn btn--ink btn--sm btn--out" type="button" data-notify aria-label="Повідомити про наявність"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg><span class="t">Повідомити</span></button>` : `<button class="btn btn--ink btn--sm" type="button" data-add data-id="${esc(id)}" data-name="${esc(name)}" data-price="${price}" data-image="${esc(image || 'image/image-svgrepo-com.svg')}" data-sku="${esc(sku)}"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2.5l2 11h10.5l2-8H6.5"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg><svg class="ic ic--ok" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span class="t">В кошик</span></button>`}</div></article></div></div>` }
+      mountNotify(document);
+      function mountNotify(root) {
+         root.querySelectorAll('.pcard[data-stock="0"]').forEach(c => {
+            const btn = c.querySelector('[data-notify]'); if (!btn || btn.__bound) return; btn.__bound = true;
+            btn.addEventListener('click', e => {
+               e.stopPropagation();
+               const old = c.querySelector('.notify-pop'); if (old) { old.remove(); return; }
+               document.querySelectorAll('.notify-pop').forEach(p => p.remove());
+               const pop = document.createElement('div'); pop.className = 'notify-pop'; pop.setAttribute('role', 'dialog'); pop.setAttribute('aria-label', 'Повідомити про наявність');
+               pop.innerHTML = '<form><label for="np-contact">Телефон або email</label><input id="np-contact" name="contact" type="text" required placeholder="+380… або email"><button class="btn btn--ink btn--sm" type="submit"><span class="t">Повідомити мене</span></button></form>';
+               c.appendChild(pop);
+               pop.querySelector('input').focus();
+               pop.querySelector('form').addEventListener('submit', ev => {
+                  ev.preventDefault();
+                  const v = pop.querySelector('input').value.trim(); if (!v) return;
+                  try { const l = JSON.parse(localStorage.getItem('latiao_notify') || '[]'); l.push({ id: c.dataset.id, name: (c.querySelector('.pcard__title') || {}).textContent, contact: v, at: Date.now() }); localStorage.setItem('latiao_notify', JSON.stringify(l)); } catch (_) { }
+                  pop.innerHTML = '<p role="status">Готово, напишемо, коли з’явиться</p>';
+                  setTimeout(() => pop.remove(), 2500);
+               });
+            });
+         });
+         document.addEventListener('click', e => { if (!e.target.closest('.pcard[data-stock="0"]')) document.querySelectorAll('.notify-pop').forEach(p => p.remove()); });
+      }
       try {
          const snap = await getDocs(collection(db, 'products'));
          let docs = snap.docs;
@@ -3184,7 +3496,10 @@
          }
          // Remove skeleton cards first
          grid.querySelectorAll('.skeleton-card').forEach(el => el.remove());
-         if (docs.length) { grid.innerHTML = docs.map(d => card(d.data(), d.id)).join(''); document.querySelector('[data-count-shown]')?.replaceChildren(String(docs.length)); grid.querySelectorAll('[data-add]').forEach(b => b.onclick = () => { window.LatiaoCart?.add({ id: b.dataset.id, name: b.dataset.name, price: Number(b.dataset.price), image: b.dataset.image, sku: b.dataset.sku }); b.classList.add('is-added'); clearTimeout(b.__t); b.__t = setTimeout(() => b.classList.remove('is-added'), 1600); window.__say?.('Додано в кошик'); }); }
+         /* Товари в наявності — першими, без наявності — в кінці */
+         const outv = d => { const p = d.data(); return (p.stock === false || p.inStock === false || (p.stock != null && Number(p.stock) <= 0)) ? 1 : 0; };
+         docs.sort((a, b) => outv(a) - outv(b));
+         if (docs.length) { grid.innerHTML = docs.map(d => card(d.data(), d.id)).join(''); document.querySelector('[data-count-shown]')?.replaceChildren(String(docs.length)); mountNotify(grid); window.__applyFilters?.(); /* Додавання в кошик виконує cart.js (глобальний слухач [data-add]); тут лише візуальний фідбек */ grid.querySelectorAll('[data-add]').forEach(b => b.onclick = () => { b.classList.add('is-added'); clearTimeout(b.__t); b.__t = setTimeout(() => b.classList.remove('is-added'), 1600); window.__say?.('Додано в кошик'); }); }
          else { grid.innerHTML = '<div class="empty" style="grid-column:1/-1;padding:32px 8px;color:#999">У цій категорії товарів ще немає</div>'; document.querySelector('[data-count-shown]')?.replaceChildren('0'); }
       }
       catch (e) { console.warn('Firestore products unavailable:', e); }
