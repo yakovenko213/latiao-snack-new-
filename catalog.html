@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 
 <head>
@@ -3453,7 +3453,7 @@
          heat/spicy, weight, stock/inStock, badge. */
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
       import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-      const firebaseConfig = { apiKey: 'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw', authDomain: 'my-magazin-81c96.firebaseapp.com', projectId: 'my-magazin-81c96', storageBucket: 'my-magazin-81c96.firebasestorage.app', messagingSenderId: '129061757346', appId: '1:129061757346:web:3e7bc5838cc5f7bda992fb' };
+      const firebaseConfig = { apiKey: 'AIzaSyCJ71TSX4VcvB_-mSy7V7Cp8H83YvsNdlQ', authDomain: 'latiao-snack.firebaseapp.com', projectId: 'latiao-snack', storageBucket: 'latiao-snack.firebasestorage.app', messagingSenderId: '6960322548', appId: '1:6960322548:web:3e7bc5838cc5f7bda992fb' };
       const app = initializeApp(firebaseConfig), db = getFirestore(app), grid = document.getElementById('grid');
       const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
       function card(p, id) { const name = p.name || p.title || 'Товар', price = Number(p.price || 0), heat = Math.min(5, Math.max(1, Number(p.heat || p.spicy || 1))), weight = Number(p.weight || p.w || 0), image = p.image || p.imageUrl || p.photo || '', sku = ['article', 'articul', 'sku', 'vendorCode', 'productCode', 'code'].map(k => p[k]).find(v => v !== undefined && v !== null && String(v).trim()) || '', out = p.stock === false || p.inStock === false || (p.stock !== undefined && p.stock !== null && Number(p.stock) <= 0); return `<div class="gi"><div class="pcard-wrap" style="height:100%"><article class="pcard" data-heat="${heat}" data-price="${price}" data-w="${weight}" data-stock="${out ? 0 : 1}" data-id="${esc(id)}" data-sku="${esc(sku)}"><div class="pcard__media">${image ? `<div class="ph" role="img" aria-label="${esc(name)}"><img src="${esc(image)}" alt="${esc(name)}" loading="lazy"></div>` : `<div class="ph" role="img" aria-label="${esc(name)}"><img src="image/image-svgrepo-com.svg" alt="" loading="lazy"></div>`}${out ? `<span class="badge badge--out">Немає в наявності</span>` : (p.badge ? `<span class="badge">${esc(p.badge)}</span>` : '')}</div><h3 class="pcard__title"><a href="product.html?id=${encodeURIComponent(id)}">${esc(name)}</a></h3><p class="muted">${esc(p.description || '')}</p><div class="pcard__meta"><span class="heat" aria-label="Гострота ${heat} з 5"><span class="heat__peppers" aria-hidden="true">${'🌶️'.repeat(heat)}</span><span>${heat}/5</span></span><span>${weight ? weight + ' г' : ''}</span></div><div class="pcard__foot"><span class="price">${price} <small>грн</small></span>${out ? `<button class="btn btn--ink btn--sm btn--out" type="button" data-notify aria-label="Повідомити про наявність"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg><span class="t">Повідомити</span></button>` : `<button class="btn btn--ink btn--sm" type="button" data-add data-id="${esc(id)}" data-name="${esc(name)}" data-price="${price}" data-image="${esc(image || 'image/image-svgrepo-com.svg')}" data-sku="${esc(sku)}"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2.5l2 11h10.5l2-8H6.5"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg><svg class="ic ic--ok" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span class="t">В кошик</span></button>`}</div></article></div></div>` }
@@ -3472,7 +3472,10 @@
                pop.querySelector('form').addEventListener('submit', ev => {
                   ev.preventDefault();
                   const v = pop.querySelector('input').value.trim(); if (!v) return;
-                  try { const l = JSON.parse(localStorage.getItem('latiao_notify') || '[]'); l.push({ id: c.dataset.id, name: (c.querySelector('.pcard__title') || {}).textContent, contact: v, at: Date.now() }); localStorage.setItem('latiao_notify', JSON.stringify(l)); } catch (_) { }
+                  const entry = { id: c.dataset.id, name: (c.querySelector('.pcard__title') || {}).textContent, contact: v, at: Date.now() };
+                  try { const l = JSON.parse(localStorage.getItem('latiao_notify') || '[]'); l.push(entry); localStorage.setItem('latiao_notify', JSON.stringify(l)); } catch (_) { }
+                  /* Запит записуємо в Firestore latiao-snack (колекція notify) */
+                  import('./js/firebase-init.js').then(m => m.saveNotify(entry)).catch(e => console.warn('Notify: не вдалося записати в Firestore', e));
                   pop.innerHTML = '<p role="status">Готово, напишемо, коли з’явиться</p>';
                   setTimeout(() => pop.remove(), 2500);
                });
@@ -3506,7 +3509,7 @@
    </script>
    <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'; import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-      const categoriesApp = initializeApp({ apiKey: 'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw', authDomain: 'my-magazin-81c96.firebaseapp.com', projectId: 'my-magazin-81c96', storageBucket: 'my-magazin-81c96.firebasestorage.app', messagingSenderId: '129061757346', appId: '1:129061757346:web:3e7bc5838cc5f7bda992fb' }); try { const s = await getDocs(collection(getFirestore(categoriesApp), 'categories')); if (!s.empty) document.querySelectorAll('.submenu').forEach(m => m.innerHTML = s.docs.map(d => { const x = d.data(), n = x.name || x.title || x.label || d.id, slug = x.slug || d.id; return `<li><a href="catalog.html?category=${encodeURIComponent(slug)}">${n}</a></li>` }).join('')) } catch (e) { console.warn('Categories unavailable:', e) }
+      const categoriesApp = initializeApp({ apiKey: 'AIzaSyCJ71TSX4VcvB_-mSy7V7Cp8H83YvsNdlQ', authDomain: 'latiao-snack.firebaseapp.com', projectId: 'latiao-snack', storageBucket: 'latiao-snack.firebasestorage.app', messagingSenderId: '6960322548', appId: '1:6960322548:web:3e7bc5838cc5f7bda992fb' }); try { const s = await getDocs(collection(getFirestore(categoriesApp), 'categories')); if (!s.empty) document.querySelectorAll('.submenu').forEach(m => m.innerHTML = s.docs.map(d => { const x = d.data(), n = x.name || x.title || x.label || d.id, slug = x.slug || d.id; return `<li><a href="catalog.html?category=${encodeURIComponent(slug)}">${n}</a></li>` }).join('')) } catch (e) { console.warn('Categories unavailable:', e) }
    </script>
    <script src="shipbar.js" defer></script>
    <script src="cart.js" defer></script>

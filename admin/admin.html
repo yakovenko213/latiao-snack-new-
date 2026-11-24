@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="uk">
 
 <head>
@@ -224,6 +224,162 @@
 
     .sync-status.err {
       color: #a52e2e
+    }
+
+    /* ===== Склад: таблиця залишків і резервів ===== */
+    .stock-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      overflow: hidden
+    }
+
+    .stock-table th,
+    .stock-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+      vertical-align: middle
+    }
+
+    .stock-table th {
+      background: #fafafa;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--muted)
+    }
+
+    .stock-table tr:last-child td {
+      border-bottom: 0
+    }
+
+    .stock-table tr.negative td {
+      background: #fbe9e9
+    }
+
+    .stock-table .num {
+      text-align: right;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums
+    }
+
+    .stock-table .res-link {
+      border: 0;
+      background: none;
+      color: var(--orange);
+      cursor: pointer;
+      font: inherit;
+      text-decoration: underline;
+      padding: 0
+    }
+
+    .stock-mismatches {
+      margin: 0 0 14px;
+      padding: 12px 14px;
+      background: #fbe9e9;
+      border: 1px solid #e5b5b5;
+      border-radius: 9px;
+      color: #a52e2e;
+      font-size: 13px
+    }
+
+    .stock-mismatches b {
+      display: block;
+      margin-bottom: 6px
+    }
+
+    .stock-mismatches ul {
+      margin: 0;
+      padding-left: 18px
+    }
+
+    .log-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px
+    }
+
+    .log-table th,
+    .log-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left
+    }
+
+    .log-table th {
+      background: #fafafa;
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .resv-list {
+      display: grid;
+      gap: 8px
+    }
+
+    .resv-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 10px;
+      background: #fafafa;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      font-size: 13px
+    }
+
+    .settings-card select[multiple] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      font: inherit
+    }
+
+    .resv-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      background: #fff1e9;
+      color: #cc4d0b
+    }
+
+    .resv-badge.sold {
+      background: #e9f2fd;
+      color: #1d5fbf
+    }
+
+    .resv-badge.released {
+      background: #f1f1f1;
+      color: #555
+    }
+
+    .resv-badge.attention {
+      background: #fdeaea;
+      color: #b3261e
+    }
+
+    .order-card.needs-attention {
+      border-color: #e53935;
+      box-shadow: 0 0 0 2px rgba(229, 57, 53, .18)
+    }
+
+    .order-card.needs-attention .order-head {
+      background: #fdf3f3
+    }
+
+    .site-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      background: #eef7ee;
+      color: #2e7d32
     }
 
     .settings-card {
@@ -644,6 +800,23 @@
       color: #fff
     }
 
+    .order-card.selected {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 1px var(--orange)
+    }
+
+    .order-head .pick {
+      display: flex;
+      align-items: center
+    }
+
+    .order-head .pick input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--orange);
+      cursor: pointer
+    }
+
     .modal-card.narrow {
       width: min(440px, 100%)
     }
@@ -960,10 +1133,430 @@
         margin-left: 48px
       }
     }
+
+    /* ===== Замовлення ===== */
+    .orders-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px
+    }
+
+    .orders-search,
+    .orders-filter {
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      font: inherit;
+      background: #fff;
+      color: var(--ink)
+    }
+
+    .orders-search {
+      width: 240px
+    }
+
+    .orders-search:focus,
+    .orders-filter:focus {
+      outline: none;
+      border-color: var(--orange)
+    }
+
+    .orders-list {
+      display: grid;
+      gap: 16px
+    }
+
+    .order-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden
+    }
+
+    .order-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 16px;
+      padding: 14px 18px;
+      background: #fffaf7;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .order-head .who {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0
+    }
+
+    .order-head .who b {
+      font-size: 15px
+    }
+
+    .order-head .who .muted {
+      font-size: 12px
+    }
+
+    .order-customer {
+      min-width: 0
+    }
+
+    .order-customer b {
+      display: block;
+      font-size: 14px
+    }
+
+    .order-customer .muted {
+      font-size: 12px
+    }
+
+    .order-total {
+      margin-left: auto;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--orange);
+      white-space: nowrap
+    }
+
+    .badge.red {
+      background: #fbe9e9;
+      color: #a52e2e
+    }
+
+    .order-details {
+      padding: 18px
+    }
+
+    .order-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px
+    }
+
+    .order-block {
+      padding: 12px 14px;
+      background: #fafafa;
+      border: 1px solid var(--line);
+      border-radius: 8px
+    }
+
+    .order-block h4,
+    .order-items h4,
+    .order-totals h4 {
+      margin: 0 0 8px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted)
+    }
+
+    .order-block .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      padding: 3px 0
+    }
+
+    .order-block .row span:first-child {
+      color: var(--muted)
+    }
+
+    .order-block .row span:last-child {
+      text-align: right;
+      font-weight: 600;
+      word-break: break-word
+    }
+
+    .order-status {
+      min-height: 32px;
+      padding: 0 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font: inherit;
+      font-size: 13px;
+      max-width: 190px;
+      background: #fff
+    }
+
+    .order-status:focus {
+      outline: none;
+      border-color: var(--orange)
+    }
+
+    .shipment-code {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px
+    }
+
+    .shipment-code a {
+      color: var(--orange);
+      text-decoration: underline
+    }
+
+    .order-note {
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-word
+    }
+
+    .order-items {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px
+    }
+
+    .order-totals {
+      max-width: 360px;
+      margin-left: auto;
+      padding: 12px 14px;
+      background: #fafafa;
+      border: 1px solid var(--line);
+      border-radius: 8px
+    }
+
+    .order-totals .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      padding: 3px 0
+    }
+
+    .order-totals .row span:first-child {
+      color: var(--muted)
+    }
+
+    .order-totals .row.discount span {
+      color: #227a3e;
+      font-weight: 600
+    }
+
+    .order-totals .row.grand {
+      border-top: 1px solid var(--line);
+      margin-top: 6px;
+      padding-top: 8px;
+      font-size: 16px;
+      font-weight: 800
+    }
+
+    .order-totals .row.grand span:last-child {
+      color: var(--orange)
+    }
+
+    .keycrm-order-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px
+    }
+
+    .keycrm-order-actions .message {
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .keycrm-order-actions .message.err {
+      color: #a52e2e
+    }
+
+      .keycrm-order-actions .message.ok {
+      color: #227a3e
+    }
+
+    .keycrm-send:disabled {
+      opacity: .58;
+      cursor: default
+    }
+
+    @media(max-width:760px) {
+      .orders-search {
+        width: 100%
+      }
+
+      .order-head {
+        gap: 10px 12px
+      }
+
+      .order-total {
+        margin-left: 0;
+        width: 100%;
+        order: 10
+      }
+
+      .order-grid {
+        grid-template-columns: 1fr
+      }
+
+      .order-totals {
+        max-width: none
+      }
+    }
+
+    /* Екран авторизації */
+    body.locked .layout {
+      display: none
+    }
+
+    .login-gate {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: radial-gradient(1200px 600px at 50% -10%, #ffe4d3 0%, var(--bg) 55%);
+      z-index: 100
+    }
+
+    .login-gate[hidden] {
+      display: none
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 380px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 30px 28px;
+      box-shadow: 0 18px 50px rgba(27, 27, 27, .12)
+    }
+
+    .login-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 20px;
+      margin-bottom: 6px
+    }
+
+    .login-sub {
+      color: var(--muted);
+      margin: 0 0 20px
+    }
+
+    .login-card label {
+      display: block;
+      font-weight: 600;
+      font-size: 13px;
+      margin: 0 0 6px
+    }
+
+    .login-card .field {
+      margin-bottom: 14px
+    }
+
+    .login-card input[type=text],
+    .login-card input[type=password] {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font: inherit;
+      background: #fff
+    }
+
+    .login-card input:focus {
+      outline: 2px solid #ffd9c2;
+      border-color: var(--orange)
+    }
+
+    .login-pass-wrap {
+      position: relative
+    }
+
+    .login-pass-wrap input {
+      padding-right: 92px
+    }
+
+    .login-pass-wrap button {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font: 600 12px Arial, sans-serif;
+      cursor: pointer;
+      padding: 4px 6px
+    }
+
+    .login-error {
+      display: none;
+      margin: 0 0 14px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #fdecec;
+      color: #a52e2e;
+      font-size: 13px
+    }
+
+    .login-error.show {
+      display: block
+    }
+
+    .login-submit {
+      width: 100%;
+      border: 0;
+      border-radius: 8px;
+      background: var(--orange);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      padding: 12px;
+      cursor: pointer
+    }
+
+    .login-submit:disabled {
+      opacity: .55;
+      cursor: default
+    }
+
+    .login-foot {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 14px 0 0;
+      text-align: center
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
   </style>
 </head>
 
-<body>
+<body class="locked">
+  <div class="login-gate" id="loginGate" hidden>
+    <form class="login-card" id="loginForm" autocomplete="off">
+      <div class="login-brand"><b class="brand-mark">L</b><span>LATIAO</span></div>
+      <p class="login-sub">Вхід до адмін-панелі</p>
+      <div class="login-error" id="loginError" role="alert"></div>
+      <div class="field">
+        <label for="loginUser">Логін</label>
+        <input type="text" id="loginUser" name="username" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="loginPass">Пароль</label>
+        <div class="login-pass-wrap">
+          <input type="password" id="loginPass" name="password" autocomplete="current-password" required>
+          <button type="button" id="loginToggle">Показати</button>
+        </div>
+      </div>
+      <button type="submit" class="login-submit" id="loginSubmit">Увійти</button>
+      <p class="login-foot">Доступ лише для адміністраторів магазину</p>
+    </form>
+  </div>
   <div class="layout">
     <aside>
       <div class="brand"><b class="brand-mark">L</b><span>LATIAO</span></div>
@@ -987,6 +1580,11 @@
               <circle cx="9.5" cy="20" r="1.4" />
               <circle cx="17.5" cy="20" r="1.4" />
             </svg></b><span>Покинуті кошики</span></button>
+        <button onclick="selectSection(this,'Замовлення')"><b class="icon"><svg viewBox="0 0 24 24">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+              <rect x="9" y="3" width="6" height="4" rx="1" />
+              <path d="M9 12h6M9 16h4" />
+            </svg></b><span>Замовлення</span></button>
         <div class="nav-sep"></div>
         <button onclick="selectSection(this,'Налаштування')"><b class="icon"><svg viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="3" />
@@ -1001,7 +1599,7 @@
           <h1 id="title">Товари</h1>
           <div class="date">Каталог товарів з бази даних</div>
         </div>
-        <div class="profile">Адміністратор</div>
+        <div class="header-actions"><div class="profile">Адміністратор</div><button type="button" class="btn btn-secondary" id="logoutBtn">Вийти</button></div>
       </header>
       <section id="productsSection">
         <div class="toolbar"><span class="count" id="productCount">Завантаження…</span>
@@ -1024,12 +1622,15 @@
       </section>
       <section id="stockSection" hidden>
         <div class="toolbar"><span class="count" id="stockCount">Завантаження…</span>
-          <div><button type="button" id="syncKeycrm">Синхронізувати зараз</button></div>
+          <div><button type="button" id="syncKeycrm">Оновити залишки</button> <button type="button" id="stockLogBtn"
+              class="btn btn-secondary">Журнал рухів</button> <button type="button" id="migrateReservationsBtn"
+              class="btn btn-secondary">Замовлення без резерву</button></div>
           <div class="pager"><button type="button" id="stockPrev">← Назад</button><span id="stockPage"
               class="muted"></span><button type="button" id="stockNext">Далі →</button></div>
         </div>
         <div class="sync-status" id="syncStatus">Остання синхронізація: —</div>
-        <div id="stockList" class="products" aria-live="polite"></div>
+        <div id="stockMismatches" class="stock-mismatches" hidden></div>
+        <div id="stockList" aria-live="polite"></div>
       </section>
       <section id="abandonedSection" hidden>
         <div class="toolbar"><span class="count" id="abandonedCount">Завантаження…</span>
@@ -1041,6 +1642,32 @@
           <div class="summary-card"><div class="muted">Загальна сума</div><b id="sumTotal">0 грн</b></div>
         </div>
         <div id="abandonedList" class="abandoned-list" aria-live="polite"></div>
+      </section>
+      <section id="ordersSection" hidden>
+        <div class="toolbar"><span class="count" id="ordersCount">Завантаження…</span>
+          <div class="orders-toolbar"><input type="search" id="ordersSearch" class="orders-search"
+              placeholder="Пошук: №, ПІБ, телефон, місто…"><select id="ordersStatusFilter" class="orders-filter">
+              <option value="">Всі статуси</option>
+              <option>Очікує оплати</option>
+              <option>Оплачене</option>
+              <option>В обробці</option>
+              <option>Відправлене</option>
+              <option>Виконане</option>
+              <option>Скасоване</option>
+              <option>Новий (спрощене)</option>
+            </select><button type="button" id="ordersRefresh" class="btn btn-secondary">Оновити</button></div>
+        </div>
+        <div id="ordersSummary" class="cart-summary" hidden>
+          <div class="summary-card"><div class="muted">Замовлень</div><b id="ordSumCount">0</b></div>
+          <div class="summary-card"><div class="muted">Загальна сума</div><b id="ordSumTotal">0 грн</b></div>
+          <div class="summary-card"><div class="muted">Очікують оплати</div><b id="ordSumPending">0</b></div>
+        </div>
+        <div class="bulk-bar" id="ordersBulkBar"><label class="check"><input type="checkbox" id="selectAllOrders">
+            Вибрати показані</label><span class="sel-count" id="ordersBulkCount"></span><span class="bulk-actions"
+            id="ordersBulkActions" hidden><button type="button" class="btn btn-danger" id="ordersBulkDelete">Видалити
+              вибрані</button><button type="button" class="btn btn-secondary" id="ordersBulkClear">Зняти
+              виділення</button></span></div>
+        <div id="ordersList" class="orders-list" aria-live="polite"></div>
       </section>
       <section id="settingsSection" hidden>
         <div class="settings-card">
@@ -1055,6 +1682,20 @@
               залишків</label></div>
           <div class="field"><label for="keycrmInterval">Інтервал синхронізації, хвилин</label><input
               id="keycrmInterval" type="number" min="1" step="1" value="10"></div>
+          <div class="field"><label for="keycrmDeductStatuses">Статуси KeyCRM, що списують товар зі складу
+              (мультивибір)</label><select id="keycrmDeductStatuses" multiple size="6"></select>
+            <div class="muted">Коли замовлення в KeyCRM отримує один із цих статусів, його резерв стає «Списано»
+              і залишок оновлюється із KeyCRM.</div>
+          </div>
+          <div class="field"><label for="keycrmCancelStatuses">Статуси адмінки-скасування (через кому)</label><input
+              id="keycrmCancelStatuses" type="text"
+              placeholder="Скасоване, Скасовано, Відмова, Не оплачено, Не забрано">
+            <div class="muted">При встановленні такого статусу резерв знімається і товар знову доступний.</div>
+          </div>
+          <div class="field"><label class="check"><input id="keycrmAutoRelease" type="checkbox"> Автоматично знімати
+              резерв у неоплачених замовленнях за таймаутом</label></div>
+          <div class="field"><label for="keycrmUnpaidTimeout">Таймаут неоплачених замовлень, годин</label><input
+              id="keycrmUnpaidTimeout" type="number" min="1" step="1" value="48"></div>
           <div class="settings-actions"><button type="button" id="saveSettings"
               class="btn btn-primary">Зберегти</button> <button type="button" id="testConnection"
               class="btn btn-secondary">Перевірити підключення</button></div>
@@ -1064,7 +1705,7 @@
     </main>
   </div>
   <div class="modal" id="productModal" hidden>
-    <form class="modal-card" id="productForm">
+    <form class="modal-card" id="productForm" novalidate>
       <div class="modal-head">
         <h2 id="productModalTitle">Новий товар</h2><button class="close" type="button" id="closeProduct">×</button>
       </div>
@@ -1146,17 +1787,104 @@
       </div>
     </form>
   </div>
+  <div class="modal" id="reservationsModal" hidden>
+    <div class="modal-card narrow">
+      <div class="modal-head">
+        <h2>Хто тримає резерв</h2><button class="close" type="button" id="closeReservations">×</button>
+      </div>
+      <div id="reservationsList" class="resv-list"></div>
+    </div>
+  </div>
+  <div class="modal" id="stockLogModal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2>Журнал рухів залишків</h2><button class="close" type="button" id="closeStockLog">×</button>
+      </div>
+      <div id="stockLogContent" style="overflow:auto;max-height:70vh"></div>
+    </div>
+  </div>
+  <div class="modal" id="migrateReservationsModal" hidden>
+    <div class="modal-card">
+      <div class="modal-head"><h3>Замовлення без резерву</h3>
+        <button type="button" class="btn btn-ghost" id="closeMigrateReservations">✕</button></div>
+      <p class="muted" style="margin:0 0 12px">Замовлення, які ще не доставлені/скасовані й не списані в KeyCRM, але не мають резерву на складі. Позначте потрібні та натисніть «Створити резерви» — залишки товарів автоматично не змінюються (їх перерахує наступна синхронізація з KeyCRM).</p>
+      <div id="migrateReservationsList" style="overflow:auto;max-height:55vh"></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px">
+        <button type="button" class="btn btn-secondary" id="migrateReservationsRefresh">Оновити список</button>
+        <button type="button" class="btn btn-primary" id="migrateReservationsApply" disabled>Створити резерви</button>
+      </div>
+    </div>
+  </div>
   <script>
-    function selectSection(button, title) { document.querySelectorAll('nav button').forEach(item => item.classList.remove('active')); button.classList.add('active'); document.querySelector('#title').textContent = title; const isProducts = title === 'Товари', isCategories = title === 'Категорії', isStock = title === 'Склад', isSettings = title === 'Налаштування', isAbandoned = title === 'Покинуті кошики'; document.querySelector('#productsSection').hidden = !isProducts; document.querySelector('#categoriesSection').hidden = !isCategories; document.querySelector('#stockSection').hidden = !isStock; document.querySelector('#settingsSection').hidden = !isSettings; document.querySelector('#abandonedSection').hidden = !isAbandoned; document.querySelector('#syncWrap').hidden = !isProducts; document.querySelector('.date').textContent = isProducts ? 'Каталог товарів з бази даних' : isCategories ? 'Меню категорій з бази даних' : isStock ? 'Залишки товарів на складі' : isAbandoned ? 'Незавершені замовлення відвідувачів' : 'Параметри інтеграцій'; if (isProducts) { loadProductCategories().then(loadProducts) } if (isCategories) loadCategories(); if (isStock) loadStock(); if (isSettings) loadSettings(); if (isAbandoned) loadAbandoned() }
+    function selectSection(button, title) { document.querySelectorAll('nav button').forEach(item => item.classList.remove('active')); button.classList.add('active'); document.querySelector('#title').textContent = title; const isProducts = title === 'Товари', isCategories = title === 'Категорії', isStock = title === 'Склад', isSettings = title === 'Налаштування', isAbandoned = title === 'Покинуті кошики', isOrders = title === 'Замовлення'; document.querySelector('#productsSection').hidden = !isProducts; document.querySelector('#categoriesSection').hidden = !isCategories; document.querySelector('#stockSection').hidden = !isStock; document.querySelector('#settingsSection').hidden = !isSettings; document.querySelector('#abandonedSection').hidden = !isAbandoned; document.querySelector('#ordersSection').hidden = !isOrders; document.querySelector('#syncWrap').hidden = !isProducts; document.querySelector('.date').textContent = isProducts ? 'Каталог товарів з бази даних' : isCategories ? 'Меню категорій з бази даних' : isStock ? 'Залишки товарів на складі' : isAbandoned ? 'Незавершені замовлення відвідувачів' : isOrders ? 'Усі замовлення з бази даних' : 'Параметри інтеграцій'; if (isProducts) { loadProductCategories().then(loadProducts) } if (isCategories) loadCategories(); if (isStock) loadStock(); if (isSettings) loadSettings(); if (isAbandoned) loadAbandoned(); if (isOrders) loadOrders() }
+    // Екран авторизації: перевірка логіна/пароля (SHA-256), сесія на 12 год, блокування після 5 невдалих спроб
+    (function () {
+      const GATE = document.querySelector('#loginGate'), FORM = document.querySelector('#loginForm'), USER = document.querySelector('#loginUser'), PASS = document.querySelector('#loginPass'), TOGGLE = document.querySelector('#loginToggle'), ERROR = document.querySelector('#loginError'), SUBMIT = document.querySelector('#loginSubmit');
+      const PEPPER = 'vga^sgjd7x7*Rr-K9GUmGyiq', ADMIN_HASH = 'a84f56f29fef3034696cc927670e530f10a2b79658c78d59f2c074310ae665e3';
+      const SESSION_KEY = 'latiao_admin_session_v1', LOCK_KEY = 'latiao_admin_lock_v1', SESSION_MS = 12 * 60 * 60 * 1000;
+      let adminAuthResolve;
+      window.adminAuthPromise = new Promise(resolve => { adminAuthResolve = resolve });
+      const sha256 = async text => {
+        if (!(window.crypto && crypto.subtle)) throw new Error('crypto-subtle');
+        const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+        return [...new Uint8Array(bytes)].map(b => b.toString(16).padStart(2, '0')).join('');
+      };
+      const showError = message => { ERROR.textContent = message; ERROR.classList.add('show') };
+      const clearError = () => { ERROR.textContent = ''; ERROR.classList.remove('show') };
+      const readLock = () => { try { return JSON.parse(localStorage.getItem(LOCK_KEY)) || {} } catch { return {} } };
+      const lockRemaining = () => { const lock = readLock(); return lock.until > Date.now() ? lock.until - Date.now() : 0 };
+      let lockTimer = null;
+      function tickLock() {
+        const left = lockRemaining();
+        if (!left) { if (lockTimer) { clearInterval(lockTimer); lockTimer = null } SUBMIT.disabled = false; return }
+        SUBMIT.disabled = true;
+        const seconds = Math.ceil(left / 1000), minutes = Math.floor(seconds / 60);
+        showError(`Забагато невдалих спроб. Повторіть через ${minutes ? minutes + ' хв ' : ''}${seconds % 60} с.`);
+        if (!lockTimer) lockTimer = setInterval(tickLock, 1000);
+      }
+      function createSession() {
+        const token = crypto.randomUUID ? crypto.randomUUID() : 't' + Date.now().toString(36) + Math.random().toString(36).slice(2);
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ token, exp: Date.now() + SESSION_MS }));
+        localStorage.removeItem(LOCK_KEY);
+      }
+      const hasValidSession = () => { try { const s = JSON.parse(localStorage.getItem(SESSION_KEY)); return !!(s && s.token && s.exp > Date.now()) } catch { return false } };
+      function unlock() { document.body.classList.remove('locked'); GATE.hidden = true; adminAuthResolve() }
+      document.querySelector('#logoutBtn').addEventListener('click', () => { localStorage.removeItem(SESSION_KEY); location.reload() });
+      FORM.addEventListener('submit', async e => {
+        e.preventDefault();
+        if (lockRemaining()) { tickLock(); return }
+        clearError();
+        SUBMIT.disabled = true;
+        try {
+          const hash = await sha256(`${PEPPER}:${USER.value.trim()}:${PASS.value}`);
+          if (hash === ADMIN_HASH) { createSession(); PASS.value = ''; unlock(); return }
+          const fails = (readLock().n || 0) + 1;
+          if (fails >= 5) {
+            localStorage.setItem(LOCK_KEY, JSON.stringify({ n: fails, until: Date.now() + Math.min((fails - 4) * 30000, 300000) }));
+            tickLock();
+          } else {
+            localStorage.setItem(LOCK_KEY, JSON.stringify({ n: fails }));
+            showError(`Невірний логін або пароль (спроба ${fails} з 5).`);
+          }
+        } catch (error) {
+          showError(error.message === 'crypto-subtle' ? 'Відкрийте адмінку через https або localhost — у незахищеному зʼєднанні вхід недоступний.' : `Помилка входу: ${error.message}`);
+        } finally {
+          if (!lockRemaining()) SUBMIT.disabled = false;
+        }
+      });
+      TOGGLE.addEventListener('click', () => { const hidden = PASS.type === 'password'; PASS.type = hidden ? 'text' : 'password'; TOGGLE.textContent = hidden ? 'Сховати' : 'Показати'; PASS.focus() });
+      if (hasValidSession()) { unlock() } else { GATE.hidden = false; tickLock(); USER.focus() }
+    })();
     // Динамічний заголовок вкладки браузера
     window.addEventListener('DOMContentLoaded', () => { const t = document.querySelector('#title'); new MutationObserver(() => document.title = `${t.textContent} — Latiao`).observe(t, { childList: true }) });
   </script>
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
     import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-    import { getFirestore, collection, getDocs, query, orderBy, doc, updateDoc, addDoc, setDoc, getDoc, deleteDoc, writeBatch, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-    const config = { apiKey: 'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw', authDomain: 'my-magazin-81c96.firebaseapp.com', projectId: 'my-magazin-81c96', storageBucket: 'my-magazin-81c96.firebasestorage.app', messagingSenderId: '129061757346', appId: '1:129061757346:web:3e7bc5838cc5f7bda992fb' };
-    const app = initializeApp(config), auth = getAuth(app), db = getFirestore(app), count = document.querySelector('#productCount');
+    import { getFirestore, collection, getDocs, query, orderBy, doc, updateDoc, addDoc, setDoc, getDoc, deleteDoc, writeBatch, serverTimestamp, runTransaction } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
+    const config = { apiKey: 'AIzaSyCJ71TSX4VcvB_-mSy7V7Cp8H83YvsNdlQ', authDomain: 'latiao-snack.firebaseapp.com', projectId: 'latiao-snack', storageBucket: 'latiao-snack.firebasestorage.app', messagingSenderId: '6960322548', appId: '1:6960322548:web:3e7bc5838cc5f7bda992fb' };
+    const app = initializeApp(config), auth = getAuth(app), db = getFirestore(app), storage = getStorage(app), count = document.querySelector('#productCount');
     const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const first = (obj, keys, fallback = '—') => { for (const key of keys) if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') return obj[key]; return fallback };
     const date = value => { if (!value) return '—'; try { return value.toDate ? value.toDate().toLocaleString('uk-UA') : new Date(value).toLocaleString('uk-UA') } catch { return String(value) } };
@@ -1306,6 +2034,394 @@
         await loadAbandoned();
       } catch (error) { alert(`Не вдалося видалити покинутий кошик: ${error.message}`); button.disabled = false }
     });
+    // ===== Замовлення =====
+    const ordersRoot = document.querySelector('#ordersList'), ordersCount = document.querySelector('#ordersCount');
+    let ordersCache = [];
+    const selectedOrders = new Set();
+    const ordersSelectAll = document.querySelector('#selectAllOrders'), ordersBulkCount = document.querySelector('#ordersBulkCount'), ordersBulkActions = document.querySelector('#ordersBulkActions');
+    const ORDER_STATUSES = ['Очікує оплати', 'Оплачене', 'В обробці', 'Відправлене', 'Виконане', 'Скасоване', 'Скасовано', 'Відмова', 'Не оплачено', 'Не забрано', 'Новий (спрощене)'];
+    const payLabel = p => ({ online: 'Картка онлайн', cod: 'Наложений платіж', prepaid: 'Передоплата' }[p] || p || '—');
+    const statusClass = s => { s = String(s || ''); if (/оплачен|виконан/i.test(s)) return 'green'; if (/очікує/i.test(s)) return 'orange'; if (/відправл|обробк/i.test(s)) return 'blue'; if (/скас|відмов|відхил|не\s*(оплач|забрав|отрим|прийняв|викуп|вруч)|неуспіш|помилк|повернен/i.test(s)) return 'red'; return '' };
+    const money = n => (Number(n) || 0).toLocaleString('uk-UA');
+    // Стан резерву замовлення: active → «У резерві», sold → «Списано в KeyCRM», released → «Резерв знято».
+    const reservationStateLabel = state => ({ active: 'У резерві', sold: 'Списано в KeyCRM', released: 'Резерв знято' }[String(state || '')] || '—');
+    const reservationStateClass = state => ({ active: '', sold: 'sold', released: 'released' }[String(state || '')] || '');
+    const siteLabel = site => ({ 'latiao-snack': 'Основний сайт', 'snack-latiao': 'Другий сайт' }[String(site || '')] || site || '—');
+    // Зміна статусу йде через бекенд: скасування знімає резерв, повернення в роботу — створює заново.
+    async function applyOrderStatusRemote(orderId, nextStatus) {
+      if (!auth.currentUser) await signInAnonymously(auth);
+      const token = await auth.currentUser.getIdToken();
+      const response = await fetch(`/api/admin/orders/${encodeURIComponent(orderId)}/apply-status`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: nextStatus })
+      });
+      let result = {};
+      try { result = await response.json(); } catch { }
+      if (!response.ok) {
+        if (response.status === 404) throw new Error('Серверний endpoint не запущений — розгорніть Firebase Functions');
+        throw new Error(result.error || result.message || 'Не вдалося оновити статус');
+      }
+      return result;
+    }
+    async function loadOrders() {
+      ordersRoot.innerHTML = '<div class="empty">Завантаження замовлень…</div>';
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        const snapshot = await getDocs(collection(db, 'orders'));
+        ordersCache = snapshot.docs.map(d => ({ docId: d.id, ...d.data() }));
+        const liveIds = new Set(ordersCache.map(o => o.docId));
+        [...selectedOrders].forEach(id => { if (!liveIds.has(id)) selectedOrders.delete(id) });
+        renderOrders();
+      } catch (error) { ordersCount.textContent = 'Помилка'; ordersRoot.innerHTML = `<div class="error">Не вдалося завантажити замовлення: ${esc(error.message)}</div>` }
+    }
+    window.loadOrders = loadOrders;
+    function shipmentBlock(o) {
+      const trackingNumber = String(o.tracking_number || o.ttn || '').trim();
+      const service = String(o.shipping_service || o.carrier || '').trim();
+      const isNovaPoshta = /нова\s*пошта|novaposhta|nova\s*poshta/i.test(service);
+      const trackingMarkup = trackingNumber
+        ? `${isNovaPoshta ? `<a href="https://novaposhta.ua/tracking/?cargo_number=${encodeURIComponent(trackingNumber)}" target="_blank" rel="noopener noreferrer">${esc(trackingNumber)}</a>` : esc(trackingNumber)} <button type="button" class="btn btn-ghost btn-sm" data-copy-tracking="${esc(o.docId)}">Копіювати</button>`
+        : 'Ще не відправлено';
+      return `<div class="order-block shipment-block" data-shipment-order="${esc(o.docId)}">
+        <h4>Відправка</h4>
+        <div class="row"><span>ТТН</span><span class="shipment-code">${trackingMarkup}</span></div>
+        <div class="row"><span>Служба доставки</span><span>${esc(o.shipping_service || o.carrier || '—')}</span></div>
+        <div class="row"><span>Дата відправки</span><span>${o.shipped_at ? esc(date(o.shipped_at)) : '—'}</span></div>
+        <div class="row"><span>Остання синхронізація</span><span>${o.tracking_synced_at ? esc(date(o.tracking_synced_at)) : '—'}</span></div>
+        <div class="keycrm-order-actions">
+          <button type="button" class="btn btn-secondary" data-sync-tracking="${esc(o.docId)}" ${o.keycrm_order_id ? '' : 'disabled'} title="${o.keycrm_order_id ? 'Оновити ТТН із KeyCRM' : 'Спочатку передайте замовлення в KeyCRM'}">Оновити ТТН з KeyCRM</button>
+          <span class="message" data-tracking-message="${esc(o.docId)}" aria-live="polite"></span>
+        </div>
+      </div>`;
+    }
+    function renderOrders() {
+      const q = document.querySelector('#ordersSearch').value.trim().toLowerCase();
+      const status = document.querySelector('#ordersStatusFilter').value;
+      const list = ordersCache
+        .filter(o => !status || String(o.status || '') === status)
+        .filter(o => !q || [o.id, o.name, o.phone, o.city, o.promo, o.tracking_number, o.ttn].some(v => String(v || '').toLowerCase().includes(q)))
+        .sort((a, b) => String(b.date || b.createdAt || '').localeCompare(String(a.date || a.createdAt || '')));
+      ordersCount.textContent = `Замовлень: ${ordersCache.length}` + (list.length !== ordersCache.length ? ` · показано: ${list.length}` : '');
+      const totalSum = ordersCache.reduce((s, o) => s + (Number(o.total) || 0), 0);
+      const pending = ordersCache.filter(o => /очікує/i.test(String(o.status || ''))).length;
+      const summary = document.querySelector('#ordersSummary');
+      summary.hidden = !ordersCache.length;
+      document.querySelector('#ordSumCount').textContent = ordersCache.length;
+      document.querySelector('#ordSumTotal').textContent = money(totalSum) + ' грн';
+      document.querySelector('#ordSumPending').textContent = pending;
+      if (!list.length) { ordersRoot.innerHTML = '<div class="empty">Замовлень не знайдено</div>'; updateOrdersBulkUi(); return }
+      ordersRoot.innerHTML = list.map(o => {
+        const items = Array.isArray(o.items) ? o.items : [];
+        const qty = items.reduce((s, i) => s + (Number(i.qty) || 0), 0);
+        const subtotal = (Number(o.total) || 0) + (Number(o.discount) || 0);
+        const initials = String(o.name || '').trim().split(/\s+/).map(w => w[0] || '').join('').slice(0, 2).toUpperCase() || '?';
+        const itemRows = items.map(i => {
+          const ip = Number(i.price) || 0, iq = Number(i.qty) || 0;
+          return `<div class="cart-item">
+            ${i.image ? `<img src="${esc(i.image)}" alt="${esc(i.name || 'Товар')}" loading="lazy">` : `<img src="image/image-svgrepo-com.svg" alt="" loading="lazy" class="cart-item-noimg">`}
+            <div><div class="ci-name">${esc(i.name || 'Товар')}</div>
+              <div class="ci-meta">${i.sku ? 'Артикул: ' + esc(i.sku) + ' · ' : ''}${iq} × ${money(ip)} грн</div></div>
+            <div class="ci-sum">${money(iq * ip)} грн</div>
+          </div>` }).join('');
+        const statusOptions = ORDER_STATUSES.map(s => `<option value="${esc(s)}" ${String(o.status) === s ? 'selected' : ''}>${esc(s)}</option>`).join('');
+        return `<article class="order-card${selectedOrders.has(o.docId) ? ' selected' : ''}${o.needsAttention ? ' needs-attention' : ''}">
+          <div class="order-head">
+            <label class="pick" title="Вибрати замовлення"><input type="checkbox" class="order-check" data-order-check="${esc(o.docId)}" ${selectedOrders.has(o.docId) ? 'checked' : ''}></label>
+            <div class="who"><div class="cart-avatar">${esc(initials)}</div>
+              <div><b>${esc(o.id || o.docId)}</b><div class="muted">${esc(date(o.date || o.createdAt))}</div></div></div>
+            <div class="order-customer"><b>${esc(o.name || 'Без імені')}</b><div class="muted">${o.phone ? '📞 ' + esc(o.phone) : 'Телефон не вказано'}</div></div>
+            <div class="cart-badges">
+              <span class="badge blue">🚚 ${esc(o.carrier || '—')}</span>
+              <span class="badge green">💳 ${esc(payLabel(o.payment))}</span>
+              <span class="badge ${statusClass(o.status)}">📦 ${esc(o.status || '—')}</span>
+              <span class="badge ${o.tracking_number || o.ttn ? 'green' : ''} order-tracking-badge">ТТН ${o.tracking_number || o.ttn ? 'є' : 'немає'}</span>
+              <span class="resv-badge ${reservationStateClass(o.reservationState)}" data-resv-badge>📦 ${esc(reservationStateLabel(o.reservationState))}</span>
+              ${o.site ? `<span class="site-badge" title="Сайт, з якого прийшло замовлення">🌐 ${esc(siteLabel(o.site))}</span>` : ''}
+              ${o.needsAttention ? `<span class="resv-badge attention" title="${esc(o.needsAttentionReason || '')}">⚠ Потребує уваги</span>` : ''}
+            </div>
+            <div class="order-total">${money(o.total)} грн</div>
+            <button type="button" class="btn btn-ghost btn-sm" data-order-toggle="${esc(o.docId)}">Деталі</button>
+          </div>
+          <div class="order-details" data-order-details="${esc(o.docId)}" hidden>
+            <div class="order-grid">
+              <div class="order-block">
+                <h4>Клієнт</h4>
+                <div class="row"><span>ПІБ</span><span>${esc(o.name || '—')}</span></div>
+                <div class="row"><span>Телефон</span><span>${o.phone ? `<a href="tel:${esc(String(o.phone).replace(/[^+\d]/g, ''))}">${esc(o.phone)}</a>` : '—'}</span></div>
+              </div>
+              <div class="order-block">
+                <h4>Доставка</h4>
+                <div class="row"><span>Перевізник</span><span>${esc(o.carrier || '—')}</span></div>
+                <div class="row"><span>Місто</span><span>${esc(o.shipping_city || o.city || '—')}</span></div>
+                <div class="row"><span>Адреса / відділення</span><span>${esc(o.shipping_point || o.branch || '—')}</span></div>
+              </div>
+              <div class="order-block">
+                <h4>Оплата</h4>
+                <div class="row"><span>Спосіб</span><span>${esc(payLabel(o.payment))}</span></div>
+                <div class="row"><span>Статус</span><span><select class="order-status" data-order-status="${esc(o.docId)}">${statusOptions}</select></span></div>
+                ${o.payId ? `<div class="row"><span>ID оплати</span><span>${esc(o.payId)}</span></div>` : ''}
+              </div>
+              <div class="order-block" data-order-reservations="${esc(o.docId)}">
+                <h4>Резерв складу</h4>
+                <div class="muted">Завантаження…</div>
+              </div>
+              <div class="order-block">
+                <h4>Тип замовлення</h4>
+                <label><input type="checkbox" data-simplified-order="${esc(o.docId)}" ${o.simplifiedOrder === true ? 'checked' : ''}> Спрощене замовлення</label>
+              </div>
+              <div class="order-block">
+                <h4>Коментар</h4>
+                <div class="order-note">${esc(o.note || 'Без коментаря')}</div>
+              </div>
+              ${shipmentBlock(o)}
+            </div>
+            <div class="order-items">
+              <h4>Товари (${qty} шт)</h4>
+              ${itemRows || '<div class="empty">Список товарів порожній</div>'}
+            </div>
+            <div class="order-totals">
+              <div class="row"><span>Сума товарів</span><span>${money(subtotal)} грн</span></div>
+              ${Number(o.discount) > 0 ? `<div class="row discount"><span>Знижка${o.promo ? ' · промокод ' + esc(o.promo) : ''}</span><span>−${money(o.discount)} грн</span></div>` : (o.promo ? `<div class="row"><span>Промокод</span><span>${esc(o.promo)}</span></div>` : '')}
+              <div class="row grand"><span>Разом</span><span>${money(o.total)} грн</span></div>
+            </div>
+            <div class="keycrm-order-actions">
+              ${o.keycrm_order_id ? `<button type="button" class="btn btn-secondary keycrm-send" disabled>Передано в KeyCRM (#${esc(o.keycrm_order_id)})</button>` : `<button type="button" class="btn btn-primary keycrm-send" data-send-keycrm="${esc(o.docId)}">Передати замовлення в KeyCRM</button>`}
+              <span class="message" data-keycrm-message="${esc(o.docId)}" aria-live="polite"></span>
+            </div>
+          </div>
+        </article>` }).join('');
+      updateOrdersBulkUi();
+    }
+    function updateOrdersBulkUi() {
+      const boxes = [...ordersRoot.querySelectorAll('.order-check')];
+      const selectedVisible = boxes.filter(box => box.checked).length;
+      ordersBulkCount.textContent = selectedOrders.size ? `Вибрано: ${selectedOrders.size}` : 'Виберіть замовлення для масових дій';
+      ordersBulkActions.hidden = !selectedOrders.size;
+      ordersSelectAll.disabled = !boxes.length;
+      ordersSelectAll.checked = boxes.length > 0 && selectedVisible === boxes.length;
+      ordersSelectAll.indeterminate = selectedVisible > 0 && selectedVisible < boxes.length;
+    }
+    function syncOrderCheckboxes() { ordersRoot.querySelectorAll('.order-check').forEach(box => { box.checked = selectedOrders.has(box.dataset.orderCheck); box.closest('.order-card').classList.toggle('selected', box.checked) }) }
+    ordersRoot.addEventListener('change', e => {
+      const box = e.target.closest('.order-check');
+      if (!box) return;
+      if (box.checked) selectedOrders.add(box.dataset.orderCheck); else selectedOrders.delete(box.dataset.orderCheck);
+      box.closest('.order-card').classList.toggle('selected', box.checked);
+      updateOrdersBulkUi();
+    });
+    ordersSelectAll.addEventListener('change', () => {
+      const boxes = ordersRoot.querySelectorAll('.order-check');
+      if (ordersSelectAll.checked) boxes.forEach(b => selectedOrders.add(b.dataset.orderCheck));
+      else boxes.forEach(b => selectedOrders.delete(b.dataset.orderCheck));
+      syncOrderCheckboxes();
+      updateOrdersBulkUi();
+    });
+    document.querySelector('#ordersBulkClear').addEventListener('click', () => { selectedOrders.clear(); syncOrderCheckboxes(); updateOrdersBulkUi() });
+    document.querySelector('#ordersBulkDelete').addEventListener('click', async e => {
+      const button = e.currentTarget, ids = [...selectedOrders]; if (!ids.length) return;
+      if (!confirm(`Видалити вибрані замовлення (${ids.length})? Дію не можна скасувати.`)) return;
+      button.disabled = true;
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        for (let i = 0; i < ids.length; i += 450) { const batch = writeBatch(db); ids.slice(i, i + 450).forEach(id => batch.delete(doc(db, 'orders', id))); await batch.commit() }
+        selectedOrders.clear(); await loadOrders();
+        ordersCount.textContent += ` · Видалено: ${ids.length}`;
+      } catch (error) { alert(`Не вдалося видалити замовлення: ${error.message}`) } finally { button.disabled = false }
+    });
+    document.querySelector('#ordersSearch').addEventListener('input', renderOrders);
+    document.querySelector('#ordersStatusFilter').addEventListener('change', renderOrders);
+    document.querySelector('#ordersRefresh').addEventListener('click', loadOrders);
+    ordersRoot.addEventListener('click', e => {
+      const sendButton = e.target.closest('[data-send-keycrm]');
+      if (sendButton) { sendOrderToKeycrm(sendButton); return; }
+      const syncTrackingButton = e.target.closest('[data-sync-tracking]');
+      if (syncTrackingButton) { syncOrderTracking(syncTrackingButton); return; }
+      const copyTrackingButton = e.target.closest('[data-copy-tracking]');
+      if (copyTrackingButton) { copyTrackingNumber(copyTrackingButton); return; }
+      const toggle = e.target.closest('[data-order-toggle]'); if (!toggle) return;
+      const details = ordersRoot.querySelector(`[data-order-details="${toggle.dataset.orderToggle}"]`);
+      if (!details) return;
+      details.hidden = !details.hidden;
+      toggle.textContent = details.hidden ? 'Деталі' : 'Сховати';
+      if (!details.hidden) loadOrderReservations(toggle.dataset.orderToggle, details);
+    });
+    // Резерви замовлення в деталях: статус і сайт-джерело кожної позиції.
+    async function loadOrderReservations(orderId, container) {
+      const box = container.querySelector('[data-order-reservations]');
+      if (!box) return;
+      try {
+        const result = await callAdminApi(`/stock/reservations?orderId=${encodeURIComponent(orderId)}`);
+        const rows = result.reservations || [];
+        box.innerHTML = rows.length
+          ? rows.map(r => `<div class="row"><span>${esc(r.sku || '—')} · ${esc(r.quantity)} шт</span><span>${esc(reservationStateLabel(r.status))}${r.site ? ' · ' + esc(siteLabel(r.site)) : ''}</span></div>`).join('')
+          : '<div class="muted">Резервів немає</div>';
+      } catch (error) { box.innerHTML = `<div class="muted">Резерв: ${esc(error.message)}</div>` }
+    }
+    async function sendOrderToKeycrm(button) {
+      const order = ordersCache.find(entry => entry.docId === button.dataset.sendKeycrm);
+      if (!order || button.disabled) return;
+      const items = Array.isArray(order.items) ? order.items : [];
+      const missing = [];
+      if (!items.length) missing.push('додайте хоча б один товар');
+      if (!String(order.name || order.fullName || '').trim()) missing.push('вкажіть ім’я покупця');
+      if (!(order.phone || order.email || order.customerEmail || order.customerPhone)) missing.push('вкажіть телефон або email покупця');
+      const message = ordersRoot.querySelector(`[data-keycrm-message="${order.docId}"]`);
+      if (missing.length) { message.className = 'message err'; message.textContent = `Неможливо передати: ${missing.join('; ')}.`; return; }
+
+      button.disabled = true;
+      button.textContent = 'Передача…';
+      message.className = 'message'; message.textContent = '';
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        const token = await auth.currentUser.getIdToken();
+        const response = await fetch(`/api/admin/orders/${encodeURIComponent(order.docId)}/send-to-keycrm`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}`, Accept: 'application/json', 'Content-Type': 'application/json' },
+          body: '{}'
+        });
+        let result = {};
+        try { result = await response.json(); } catch { }
+        if (!response.ok) {
+          let errorText = result.error || result.message || 'Не вдалося передати замовлення';
+          if (response.status === 401) errorText = 'Невірний API-ключ KeyCRM, перевірте Налаштування';
+          else if (response.status === 404) errorText = 'Серверний endpoint KeyCRM не запущений. npx serve не обробляє Firebase Functions — розгорніть Firebase Hosting і Functions.';
+          else if (response.status >= 500) errorText = 'KeyCRM недоступний, спробуйте пізніше';
+          else if (result.details) errorText = typeof result.details === 'string' ? result.details : JSON.stringify(result.details);
+          throw new Error(errorText);
+        }
+        order.keycrm_order_id = result.id;
+        order.keycrm_transferred_at = new Date().toISOString();
+        button.disabled = true;
+        button.removeAttribute('data-send-keycrm');
+        button.className = 'btn btn-secondary keycrm-send';
+        button.textContent = `Передано в KeyCRM (#${result.id})`;
+        const trackingButton = button.closest('.order-details')?.querySelector('[data-sync-tracking]');
+        if (trackingButton) trackingButton.disabled = false;
+        message.className = 'message ok'; message.textContent = result.statusUpdated === false
+          ? `Замовлення передано в KeyCRM; статус «${result.statusName || 'Новий'}» не вдалося оновити автоматично.`
+          : 'Замовлення передано в KeyCRM';
+      } catch (error) {
+        message.className = 'message err'; message.textContent = error.name === 'TypeError' ? 'KeyCRM недоступний, спробуйте пізніше' : (error.message || 'KeyCRM недоступний, спробуйте пізніше');
+        button.disabled = false;
+        button.textContent = 'Передати замовлення в KeyCRM';
+      }
+    }
+    async function copyTrackingNumber(button) {
+      const order = ordersCache.find(entry => entry.docId === button.dataset.copyTracking);
+      const trackingNumber = String(order?.tracking_number || order?.ttn || '').trim();
+      const message = ordersRoot.querySelector(`[data-tracking-message="${button.dataset.copyTracking}"]`);
+      if (!trackingNumber || !message) return;
+      try {
+        await navigator.clipboard.writeText(trackingNumber);
+        message.className = 'message ok';
+        message.textContent = 'ТТН скопійовано';
+      } catch (error) {
+        message.className = 'message err';
+        message.textContent = 'Не вдалося скопіювати ТТН у цьому браузері';
+      }
+    }
+    async function syncOrderTracking(button) {
+      const order = ordersCache.find(entry => entry.docId === button.dataset.syncTracking);
+      if (!order || !order.keycrm_order_id || button.disabled) return;
+      const message = ordersRoot.querySelector(`[data-tracking-message="${order.docId}"]`);
+      button.disabled = true;
+      button.textContent = 'Оновлення…';
+      if (message) { message.className = 'message'; message.textContent = ''; }
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        const token = await auth.currentUser.getIdToken();
+        const response = await fetch(`/api/admin/orders/${encodeURIComponent(order.docId)}/sync-tracking`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}`, Accept: 'application/json', 'Content-Type': 'application/json' },
+          body: '{}'
+        });
+        let result = {};
+        try { result = await response.json(); } catch { }
+        if (result.notFound) {
+          order.tracking_sync_status = 'not_found';
+          order.tracking_synced_at = result.tracking_synced_at || new Date().toISOString();
+          if (response.status !== 404) throw new Error('Замовлення не знайдено в KeyCRM');
+        } else if (!response.ok) {
+          if (response.status === 401) throw new Error('Невірний API-ключ KeyCRM, перевірте Налаштування');
+          if (response.status === 404) throw new Error(result.error || 'Замовлення не знайдено в KeyCRM');
+          if (response.status >= 500) throw new Error('KeyCRM недоступний, спробуйте пізніше');
+          throw new Error(result.error || result.message || 'Не вдалося оновити ТТН');
+        } else {
+          order.tracking_number = result.tracking_number || order.tracking_number || order.ttn || '';
+          order.shipping_service = result.shipping_service || order.shipping_service || '';
+          order.shipped_at = result.shipped_at || order.shipped_at || '';
+          order.shipping_city = result.shipping_city || order.shipping_city || '';
+          order.shipping_point = result.shipping_point || order.shipping_point || '';
+          order.tracking_synced_at = result.tracking_synced_at || new Date().toISOString();
+          order.tracking_sync_status = result.hasTrackingNumber ? 'synced' : 'pending';
+        }
+        const card = button.closest('.order-card');
+        const shipment = card?.querySelector('[data-shipment-order]');
+        if (shipment) {
+          const replacement = document.createElement('div');
+          replacement.innerHTML = shipmentBlock(order);
+          shipment.replaceWith(replacement.firstElementChild);
+        }
+        const badge = card?.querySelector('.order-tracking-badge');
+        const hasTracking = !!String(order.tracking_number || order.ttn || '').trim();
+        if (badge) { badge.className = `badge ${hasTracking ? 'green' : ''} order-tracking-badge`; badge.textContent = `ТТН ${hasTracking ? 'є' : 'немає'}`; }
+        const updatedMessage = ordersRoot.querySelector(`[data-tracking-message="${order.docId}"]`);
+        if (updatedMessage) {
+          updatedMessage.className = result.notFound ? 'message err' : 'message ok';
+          updatedMessage.textContent = result.notFound ? 'Замовлення не знайдено в KeyCRM' : (hasTracking ? 'Дані відправки оновлено' : 'ТТН ще не з’явилася в KeyCRM');
+        }
+      } catch (error) {
+        if (message) {
+          message.className = 'message err';
+          message.textContent = error.name === 'TypeError' ? 'KeyCRM недоступний, спробуйте пізніше' : (error.message || 'Не вдалося оновити ТТН');
+        }
+      } finally {
+        const refreshedButton = ordersRoot.querySelector(`[data-sync-tracking="${order.docId}"]`);
+        if (refreshedButton) { refreshedButton.disabled = false; refreshedButton.textContent = 'Оновити ТТН з KeyCRM'; }
+      }
+    }
+    ordersRoot.addEventListener('change', async e => {
+      const simplifiedCheckbox = e.target.closest('[data-simplified-order]');
+      if (simplifiedCheckbox) {
+        const order = ordersCache.find(o => o.docId === simplifiedCheckbox.dataset.simplifiedOrder);
+        if (!order) return;
+        const previousValue = order.simplifiedOrder === true;
+        const nextValue = simplifiedCheckbox.checked;
+        simplifiedCheckbox.disabled = true;
+        try {
+          if (!auth.currentUser) await signInAnonymously(auth);
+          await updateDoc(doc(db, 'orders', order.docId), { simplifiedOrder: nextValue });
+          order.simplifiedOrder = nextValue;
+        } catch (error) {
+          simplifiedCheckbox.checked = previousValue;
+          alert(`Не вдалося зберегти відмітку «Спрощене замовлення»: ${error.message}`);
+        } finally {
+          simplifiedCheckbox.disabled = false;
+        }
+        return;
+      }
+      const select = e.target.closest('[data-order-status]'); if (!select) return;
+      const order = ordersCache.find(o => o.docId === select.dataset.orderStatus);
+      if (!order) return;
+      select.disabled = true;
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        const saved = await applyOrderStatusRemote(order.docId, select.value);
+        order.status = select.value;
+        if (saved.reservationState) order.reservationState = saved.reservationState;
+        const card = ordersRoot.querySelector(`[data-order-details="${order.docId}"]`)?.closest('.order-card');
+        const badge = card?.querySelector('.order-head .badge:last-child');
+        if (badge) { badge.className = `badge ${statusClass(select.value)}`; badge.textContent = '📦 ' + select.value; }
+        const resvBadge = card?.querySelector('[data-resv-badge]');
+        if (resvBadge) {
+          resvBadge.className = `resv-badge ${reservationStateClass(order.reservationState)}`;
+          resvBadge.textContent = '📦 ' + reservationStateLabel(order.reservationState);
+        }
+        if (saved.warning) alert(saved.warning);
+        select.disabled = false;
+      } catch (error) { alert(`Не вдалося оновити статус або залишки складу: ${error.message}`); select.value = order.status; select.disabled = false }
+    });
     const categoryModal = document.querySelector('#categoryModal'), categoryForm = document.querySelector('#categoryForm'); document.querySelector('#addCategory').addEventListener('click', () => { categoryModal.hidden = false; document.querySelector('#categoryName').focus() }); const closeCategory = () => { categoryModal.hidden = true; categoryForm.reset() }; document.querySelector('#closeCategory').addEventListener('click', closeCategory); document.querySelector('#cancelCategory').addEventListener('click', closeCategory); categoryModal.addEventListener('click', e => { if (e.target === categoryModal) closeCategory() }); categoryForm.addEventListener('submit', async e => { e.preventDefault(); const button = e.submitter; button.disabled = true; try { if (!auth.currentUser) await signInAnonymously(auth); const name = document.querySelector('#categoryName').value.trim(); const slug = name.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9а-яіїєґ]+/gi, '-').replace(/^-|-$/g, ''); await addDoc(collection(db, 'categories'), { name, slug, createdAt: serverTimestamp() }); closeCategory(); await loadCategories() } catch (error) { alert(`Не вдалося зберегти категорію: ${error.message}`) } finally { button.disabled = false } });
     const modal = document.querySelector('#productModal'), form = document.querySelector('#productForm'), photoInput = document.querySelector('#productPhotos'), preview = document.querySelector('#photoPreview'); let photoData = [], editingProductId = null;
 
@@ -1353,21 +2469,78 @@
     preview.addEventListener('click', e => { const up = e.target.closest('[data-photo-up]'), down = e.target.closest('[data-photo-down]'), del = e.target.closest('[data-photo-del]'); if (up) movePhoto(Number(up.dataset.photoUp), -1); else if (down) movePhoto(Number(down.dataset.photoDown), 1); else if (del) { photoData.splice(Number(del.dataset.photoDel), 1); renderPhotos() } });
     const openModal = async (product = null, id = null) => { editingProductId = id; document.querySelector('#productModalTitle').textContent = product ? 'Редагувати товар' : 'Новий товар'; modal.hidden = false; await loadProductCategories(); variantList.innerHTML = ''; (Array.isArray(product?.variants) ? product.variants : []).forEach(v => addVariantRow(v)); if (product) { ['Name', 'Article', 'Description', 'Characteristics', 'Composition', 'Price'].forEach(k => { const el = document.querySelector('#product' + k); el.value = product[k.toLowerCase()] ?? '' }); document.querySelector('#productHeat').value = String(Math.min(5, Math.max(1, Number(product.heat ?? product.spicy ?? 3) || 3))); const selected = product.categoryIds || []; document.querySelectorAll('#productCategories option').forEach(o => o.selected = selected.includes(o.value)); photoData = product.images || [product.image].filter(Boolean); renderPhotos() } document.querySelector('#productName').focus() }, closeModal = () => { modal.hidden = true; form.reset(); photoData = []; editingProductId = null; preview.innerHTML = ''; variantList.innerHTML = '' };
     document.querySelector('#addProduct').addEventListener('click', openModal); document.querySelector('#closeProduct').addEventListener('click', closeModal); document.querySelector('#cancelProduct').addEventListener('click', closeModal); modal.addEventListener('click', e => { if (e.target === modal) closeModal() });
-    photoInput.addEventListener('change', () => { Array.from(photoInput.files).forEach(file => { const reader = new FileReader(); reader.onload = () => { photoData.push(reader.result); renderPhotos() }; reader.readAsDataURL(file) }) });
-    form.addEventListener('submit', async e => { e.preventDefault(); const save = e.submitter; const selectedCategories = Array.from(document.querySelector('#productCategories').selectedOptions).map(o => o.value); if (!selectedCategories.length) { alert('Виберіть хоча б одну категорію для товару'); save.disabled = false; return } save.disabled = true; try { if (!auth.currentUser) await signInAnonymously(auth); const data = { name: document.querySelector('#productName').value.trim(), article: document.querySelector('#productArticle').value.trim(), description: document.querySelector('#productDescription').value.trim(), characteristics: document.querySelector('#productCharacteristics').value.trim(), composition: document.querySelector('#productComposition').value.trim(), price: Number(document.querySelector('#productPrice').value), heat: Math.min(5, Math.max(1, Number(document.querySelector('#productHeat').value) || 3)), categoryIds: selectedCategories, images: photoData, image: photoData[0] || '', variants: collectVariants() }; if (editingProductId) await updateDoc(doc(db, 'products', editingProductId), data); else await addDoc(collection(db, 'products'), { ...data, createdAt: serverTimestamp() }); closeModal(); await loadProducts() } catch (error) { alert(`Не вдалося зберегти товар: ${error.message}`) } finally { save.disabled = false } });
+    photoInput.addEventListener('change', () => { Array.from(photoInput.files).forEach(file => { if (!file.type.startsWith('image/')) { alert('Можна завантажувати лише зображення'); return } if (file.size > 5 * 1024 * 1024) { alert('Розмір одного фото не може перевищувати 5 МБ'); return } const reader = new FileReader(); reader.onload = () => { photoData.push(reader.result); renderPhotos() }; reader.readAsDataURL(file) }); photoInput.value = '' });
+    async function uploadProductPhotos(productId) {
+      return Promise.all(photoData.map(async (photo, index) => {
+        if (!/^data:image\//i.test(photo)) return photo;
+        const response = await fetch(photo), blob = await response.blob();
+        if (blob.size > 5 * 1024 * 1024) throw new Error('Розмір одного фото не може перевищувати 5 МБ');
+        if (!blob.type.startsWith('image/')) throw new Error('Файл не є зображенням');
+        const extension = (blob.type.split('/')[1] || 'jpg').replace(/[^a-z0-9]/gi, '').toLowerCase() || 'jpg';
+        const fileRef = storageRef(storage, `products/${productId}/${Date.now()}-${index}.${extension}`);
+        await uploadBytes(fileRef, blob, { contentType: blob.type });
+        return getDownloadURL(fileRef);
+      }));
+    }
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const save = e.submitter || form.querySelector('button[type="submit"]');
+      if (!form.reportValidity()) return;
+      const selectedCategories = Array.from(document.querySelector('#productCategories').selectedOptions).map(o => o.value);
+      if (!selectedCategories.length) { alert('Виберіть хоча б одну категорію для товару'); return }
+      save.disabled = true;
+      let productSaved = false;
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        const wasEditing = Boolean(editingProductId);
+        const productRef = editingProductId ? doc(db, 'products', editingProductId) : doc(collection(db, 'products'));
+        const existingImages = photoData.filter(photo => !/^data:image\//i.test(photo));
+        const data = { name: document.querySelector('#productName').value.trim(), article: document.querySelector('#productArticle').value.trim(), description: document.querySelector('#productDescription').value.trim(), characteristics: document.querySelector('#productCharacteristics').value.trim(), composition: document.querySelector('#productComposition').value.trim(), price: Number(document.querySelector('#productPrice').value), heat: Math.min(5, Math.max(1, Number(document.querySelector('#productHeat').value) || 3)), categoryIds: selectedCategories, images: existingImages, image: existingImages[0] || '', variants: collectVariants() };
+        if (wasEditing) await updateDoc(productRef, data); else await setDoc(productRef, { ...data, createdAt: serverTimestamp() });
+        productSaved = true;
+        editingProductId = productRef.id;
+        const images = await uploadProductPhotos(productRef.id);
+        if (images.length !== existingImages.length || images.some((image, index) => image !== existingImages[index])) {
+          await updateDoc(productRef, { images, image: images[0] || '' });
+        }
+        closeModal(); await loadProducts();
+      } catch (error) {
+        const message = productSaved
+          ? `Товар збережено, але фото не завантажено: ${error.message}`
+          : `Не вдалося зберегти товар: ${error.message}`;
+        alert(message);
+        if (productSaved) await loadProducts();
+      } finally { save.disabled = false }
+    });
     productRoot.addEventListener('click', async e => { const button = e.target.closest('[data-edit-product]'); if (!button) return; const snapshot = await getDocs(collection(db, 'products')); const item = snapshot.docs.find(d => d.id === button.dataset.editProduct); if (item) openModal(item.data(), item.id) });
 
-    // ===== Склад =====
+    // ===== Склад: залишки KeyCRM + резерви =====
     const stockRoot = document.querySelector('#stockList'), stockCount = document.querySelector('#stockCount'), stockPageEl = document.querySelector('#stockPage');
-    const STOCK_PAGE_SIZE = 10; let stockItems = [], stockPage = 0;
+    const STOCK_PAGE_SIZE = 15; let stockItems = [], stockPage = 0, reservedByProduct = new Map();
     async function loadStock() {
       stockRoot.innerHTML = '<div class="empty">Завантаження товарів…</div>';
       try {
-        const snapshot = await getDocs(collection(db, 'products'));
+        const [snapshot, reservationsResult] = await Promise.all([
+          getDocs(collection(db, 'products')),
+          callAdminApi('/stock/reservations').catch(() => ({ reservations: [] }))
+        ]);
         stockItems = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        reservedByProduct = new Map();
+        (reservationsResult.reservations || []).forEach(reservation => {
+          const key = String(reservation.productId || '');
+          reservedByProduct.set(key, (reservedByProduct.get(key) || 0) + (Number(reservation.quantity) || 0));
+        });
         stockCount.textContent = `Товарів: ${stockItems.length}`;
-        stockPage = 0; renderStock(); loadLastSync();
+        stockPage = 0; renderStock(); renderMismatches(); loadLastSync();
       } catch (error) { stockCount.textContent = 'Помилка'; stockRoot.innerHTML = `<div class="error">Не вдалося завантажити склад: ${esc(error.message)}</div>` }
+    }
+    function renderMismatches() {
+      const box = document.querySelector('#stockMismatches');
+      const list = stockItems.filter(p => p.skuMismatch);
+      if (!list.length) { box.hidden = true; box.innerHTML = ''; return }
+      box.hidden = false;
+      box.innerHTML = '<b>Помилки зіставлення з KeyCRM (за sku):</b><ul>' +
+        list.map(p => `<li>${esc(p.name || p.title || p.id)}: ${esc(p.skuMismatchMessage || 'sku не знайдено в KeyCRM')}</li>`).join('') + '</ul>';
     }
     function renderStock() {
       const pages = Math.max(1, Math.ceil(stockItems.length / STOCK_PAGE_SIZE));
@@ -1377,30 +2550,101 @@
       document.querySelector('#stockPrev').disabled = stockPage === 0;
       document.querySelector('#stockNext').disabled = stockPage >= pages - 1;
       if (!stockItems.length) { stockRoot.innerHTML = '<div class="empty">Товарів ще немає</div>'; return }
-      stockRoot.innerHTML = slice.map(p => {
-        const name = p.name || p.title || 'Без назви', images = p.images || [p.image, p.imageUrl].filter(Boolean);
-        const stock = p.stock ?? p.quantity ?? 0;
-        const fromCrm = p.stockSource === 'keycrm';
-        const crmInfo = fromCrm ? `<span class="crm-badge">KeyCRM</span> <span class="muted">Доступно: ${esc(stock)} · Усього: ${esc(p.crmQuantity ?? 0)} · Резерв: ${esc(p.crmReserve ?? 0)}</span>` : '';
-        const control = fromCrm
-          ? `<label class="muted">Залишок: <input class="stock-input" type="number" value="${esc(stock)}" disabled title="Залишок керується з KeyCRM"></label>`
-          : `<label class="muted">Залишок: <input class="stock-input" type="number" min="0" step="1" value="${esc(stock)}" data-stock-input="${esc(p.id)}"></label><button class="stock-save" data-stock-save="${esc(p.id)}">Зберегти</button>`;
-        return `<article class="product"><img src="${esc(images[0] || 'image/image-svgrepo-com.svg')}" alt="${esc(name)}"><div><h3>${esc(name)}</h3><div class="muted">Артикул: ${esc(p.article || p.sku || '—')}</div><div>${crmInfo}</div></div><div class="product-actions">${control}</div></article>`
-      }).join('')
+      const rows = slice.map(p => {
+        const name = p.name || p.title || 'Без назви';
+        const sku = p.article || p.sku || '—';
+        const stockTotal = Number(p.stock_total != null ? p.stock_total : (p.stock ?? p.quantity ?? 0));
+        const reserved = reservedByProduct.get(p.id) || 0;
+        const available = stockTotal - reserved;
+        const synced = p.stockSyncedAt ? date(p.stockSyncedAt) : '—';
+        const mismatch = p.skuMismatch ? `<div class="muted" style="color:#a52e2e">${esc(p.skuMismatchMessage || 'Помилка зіставлення sku')}</div>` : '';
+        return `<tr class="${available < 0 ? 'negative' : ''}">
+          <td>${esc(name)}${mismatch}</td>
+          <td>${esc(sku)}</td>
+          <td class="num">${stockTotal}</td>
+          <td class="num">${reserved ? `<button type="button" class="res-link" data-show-reservations="${esc(p.id)}" title="Показати замовлення в резерві">${reserved}</button>` : '0'}</td>
+          <td class="num">${available}</td>
+          <td>${esc(synced)}</td>
+        </tr>`;
+      }).join('');
+      stockRoot.innerHTML = `<table class="stock-table"><thead><tr><th>Назва</th><th>SKU</th><th>Залишок KeyCRM</th><th>Резерв</th><th>Доступно</th><th>Синхронізовано</th></tr></thead><tbody>${rows}</tbody></table>`;
     }
     document.querySelector('#stockPrev').addEventListener('click', () => { if (stockPage > 0) { stockPage--; renderStock() } });
     document.querySelector('#stockNext').addEventListener('click', () => { if (stockPage < (Math.ceil(stockItems.length / STOCK_PAGE_SIZE) - 1)) { stockPage++; renderStock() } });
+    // Клік по резерву → хто його тримає
+    const reservationsModal = document.querySelector('#reservationsModal');
     stockRoot.addEventListener('click', async e => {
-      const button = e.target.closest('[data-stock-save]'); if (!button) return;
-      const id = button.dataset.stockSave, input = stockRoot.querySelector(`[data-stock-input="${id}"]`);
-      const value = Math.max(0, parseInt(input.value, 10) || 0);
-      button.disabled = true; button.textContent = '…';
+      const button = e.target.closest('[data-show-reservations]'); if (!button) return;
+      const list = document.querySelector('#reservationsList');
+      list.innerHTML = '<div class="muted">Завантаження…</div>';
+      reservationsModal.hidden = false;
       try {
-        if (!auth.currentUser) await signInAnonymously(auth);
-        await updateDoc(doc(db, 'products', id), { stock: value });
-        const item = stockItems.find(p => p.id === id); if (item) item.stock = value;
-        button.textContent = 'Збережено ✓'; setTimeout(() => { button.textContent = 'Зберегти'; button.disabled = false }, 1500);
-      } catch (error) { alert(`Не вдалося зберегти залишок: ${error.message}`); button.textContent = 'Зберегти'; button.disabled = false }
+        const result = await callAdminApi(`/stock/reservations?productId=${encodeURIComponent(button.dataset.showReservations)}`);
+        const rows = result.reservations || [];
+        list.innerHTML = rows.length
+          ? rows.map(r => `<div class="resv-row"><span>№ ${esc(r.order?.orderNumber || r.orderId || '—')} · ${esc(r.order?.name || '')} · ${esc(r.quantity)} шт${r.site ? ' · ' + esc(siteLabel(r.site)) : ''}</span><span class="muted">${esc(date(r.createdAt))}</span></div>`).join('')
+          : '<div class="muted">Активних резервів немає</div>';
+      } catch (error) { list.innerHTML = `<div class="error">${esc(error.message)}</div>` }
+    });
+    document.querySelector('#closeReservations').addEventListener('click', () => reservationsModal.hidden = true);
+    reservationsModal.addEventListener('click', e => { if (e.target === reservationsModal) reservationsModal.hidden = true });
+    // Журнал рухів залишків
+    const stockLogModal = document.querySelector('#stockLogModal');
+    document.querySelector('#stockLogBtn').addEventListener('click', async () => {
+      const content = document.querySelector('#stockLogContent');
+      content.innerHTML = '<div class="muted">Завантаження…</div>';
+      stockLogModal.hidden = false;
+      try {
+        const result = await callAdminApi('/stock/log?limit=100');
+        const entries = result.entries || [];
+        const sourceNames = { order: 'замовлення', sync: 'синхронізація', manual: 'ручна дія' };
+        content.innerHTML = entries.length
+          ? `<table class="log-table"><thead><tr><th>Коли</th><th>Товар (ID)</th><th>SKU</th><th>Що змінилось</th><th>Чому</th><th>Замовлення</th><th>Джерело</th></tr></thead><tbody>${entries.map(entry => `<tr><td>${esc(date(entry.at))}</td><td>${esc(entry.productId || '—')}</td><td>${esc(entry.sku || '—')}</td><td>${entry.change ? (entry.change > 0 ? '+' : '') + entry.change : ''}${entry.reservedChange ? ` резерв ${(entry.reservedChange > 0 ? '+' : '') + entry.reservedChange}` : ''}</td><td>${esc(entry.reason || '—')}</td><td>${esc(entry.orderId || '—')}</td><td>${esc(sourceNames[entry.source] || entry.source || '—')}</td></tr>`).join('')}</tbody></table>`
+          : '<div class="empty">Записів ще немає</div>';
+      } catch (error) { content.innerHTML = `<div class="error">${esc(error.message)}</div>` }
+    });
+    document.querySelector('#closeStockLog').addEventListener('click', () => stockLogModal.hidden = true);
+    stockLogModal.addEventListener('click', e => { if (e.target === stockLogModal) stockLogModal.hidden = true });
+    // ===== Міграція: замовлення без резерву =====
+    const migrateModal = document.querySelector('#migrateReservationsModal');
+    const migrateList = document.querySelector('#migrateReservationsList');
+    const migrateApply = document.querySelector('#migrateReservationsApply');
+    let migrateCandidates = [];
+    async function loadMigrateList() {
+      migrateList.innerHTML = '<div class="muted">Завантаження…</div>';
+      migrateApply.disabled = true;
+      try {
+        const result = await callAdminApi('/stock/orders-without-reservation');
+        migrateCandidates = result.candidates || [];
+        const excluded = result.excluded || [];
+        migrateList.innerHTML = migrateCandidates.length
+          ? migrateCandidates.map(r => `<label class="resv-row" style="cursor:pointer"><span><input type="checkbox" class="migrate-check" data-migrate-order="${esc(r.orderId)}" checked> № ${esc(r.orderNumber)} · ${esc(r.name || '—')} · ${esc(r.site ? siteLabel(r.site) : '—')}${r.status ? ' · ' + esc(r.status) : ''} · ${esc(date(r.createdAt))}</span><span class="muted">${(r.items || []).map(i => esc((i.sku || '—') + '×' + i.qty)).join(', ')}</span></label>`).join('')
+          : '<div class="empty">Замовлень без резерву немає</div>';
+        if (excluded.length) migrateList.innerHTML += `<div class="muted" style="margin-top:10px">Пропущено: ${excluded.length} (доставлені/скасовані/списані в KeyCRM)</div>`;
+        migrateApply.disabled = !migrateCandidates.length;
+      } catch (error) { migrateList.innerHTML = `<div class="error">${esc(error.message)}</div>` }
+    }
+    document.querySelector('#migrateReservationsBtn').addEventListener('click', () => { migrateModal.hidden = false; loadMigrateList() });
+    document.querySelector('#migrateReservationsRefresh').addEventListener('click', loadMigrateList);
+    document.querySelector('#closeMigrateReservations').addEventListener('click', () => migrateModal.hidden = true);
+    migrateModal.addEventListener('click', e => { if (e.target === migrateModal) migrateModal.hidden = true });
+    migrateApply.addEventListener('click', async () => {
+      const ids = [...migrateList.querySelectorAll('.migrate-check')].filter(box => box.checked).map(box => box.dataset.migrateOrder);
+      if (!ids.length) return;
+      migrateApply.disabled = true;
+      migrateApply.textContent = 'Створення…';
+      try {
+        const result = await callAdminApi('/stock/migrate-reservations', 'POST', { orderIds: ids });
+        const results = result.results || [];
+        const ok = results.filter(r => r.status === 'reserved' || r.status === 'already_reserved').length;
+        const problems = results.filter(r => r.status === 'needs_attention' || r.status === 'error');
+        migrateList.innerHTML = `<div class="muted">Готово: резервів створено/вже було — ${ok}${problems.length ? `; потребують уваги — ${problems.length}` : ''}</div>` + problems.map(r => `<div class="error">${esc(r.orderId)}: ${esc(r.problems ? r.problems.join('; ') : r.message || '')}</div>`).join('');
+        if (typeof loadOrders === 'function') loadOrders();
+        loadStock();
+      } catch (error) {
+        migrateList.innerHTML = `<div class="error">${esc(error.message)}</div>`;
+      }
+      migrateApply.textContent = 'Створити резерви';
     });
     window.loadStock = loadStock;
 
@@ -1441,37 +2685,76 @@
     document.querySelector('#refresh').addEventListener('click', () => loadProductCategories().then(loadProducts)); document.querySelector('#syncImages').addEventListener('click', syncOrderImages); loadProductCategories().then(loadProducts);
 
     // ===== KeyCRM: налаштування та синхронізація залишків =====
-    const KEYCRM_URL = 'https://openapi.keycrm.app/v1/offers/stocks';
     const settingsMsg = document.querySelector('#settingsMessage'), keyInput = document.querySelector('#keycrmKey'), keyMaskedEl = document.querySelector('#keyMasked');
-    const maskKey = k => k ? `••••••••${String(k).slice(-4)}` : '';
-    let keycrmSettings = { apiKey: '', autoSync: false, intervalMinutes: 10 }, syncTimer = null, syncRunning = false;
+    let keycrmSettings = { apiKeyConfigured: false, autoSync: false, intervalMinutes: 10, deductStatusIds: [], cancelStatuses: [], autoReleaseUnpaid: false, unpaidTimeoutHours: 48, lastSync: null }, syncTimer = null, syncRunning = false;
 
+    async function callAdminApi(path, method = 'GET', body) {
+      if (!auth.currentUser) await signInAnonymously(auth);
+      const token = await auth.currentUser.getIdToken();
+      const response = await fetch(`/api/admin${path}`, {
+        method,
+        headers: { Authorization: `Bearer ${token}`, Accept: 'application/json', ...(body === undefined ? {} : { 'Content-Type': 'application/json' }) },
+        ...(body === undefined ? {} : { body: JSON.stringify(body) })
+      });
+      let result = {};
+      try { result = await response.json() } catch { }
+      if (!response.ok) {
+        if (response.status === 404) throw new Error('Серверний endpoint KeyCRM не запущений. npx serve не обробляє Firebase Functions — розгорніть Firebase Hosting і Functions.');
+        const detail = result.error || result.message || 'Помилка серверного запиту';
+        throw new Error(response.status === 401 ? 'Невірний API-ключ KeyCRM, перевірте Налаштування' : typeof detail === 'string' ? detail : JSON.stringify(detail));
+      }
+      return result;
+    }
+
+    async function loadKeycrmStatuses() {
+      const select = document.querySelector('#keycrmDeductStatuses');
+      try {
+        const result = await callAdminApi('/keycrm/statuses');
+        const statuses = result.statuses || [];
+        const selected = new Set((keycrmSettings.deductStatusIds || []).map(String));
+        select.innerHTML = statuses.length
+          ? statuses.map(s => `<option value="${esc(s.id)}" ${selected.has(String(s.id)) ? 'selected' : ''}>${esc(s.name)} (${esc(s.id)})</option>`).join('')
+          : '<option value="">Статуси не знайдені</option>';
+      } catch (error) { select.innerHTML = `<option value="">Статуси недоступні: ${esc(error.message)}</option>` }
+    }
     async function loadSettings() {
       try {
-        const snap = await getDoc(doc(db, 'settings', 'keycrm'));
-        if (snap.exists()) keycrmSettings = { apiKey: snap.data().apiKey || '', autoSync: !!snap.data().autoSync, intervalMinutes: Number(snap.data().intervalMinutes) || 10 };
+        keycrmSettings = await callAdminApi('/settings/keycrm');
       } catch (error) { settingsMsg.textContent = `Не вдалося завантажити налаштування: ${error.message}` }
       keyInput.value = '';
-      keyInput.placeholder = keycrmSettings.apiKey ? `Ключ збережено (${maskKey(keycrmSettings.apiKey)})` : 'Введіть API-ключ';
-      keyMaskedEl.textContent = keycrmSettings.apiKey ? `Збережений ключ: ${maskKey(keycrmSettings.apiKey)}` : 'Ключ ще не збережено';
+      keyInput.placeholder = keycrmSettings.apiKeyConfigured ? 'Ключ уже збережено — введіть новий лише для заміни' : 'Введіть API-ключ';
+      keyMaskedEl.textContent = keycrmSettings.apiKeyConfigured ? 'API-ключ збережений на сервері' : 'Ключ ще не збережено';
       document.querySelector('#keycrmAuto').checked = keycrmSettings.autoSync;
       document.querySelector('#keycrmInterval').value = keycrmSettings.intervalMinutes;
+      document.querySelector('#keycrmCancelStatuses').value = (keycrmSettings.cancelStatuses || []).join(', ');
+      document.querySelector('#keycrmAutoRelease').checked = !!keycrmSettings.autoReleaseUnpaid;
+      document.querySelector('#keycrmUnpaidTimeout').value = keycrmSettings.unpaidTimeoutHours || 48;
+      loadKeycrmStatuses();
       setupAutoSync();
     }
     document.querySelector('#toggleKey').addEventListener('click', () => { const show = keyInput.type === 'password'; keyInput.type = show ? 'text' : 'password'; document.querySelector('#toggleKey').textContent = show ? 'Сховати' : 'Показати' });
     document.querySelector('#saveSettings').addEventListener('click', async e => {
       const button = e.target; button.disabled = true; settingsMsg.textContent = ''; settingsMsg.style.color = '';
       try {
-        if (!auth.currentUser) await signInAnonymously(auth);
         const interval = Math.max(1, parseInt(document.querySelector('#keycrmInterval').value, 10) || 10);
-        const data = { autoSync: document.querySelector('#keycrmAuto').checked, intervalMinutes: interval, updatedAt: serverTimestamp() };
         const newKey = keyInput.value.trim();
-        if (newKey) data.apiKey = newKey; // не перезаписуємо ключ, якщо поле не змінювалося
-        await setDoc(doc(db, 'settings', 'keycrm'), data, { merge: true });
-        if (newKey) keycrmSettings.apiKey = newKey;
-        keycrmSettings.autoSync = data.autoSync; keycrmSettings.intervalMinutes = interval;
-        keyInput.value = ''; keyInput.placeholder = `Ключ збережено (${maskKey(keycrmSettings.apiKey)})`;
-        keyMaskedEl.textContent = keycrmSettings.apiKey ? `Збережений ключ: ${maskKey(keycrmSettings.apiKey)}` : 'Ключ ще не збережено';
+        const deductStatusIds = Array.from(document.querySelector('#keycrmDeductStatuses').selectedOptions).map(option => option.value).filter(Boolean);
+        const cancelStatuses = document.querySelector('#keycrmCancelStatuses').value.split(',').map(item => item.trim()).filter(Boolean);
+        keycrmSettings = await callAdminApi('/settings/keycrm', 'PUT', {
+          apiKey: newKey,
+          autoSync: document.querySelector('#keycrmAuto').checked,
+          intervalMinutes: interval,
+          deductStatusIds,
+          cancelStatuses,
+          autoReleaseUnpaid: document.querySelector('#keycrmAutoRelease').checked,
+          unpaidTimeoutHours: Math.max(1, parseInt(document.querySelector('#keycrmUnpaidTimeout').value, 10) || 48)
+        });
+        document.querySelector('#keycrmCancelStatuses').value = (keycrmSettings.cancelStatuses || []).join(', ');
+        document.querySelector('#keycrmAutoRelease').checked = !!keycrmSettings.autoReleaseUnpaid;
+        document.querySelector('#keycrmUnpaidTimeout').value = keycrmSettings.unpaidTimeoutHours || 48;
+        loadKeycrmStatuses();
+        keyInput.value = ''; keyInput.placeholder = keycrmSettings.apiKeyConfigured ? 'Ключ уже збережено — введіть новий лише для заміни' : 'Введіть API-ключ';
+        keyMaskedEl.textContent = keycrmSettings.apiKeyConfigured ? 'API-ключ збережений на сервері' : 'Ключ ще не збережено';
         settingsMsg.style.color = '#227a3e'; settingsMsg.textContent = 'Налаштування збережено ✓';
         setupAutoSync();
       } catch (error) { settingsMsg.style.color = '#a52e2e'; settingsMsg.textContent = `Не вдалося зберегти: ${error.message}` }
@@ -1480,108 +2763,58 @@
     document.querySelector('#testConnection').addEventListener('click', async e => {
       const button = e.target; button.disabled = true; settingsMsg.textContent = 'Перевірка підключення…'; settingsMsg.style.color = '';
       try {
-        const key = keyInput.value.trim() || keycrmSettings.apiKey;
-        if (!key) throw new Error('Ключ не задано. Введіть API-ключ і збережіть налаштування.');
-        const response = await fetch(`${KEYCRM_URL}?limit=1&page=1`, { headers: { Authorization: `Bearer ${key}`, Accept: 'application/json' } });
-        if (response.status === 401) throw new Error('Невірний API-ключ');
-        if (!response.ok) throw new Error(`KeyCRM відповів помилкою: HTTP ${response.status}`);
-        const json = await response.json();
-        settingsMsg.style.color = '#227a3e'; settingsMsg.textContent = `Підключено ✓ (товарів у KeyCRM: ${json.total ?? '—'})`;
+        if (!keycrmSettings.apiKeyConfigured && !keyInput.value.trim()) throw new Error('Вкажіть API-ключ KeyCRM в Налаштуваннях');
+        if (keyInput.value.trim()) await callAdminApi('/settings/keycrm', 'PUT', {
+          apiKey: keyInput.value.trim(),
+          autoSync: keycrmSettings.autoSync,
+          intervalMinutes: keycrmSettings.intervalMinutes,
+          deductStatusIds: keycrmSettings.deductStatusIds || [],
+          cancelStatuses: keycrmSettings.cancelStatuses || [],
+          autoReleaseUnpaid: !!keycrmSettings.autoReleaseUnpaid,
+          unpaidTimeoutHours: keycrmSettings.unpaidTimeoutHours || 48
+        });
+        const result = await callAdminApi('/keycrm/test', 'POST', {});
+        settingsMsg.style.color = '#227a3e'; settingsMsg.textContent = `Підключено ✓ (товарів у KeyCRM: ${result.total ?? '—'})`;
+        if (keyInput.value.trim()) await loadSettings();
       } catch (error) { settingsMsg.style.color = '#a52e2e'; settingsMsg.textContent = `Помилка: ${error.message}` }
       finally { button.disabled = false }
     });
 
-    // Клієнт KeyCRM: пагінація, retry, затримки між сторінками
-    const sleep = ms => new Promise(r => setTimeout(r, ms));
-    async function keycrmPage(key, page, retries = 3) {
-      for (let attempt = 0; attempt <= retries; attempt++) {
-        let response;
-        try {
-          response = await fetch(`${KEYCRM_URL}?limit=50&page=${page}&filter[details]=true`, { headers: { Authorization: `Bearer ${key}`, Accept: 'application/json' } });
-        } catch (error) { // мережева помилка
-          if (attempt === retries) throw new Error('Немає з\'єднання з KeyCRM. Перевірте мережу.');
-          await sleep(2000 * (attempt + 1)); continue;
-        }
-        if (response.status === 401) throw new Error('Невірний API-ключ');
-        if (response.status === 429 || response.status >= 500) {
-          if (attempt === retries) throw new Error(`KeyCRM тимчасово недоступний: HTTP ${response.status}`);
-          await sleep(3000 * (attempt + 1)); continue;
-        }
-        if (!response.ok) throw new Error(`KeyCRM відповів помилкою: HTTP ${response.status}`);
-        return response.json();
-      }
-    }
-    async function fetchAllStocks(key) {
-      const items = []; let page = 1;
-      while (true) {
-        const json = await keycrmPage(key, page);
-        items.push(...(json.data || []));
-        if (!json.data || !json.data.length || !json.next_page_url) break;
-        page++; await sleep(1100); // ~60 запитів/хв
-      }
-      return items;
-    }
-
-    // Синхронізація залишків
+    // Синхронізація залишків виконується сервером, ключ не завантажується у браузер.
     async function runKeycrmSync() {
       if (syncRunning) return;
-      const key = keycrmSettings.apiKey;
-      if (!key) { setSyncStatus('err', 'Синхронізація неможлива: не задано API-ключ KeyCRM'); return }
+      if (!keycrmSettings.apiKeyConfigured) { setSyncStatus('err', 'Синхронізація неможлива: Вкажіть API-ключ KeyCRM в Налаштуваннях'); return }
       syncRunning = true;
       const syncButton = document.querySelector('#syncKeycrm');
-      if (syncButton) { syncButton.disabled = true; syncButton.textContent = 'Синхронізація…' }
-      const startedAt = new Date();
+      if (syncButton) { syncButton.disabled = true; syncButton.textContent = 'Оновлення…' }
       setSyncStatus('', 'Синхронізація виконується…');
-      // lock у Firestore — захист від одночасного запуску
-      const lockRef = doc(db, 'settings', 'keycrmSyncLock');
       try {
-        const lock = await getDoc(lockRef);
-        if (lock.exists()) {
-          const started = lock.data().startedAt?.toDate?.() || new Date(0);
-          if (Date.now() - started.getTime() < 10 * 60 * 1000) throw new Error('Синхронізація вже виконується (запущена іншою сесією)');
-        }
-        await setDoc(lockRef, { startedAt: new Date() });
-        if (!auth.currentUser) await signInAnonymously(auth);
-        const stocks = await fetchAllStocks(key);
-        const bySku = new Map();
-        stocks.forEach(item => { const sku = String(item.sku ?? '').trim(); if (sku) bySku.set(clean(sku), item); else console.warn('KeyCRM: позиція без SKU пропущена', item.id) });
-        const snapshot = await getDocs(collection(db, 'products'));
-        let updated = 0, skipped = 0; const unmatched = []; const updates = [];
-        snapshot.docs.forEach(p => {
-          const product = p.data();
-          const sku = productArticle(product);
-          if (!sku) { skipped++; return }
-          const match = bySku.get(clean(sku));
-          if (!match) { unmatched.push(sku); return }
-          const quantity = Number(match.quantity) || 0, reserve = Number(match.reserve) || 0;
-          const available = Math.max(0, quantity - reserve);
-          updates.push({ ref: p.ref, data: { stock: available, crmQuantity: quantity, crmReserve: reserve, crmWarehouses: match.warehouse || [], crmSku: match.sku, stockSource: 'keycrm', stockSyncedAt: new Date().toISOString() } });
-          updated++;
-        });
-        // пакетне оновлення чанками по 450 операцій
-        for (let i = 0; i < updates.length; i += 450) {
-          const batch = writeBatch(db);
-          updates.slice(i, i + 450).forEach(u => batch.update(u.ref, u.data));
-          await batch.commit();
-        }
-        if (unmatched.length) console.warn('KeyCRM: товари без збігу SKU пропущені:', unmatched.join(', '));
-        const finishedAt = new Date();
-        await addDoc(collection(db, 'syncLogs'), { startedAt: startedAt.toISOString(), finishedAt: finishedAt.toISOString(), status: 'ok', processed: stocks.length, updated, skipped, error: '' });
-        setSyncStatus('ok', `Остання синхронізація: ${finishedAt.toLocaleString('uk-UA')} · Успіх · Оновлено товарів: ${updated}`);
+        const result = await callAdminApi('/keycrm/sync-stocks', 'POST', {});
+        const finishedAt = new Date(result.finishedAt || Date.now());
+        const parts = [`Остання синхронізація: ${finishedAt.toLocaleString('uk-UA')} · Успіх · Оновлено товарів: ${result.updated}`];
+        if (result.released) parts.push(`знято резервів: ${result.released}`);
+        if (result.mismatches) parts.push(`помилок зіставлення: ${result.mismatches}`);
+        setSyncStatus('ok', parts.join(' · '));
         if (document.querySelector('#stockSection') && !document.querySelector('#stockSection').hidden) loadStock();
       } catch (error) {
-        const finishedAt = new Date();
-        try { await addDoc(collection(db, 'syncLogs'), { startedAt: startedAt.toISOString(), finishedAt: finishedAt.toISOString(), status: 'error', processed: 0, updated: 0, skipped: 0, error: error.message }) } catch { }
-        setSyncStatus('err', `Остання синхронізація: ${finishedAt.toLocaleString('uk-UA')} · Помилка: ${error.message}`);
+        // Помилка API: залишки й резерви не змінено — показуємо час останнього успіху та помилку.
+        const lastOk = keycrmSettings.lastSync && keycrmSettings.lastSync.ok ? new Date(keycrmSettings.lastSync.at).toLocaleString('uk-UA') : '—';
+        setSyncStatus('err', `Остання вдала синхронізація: ${lastOk} · Помилка: ${error.message}`);
       } finally {
-        try { await deleteDoc(lockRef) } catch { }
         syncRunning = false;
-        if (syncButton) { syncButton.textContent = 'Синхронізувати зараз'; syncButton.disabled = false }
+        if (syncButton) { syncButton.textContent = 'Оновити залишки'; syncButton.disabled = false }
       }
     }
     function setSyncStatus(cls, text) { const el = document.querySelector('#syncStatus'); if (!el) return; el.className = `sync-status ${cls}`; el.textContent = text }
     async function loadLastSync() {
       try {
+        if (keycrmSettings.lastSync) {
+          const last = keycrmSettings.lastSync;
+          const when = new Date(last.at).toLocaleString('uk-UA');
+          if (last.ok) setSyncStatus('ok', `Остання синхронізація: ${when} · Успіх${last.released ? ` · знято резервів: ${last.released}` : ''}${last.mismatches ? ` · помилок зіставлення: ${last.mismatches}` : ''}`);
+          else setSyncStatus('err', `Остання синхронізація: ${when} · Помилка: ${last.error || 'невідома'}`);
+          return;
+        }
         const snapshot = await getDocs(query(collection(db, 'syncLogs'), orderBy('finishedAt', 'desc')));
         const last = snapshot.docs[0]?.data();
         if (!last) { setSyncStatus('', 'Остання синхронізація: —'); return }
@@ -1592,13 +2825,14 @@
     }
     function setupAutoSync() {
       if (syncTimer) { clearInterval(syncTimer); syncTimer = null }
-      if (keycrmSettings.autoSync && keycrmSettings.apiKey) {
+      if (keycrmSettings.autoSync && keycrmSettings.apiKeyConfigured) {
         const ms = Math.max(1, keycrmSettings.intervalMinutes) * 60 * 1000;
         syncTimer = setInterval(runKeycrmSync, ms);
       }
     }
     document.querySelector('#syncKeycrm').addEventListener('click', runKeycrmSync);
-    loadSettings(); loadLastSync();
+    // Дані завантажуємо лише після успішного входу через екран авторизації
+    if (window.adminAuthPromise) window.adminAuthPromise.then(() => { loadSettings(); loadLastSync() });
   </script>
 </body>
 

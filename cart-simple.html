@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="uk">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Гостро — Швидке замовлення</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Inter:wght@400;500;600&display=swap&subset=cyrillic,latin"
+    rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --color-accent: #FF6A1A;
+      --color-ink: #1B1B1B;
+      --color-cream: #FFF4E6;
+      --color-white: #FFFFFF;
+      --color-err: #DA291C;
+      --font-head: 'Montserrat', system-ui, sans-serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --radius-card: 16px;
+      --radius-pill: 999px;
+      --field-h: 48px;
+      --field-radius: 12px;
+      --field-bw: 2px;
+      --dur: 160ms;
+      --ease: ease-out
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      background: var(--color-white);
+      color: var(--color-ink);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.3;
+      padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px))
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--font-head);
+      font-weight: 800;
+      margin: 0
+    }
+
+    img {
+      max-width: 100%
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+      color: inherit
+    }
+
+    button {
+      cursor: pointer
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--color-ink);
+      outline-offset: 2px
+    }
+
+    .container {
+      max-width: 720px;
+      margin-inline: auto;
+      width: 100%
+    }
+
+    /* Шапка */
+    .chead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 3px solid var(--color-ink)
+    }
+
+    .chead__title {
+      font-size: 1.15rem;
+      letter-spacing: -.01em
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: inherit;
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -.01em
+    }
+
+    .logo__dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      border: 2px solid var(--color-ink)
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 2px solid var(--color-ink);
+      border-radius: var(--radius-pill);
+      background: var(--color-white);
+      padding: 8px 14px;
+      font-weight: 700;
+      font-size: .85rem;
+      text-decoration: none;
+      color: inherit;
+      transition: background var(--dur) var(--ease), transform var(--dur) var(--ease)
+    }
+
+    .back:hover {
+      background: var(--color-cream)
+    }
+
+    .back:active {
+      transform: scale(.96)
+    }
+
+    /* Заголовок */
+    .page-title {
+      font-size: 1.6rem;
+      margin: 24px 0 4px;
+      letter-spacing: -.02em
+    }
+
+    .page-sub {
+      margin: 0 0 20px;
+      font-size: .9rem;
+      opacity: .75
+    }
+
+    /* Список товарів */
+    .items {
+      border: 3px solid var(--color-ink);
+      border-radius: var(--radius-card);
+      background: var(--color-cream);
+      overflow: hidden
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 4px 12px;
+      align-items: start;
+      padding: 14px 16px;
+      border-bottom: 2px solid var(--color-ink)
+    }
+
+    .item:last-child {
+      border-bottom: 0
+    }
+
+    .item__ph {
+      grid-row: 1/3;
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      border: 2px solid var(--color-ink);
+      background: var(--color-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      overflow: hidden
+    }
+
+    .item__ph img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain
+    }
+
+    .item__name {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: .85rem;
+      line-height: 1.25;
+      margin: 0;
+      padding-right: 6px
+    }
+
+    .item__price {
+      margin: 0;
+      font-size: .78rem;
+      opacity: .85
+    }
+
+    .item__del {
+      grid-row: 1;
+      grid-column: 3;
+      justify-self: end;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      opacity: .8;
+      transition: opacity var(--dur) var(--ease), color var(--dur) var(--ease)
+    }
+
+    .item__del:hover {
+      opacity: 1;
+      color: var(--color-err)
+    }
+
+    .item__del svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      fill: none
+    }
+
+    .item__ctrl {
+      grid-row: 2;
+      grid-column: 2/4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 4px
+    }
+
+    .qty {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      border: 2px solid var(--color-ink);
+      border-radius: var(--radius-pill);
+      background: var(--color-cream);
+      padding: 2px
+    }
+
+    .qty button {
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1;
+      transition: background var(--dur) var(--ease)
+    }
+
+    .qty button:hover {
+      background: var(--color-accent)
+    }
+
+    .qty output {
+      min-width: 24px;
+      text-align: center;
+      font-weight: 700;
+      font-size: .85rem
+    }
+
+    .item__sum {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1rem;
+      white-space: nowrap
+    }
+
+    .item__sum small {
+      font-weight: 800;
+      font-size: .8rem
+    }
+
+    /* Порожній кошик */
+    .empty {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      padding: 48px 20px;
+      border: 3px dashed var(--color-ink);
+      border-radius: var(--radius-card);
+      background: var(--color-cream)
+    }
+
+    .empty.is-on {
+      display: flex
+    }
+
+    .empty__emoji {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--color-white);
+      border: 3px solid var(--color-ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem
+    }
+
+    .empty h3 {
+      font-size: 1.15rem
+    }
+
+    .empty p {
+      margin: 0;
+      font-size: .9rem;
+      opacity: .75
+    }
+
+    .empty .back {
+      margin-top: 6px
+    }
+
+    /* Форма контактів */
+    .form {
+      margin-top: 20px;
+      border: 3px solid var(--color-ink);
+      border-radius: var(--radius-card);
+      background: var(--color-cream);
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px
+    }
+
+    .form h2 {
+      font-size: 1.1rem
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .field label {
+      font-weight: 700;
+      font-size: .82rem
+    }
+
+    .field input {
+      height: var(--field-h);
+      border: var(--field-bw) solid var(--color-ink);
+      border-radius: var(--field-radius);
+      background: var(--color-white);
+      padding: 0 14px;
+      font-weight: 500;
+      transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease)
+    }
+
+    .field input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(255, 106, 26, .25)
+    }
+
+    .field input.is-err {
+      border-color: var(--color-err)
+    }
+
+    .field .hint {
+      font-size: .75rem;
+      opacity: .7
+    }
+
+    .ferr {
+      display: none;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--color-err)
+    }
+
+    .ferr.is-on {
+      display: block
+    }
+
+    /* Разом */
+    .total {
+      margin-top: 20px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 4px 2px
+    }
+
+    .total__label {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.05rem
+    }
+
+    .total__value {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.5rem;
+      white-space: nowrap
+    }
+
+    .total__value small {
+      font-weight: 800;
+      font-size: 1rem
+    }
+
+    /* Кнопка відправити */
+    .submit {
+      margin-top: 14px;
+      width: 100%;
+      min-height: 56px;
+      border: 3px solid var(--color-ink);
+      border-radius: var(--radius-pill);
+      background: var(--color-accent);
+      color: var(--color-ink);
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -.01em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform var(--dur) var(--ease), background var(--dur) var(--ease), opacity var(--dur) var(--ease)
+    }
+
+    .submit:hover {
+      background: #ff7d38
+    }
+
+    .submit:active {
+      transform: scale(.98)
+    }
+
+    .submit[disabled] {
+      opacity: .55;
+      cursor: not-allowed
+    }
+
+    .submit svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none
+    }
+
+    /* Екран подяки */
+    .done {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+      padding: 56px 20px
+    }
+
+    .done.is-on {
+      display: flex
+    }
+
+    .done__emoji {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      border: 3px solid var(--color-ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem
+    }
+
+    .done h2 {
+      font-size: 1.4rem
+    }
+
+    .done p {
+      margin: 0;
+      font-size: .92rem;
+      opacity: .85;
+      max-width: 420px
+    }
+
+    .done__num {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.1rem;
+      border: 2px solid var(--color-ink);
+      border-radius: var(--radius-pill);
+      background: var(--color-cream);
+      padding: 8px 18px
+    }
+
+    @media (max-width:480px) {
+      .page-title {
+        font-size: 1.35rem
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header class="chead">
+      <a class="logo" href="index.html"><span class="logo__dot"></span>Гостро</a>
+      <a class="back" href="index.html">← До магазину</a>
+    </header>
+
+    <main id="order-view">
+      <h1 class="page-title">Швидке замовлення</h1>
+      <p class="page-sub">Без вибору доставки та оплати — ми зв’яжемося з вами в Telegram для узгодження деталей.</p>
+
+      <div class="empty" id="empty">
+        <div class="empty__emoji">🛒</div>
+        <h3>Кошик порожній</h3>
+        <p>Додайте товарів, щоб оформити замовлення.</p>
+        <a class="back" href="catalog.html">Перейти до каталогу</a>
+      </div>
+
+      <div id="cart-block" hidden>
+        <div class="items" id="items"></div>
+
+        <form class="form" id="form" novalidate>
+          <h2>Контакти для зв’язку</h2>
+
+          <div class="field">
+            <label for="f-name">Ім’я *</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Ваше ім’я" required>
+          </div>
+
+          <div class="field">
+            <label for="f-phone">Номер телефону *</label>
+            <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+              placeholder="+380 __ ___ __ __" required>
+          </div>
+
+          <div class="field">
+            <label for="f-tg">Telegram нікнейм *</label>
+            <input id="f-tg" name="telegram" type="text" autocomplete="username" placeholder="@nickname" required>
+            <span class="hint">Ми напишемо вам у Telegram, щоб узгодити доставку та оплату</span>
+          </div>
+
+          <div class="ferr" id="form-error" role="alert"></div>
+        </form>
+
+        <div class="total">
+          <span class="total__label">Разом</span>
+          <span class="total__value" id="total">0 <small>грн</small></span>
+        </div>
+
+        <button class="submit" id="submit-btn" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22 2 11 13" />
+            <path d="M22 2 15 22 11 13 2 9 22 2z" />
+          </svg>
+          Відправити замовлення
+        </button>
+      </div>
+    </main>
+
+    <section class="done" id="done-view">
+      <div class="done__emoji">🌶️</div>
+      <h2>Замовлення відправлено!</h2>
+      <div class="done__num" id="done-num"></div>
+      <p>Ми зв’яжемося з вами в Telegram (<span id="done-tg"></span>) найближчим часом, щоб узгодити доставку та
+        оплату.</p>
+      <a class="back" href="catalog.html">Повернутися до каталогу</a>
+    </section>
+  </div>
+
+  <script src="cart.js"></script>
+  <script src="cart-simple.js"></script>
+  <script type="module">
+    /* Замовлення записуються в Firestore latiao-snack (колекція orders) */
+    import { saveOrder } from './js/firebase-init.js';
+    window.LatiaoOrders = { save: (order) => saveOrder(order) };
+  </script>
+</body>
+
+</html>

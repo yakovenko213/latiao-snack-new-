@@ -13,9 +13,26 @@ service cloud.firestore {
       allow write: if request.auth != null;
     }
 
+    // Резерви залишків: читають усі авторизовані (сайт показує available),
+    // створює клієнтська транзакція оформлення або бекенд, змінюють статус
+    // лише бекенд/адмін (клієнт не може зняти чужий резерв).
+    match /stock_reservations/{reservationId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update, delete: if false;
+    }
+
+    // Журнал рухів залишків: лише додання, читання для адміністратора.
+    match /stock_log/{logId} {
+      allow read, create: if request.auth != null;
+      allow update, delete: if false;
+    }
+
     // Інші колекції використовуються адмін-панеллю після anonymous auth.
-    match /{document=**} {
-      allow read, write: if request.auth != null;
+  match /{document=**} {
+      // The KeyCRM credential is accessed only by the trusted Cloud Function.
+      allow read, write: if request.auth != null
+        && request.path != /databases/$(database)/documents/settings/keycrm;
     }
   }
 }

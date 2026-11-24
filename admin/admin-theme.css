@@ -1,0 +1,1570 @@
+/* ============================================================
+   ADMIN THEME — єдине джерело візуального стилю адмін-панелі
+   ============================================================
+   ЯК КОРИСТУВАТИСЯ:
+   • Основний колір: --admin-color-primary (та hover/active/soft).
+   • Шрифт: --admin-font-family.
+   • Заокруглення: --admin-radius-sm/md/lg/full.
+   • Висота кнопок і полів: --admin-control-height / -sm.
+   • Відступи: усі кратні 4px (--admin-space-1 … 8).
+   • Темна тема: блок [data-theme="dark"] перевизначає лише кольори.
+   ПРАВИЛО: нові компоненти використовують ЛИШЕ var(--admin-…).
+   ============================================================ */
+
+:root {
+  /* ===== Кольори ===== */
+  --admin-color-primary: #ff6a1a;
+  --admin-color-primary-hover: #e85c0e;
+  --admin-color-primary-active: #d5520a;
+  --admin-color-primary-soft: #fff1e9;
+  --admin-color-primary-text: #cc4d0b;
+  --admin-color-secondary: #4d4d4d;
+  --admin-color-page-bg: #f5f5f4;
+  --admin-color-surface: #fff;
+  --admin-color-surface-alt: #fafaf9;
+  --admin-color-surface-disabled: #f1f1f0;
+  --admin-color-sidebar-bg: #fff;
+  --admin-color-border: #e4e4e2;
+  --admin-color-border-strong: #cfcfcc;
+  --admin-color-text: #181818;
+  --admin-color-text-muted: #6b6b68;
+  --admin-color-text-on-color: #fff;
+  --admin-color-link: #e85c0e;
+
+  /* Статусні кольори */
+  --admin-color-success: #1f7a3a;
+  --admin-color-success-bg: #e6f6ec;
+  --admin-color-warning: #c24a0a;
+  --admin-color-warning-bg: #fff1e9;
+  --admin-color-error: #b42a2a;
+  --admin-color-error-bg: #fbe9e9;
+  --admin-color-info: #1d5fbf;
+  --admin-color-info-bg: #e8f1fd;
+  --admin-color-neutral-bg: #efefed;
+  --admin-color-note-bg: #fffbe8;
+  --admin-color-note-border: #efe3a0;
+
+  /* Фокус */
+  --admin-focus-ring: 0 0 0 3px rgba(255, 106, 26, .22);
+
+  /* ===== Типографіка ===== */
+  --admin-font-family: Inter, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --admin-font-size-xs: 11px;
+  --admin-font-size-sm: 12px;
+  --admin-font-size-md: 13px;
+  --admin-font-size-base: 14px;
+  --admin-font-size-lg: 16px;
+  --admin-font-size-xl: 18px;
+  --admin-font-size-h1: 26px;
+  --admin-font-size-h2: 20px;
+  --admin-font-size-h3: 16px;
+  --admin-font-weight-normal: 400;
+  --admin-font-weight-semibold: 600;
+  --admin-font-weight-bold: 700;
+  --admin-font-weight-heavy: 800;
+  --admin-line-height: 1.5;
+
+  /* ===== Відступи (сітка 4px) ===== */
+  --admin-space-1: 4px;
+  --admin-space-2: 8px;
+  --admin-space-3: 12px;
+  --admin-space-4: 16px;
+  --admin-space-5: 20px;
+  --admin-space-6: 24px;
+  --admin-space-7: 32px;
+  --admin-space-8: 40px;
+
+  /* ===== Висота контролів ===== */
+  --admin-control-height: 40px;
+  --admin-control-height-sm: 32px;
+
+  /* ===== Заокруглення ===== */
+  --admin-radius-sm: 6px;
+  --admin-radius-md: 8px;
+  --admin-radius-lg: 12px;
+  --admin-radius-full: 50%;
+
+  /* ===== Тіні ===== */
+  --admin-shadow-sm: 0 1px 2px rgba(0, 0, 0, .05);
+  --admin-shadow-md: 0 2px 8px rgba(0, 0, 0, .10);
+  --admin-shadow-lg: 0 12px 32px rgba(0, 0, 0, .18);
+
+  /* ===== Розміри лейауту ===== */
+  --admin-sidebar-width: 240px;
+  --admin-sidebar-width-compact: 64px;
+  --admin-topbar-height: 64px;
+  --admin-content-max-width: 1200px;
+
+  /* ===== Анімації ===== */
+  --admin-transition-fast: 120ms;
+  --admin-transition-base: 180ms;
+  --admin-transition-slow: 300ms;
+  --admin-easing: ease;
+
+  /* ===== Z-index ===== */
+  --admin-z-dropdown: 10;
+  --admin-z-modal: 100;
+  --admin-z-toast: 1000;
+}
+
+/* ============================================================
+   ТЕМНА ТЕМА — лише кольорові токени
+   ============================================================ */
+[data-theme="dark"] {
+  --admin-color-primary: #ff7c33;
+  --admin-color-primary-hover: #ff8f4d;
+  --admin-color-primary-active: #e86a1f;
+  --admin-color-primary-soft: #3a2418;
+  --admin-color-primary-text: #ff9c66;
+  --admin-color-secondary: #b0b0b0;
+  --admin-color-page-bg: #1a1a1a;
+  --admin-color-surface: #242424;
+  --admin-color-surface-alt: #2c2c2c;
+  --admin-color-surface-disabled: #333;
+  --admin-color-sidebar-bg: #202020;
+  --admin-color-border: #3a3a3a;
+  --admin-color-border-strong: #4a4a4a;
+  --admin-color-text: #f0f0f0;
+  --admin-color-text-muted: #9a9a9a;
+  --admin-color-text-on-color: #1a1a1a;
+  --admin-color-link: #ff7c33;
+  --admin-color-success: #5cc97e;
+  --admin-color-success-bg: #1d3325;
+  --admin-color-warning: #ff9c66;
+  --admin-color-warning-bg: #3a2418;
+  --admin-color-error: #e07a7a;
+  --admin-color-error-bg: #3a2222;
+  --admin-color-info: #6fa8e8;
+  --admin-color-info-bg: #1e2c3d;
+  --admin-color-neutral-bg: #333;
+  --admin-color-note-bg: #33301c;
+  --admin-color-note-border: #5a5430;
+  --admin-focus-ring: 0 0 0 3px rgba(255, 124, 51, .3);
+}
+
+/* ============================================================
+   БАЗА
+   ============================================================ */
+* {
+  box-sizing: border-box
+}
+
+body {
+  margin: 0;
+  color: var(--admin-color-text);
+  background: var(--admin-color-page-bg);
+  font: var(--admin-font-size-base) var(--admin-font-family);
+  line-height: var(--admin-line-height);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility
+}
+
+h1 {
+  margin: 0;
+  font-size: var(--admin-font-size-h1);
+  font-weight: var(--admin-font-weight-bold);
+  line-height: 1.2;
+  letter-spacing: -.01em
+}
+
+h2 {
+  font-size: var(--admin-font-size-h2);
+  font-weight: var(--admin-font-weight-bold);
+  line-height: 1.3
+}
+
+h3 {
+  font-size: var(--admin-font-size-h3);
+  font-weight: var(--admin-font-weight-bold);
+  line-height: 1.3
+}
+
+a {
+  color: var(--admin-color-link)
+}
+
+.muted {
+  color: var(--admin-color-text-muted)
+}
+
+.muted.hint {
+  margin-bottom: var(--admin-space-2)
+}
+
+/* ============================================================
+   ЛЕЙАУТ: бічне меню + контент
+   ============================================================ */
+.layout {
+  min-height: 100vh;
+  display: flex
+}
+
+aside {
+  width: var(--admin-sidebar-width);
+  flex: none;
+  padding: var(--admin-space-6) var(--admin-space-4);
+  background: var(--admin-color-sidebar-bg);
+  border-right: 1px solid var(--admin-color-border)
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+  margin: 0 var(--admin-space-3) var(--admin-space-7);
+  font-weight: var(--admin-font-weight-heavy);
+  font-size: var(--admin-font-size-xl)
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: var(--admin-color-text-on-color);
+  background: var(--admin-color-primary);
+  border-radius: var(--admin-radius-md)
+}
+
+nav {
+  display: grid;
+  gap: var(--admin-space-1)
+}
+
+nav button {
+  width: 100%;
+  min-height: 44px;
+  padding: var(--admin-space-2) var(--admin-space-3);
+  display: flex;
+  gap: var(--admin-space-3);
+  align-items: center;
+  border: 0;
+  border-radius: var(--admin-radius-md);
+  color: var(--admin-color-secondary);
+  background: transparent;
+  text-align: left;
+  font: inherit;
+  font-weight: var(--admin-font-weight-semibold);
+  cursor: pointer;
+  transition: background var(--admin-transition-fast) var(--admin-easing), color var(--admin-transition-fast) var(--admin-easing)
+}
+
+nav button:hover {
+  color: var(--admin-color-primary);
+  background: var(--admin-color-primary-soft)
+}
+
+nav button.active {
+  color: var(--admin-color-primary);
+  background: var(--admin-color-primary-soft);
+  box-shadow: inset 3px 0 0 var(--admin-color-primary)
+}
+
+nav button:focus-visible {
+  outline: none;
+  box-shadow: var(--admin-focus-ring)
+}
+
+nav .nav-sep {
+  height: 1px;
+  margin: var(--admin-space-2) var(--admin-space-2);
+  background: var(--admin-color-border)
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  display: inline-flex
+}
+
+.icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round
+}
+
+main {
+  width: 100%;
+  max-width: var(--admin-content-max-width);
+  padding: var(--admin-space-7) var(--admin-space-8)
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--admin-space-4);
+  margin-bottom: var(--admin-space-7)
+}
+
+.date {
+  color: var(--admin-color-text-muted);
+  margin-top: var(--admin-space-1)
+}
+
+.profile {
+  padding: var(--admin-space-2) var(--admin-space-4);
+  background: var(--admin-color-surface);
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-md);
+  box-shadow: var(--admin-shadow-sm)
+}
+
+/* ============================================================
+   КНОПКИ
+   ============================================================ */
+.btn,
+.toolbar button {
+  min-height: var(--admin-control-height);
+  padding: 0 var(--admin-space-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--admin-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--admin-radius-md);
+  font: inherit;
+  font-weight: var(--admin-font-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--admin-transition-fast) var(--admin-easing), border-color var(--admin-transition-fast) var(--admin-easing), opacity var(--admin-transition-fast) var(--admin-easing)
+}
+
+.btn:focus-visible,
+.toolbar button:focus-visible {
+  outline: none;
+  box-shadow: var(--admin-focus-ring)
+}
+
+.btn:disabled {
+  opacity: .5;
+  cursor: default
+}
+
+.btn-primary,
+.toolbar button {
+  background: var(--admin-color-primary);
+  border-color: var(--admin-color-primary);
+  color: var(--admin-color-text-on-color)
+}
+
+.btn-primary:hover:not(:disabled),
+.toolbar button:hover {
+  background: var(--admin-color-primary-hover);
+  border-color: var(--admin-color-primary-hover)
+}
+
+.btn-primary:active:not(:disabled) {
+  background: var(--admin-color-primary-active);
+  border-color: var(--admin-color-primary-active)
+}
+
+.btn-secondary {
+  background: var(--admin-color-surface);
+  border-color: var(--admin-color-border-strong);
+  color: var(--admin-color-text)
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--admin-color-surface-alt);
+  border-color: var(--admin-color-secondary)
+}
+
+.btn-danger {
+  background: var(--admin-color-error);
+  border-color: var(--admin-color-error);
+  color: var(--admin-color-text-on-color)
+}
+
+.btn-danger:hover:not(:disabled) {
+  opacity: .9
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--admin-color-primary);
+  color: var(--admin-color-primary)
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--admin-color-primary-soft)
+}
+
+.btn-sm {
+  min-height: var(--admin-control-height-sm);
+  padding: 0 var(--admin-space-3);
+  font-size: var(--admin-font-size-sm)
+}
+
+/* ============================================================
+   ПАГІНАЦІЯ
+   ============================================================ */
+.pager {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3)
+}
+
+.pager button {
+  min-height: var(--admin-control-height-sm);
+  padding: 0 var(--admin-space-3);
+  background: var(--admin-color-surface);
+  color: var(--admin-color-text);
+  border: 1px solid var(--admin-color-border-strong);
+  border-radius: var(--admin-radius-md);
+  cursor: pointer;
+  font: inherit
+}
+
+.pager button:hover:not(:disabled) {
+  border-color: var(--admin-color-primary);
+  color: var(--admin-color-primary)
+}
+
+.pager button:disabled {
+  opacity: .4;
+  cursor: default
+}
+
+/* ============================================================
+   ПОЛЯ ВВОДУ / SELECT / TEXTAREA
+   ============================================================ */
+input,
+select,
+textarea {
+  font: inherit;
+  color: var(--admin-color-text)
+}
+
+.field {
+  display: grid;
+  gap: var(--admin-space-2);
+  align-content: start
+}
+
+.field.full {
+  grid-column: 1/-1
+}
+
+.field label {
+  font-weight: var(--admin-font-weight-semibold);
+  font-size: var(--admin-font-size-md)
+}
+
+.field input,
+.field textarea,
+.field select,
+.settings-card input[type=password],
+.settings-card input[type=text],
+.settings-card input[type=number],
+.variant-row input[type=text],
+.variant-row input[type=number],
+.stock-input {
+  width: 100%;
+  min-height: var(--admin-control-height);
+  padding: 0 var(--admin-space-3);
+  background: var(--admin-color-surface);
+  border: 1px solid var(--admin-color-border-strong);
+  border-radius: var(--admin-radius-md);
+  font: inherit;
+  transition: border-color var(--admin-transition-fast) var(--admin-easing), box-shadow var(--admin-transition-fast) var(--admin-easing)
+}
+
+.field textarea {
+  min-height: 96px;
+  padding: var(--admin-space-3);
+  resize: vertical
+}
+
+.field input:hover,
+.field textarea:hover,
+.field select:hover {
+  border-color: var(--admin-color-secondary)
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus,
+.settings-card input:focus,
+.variant-row input:focus,
+.stock-input:focus {
+  outline: none;
+  border-color: var(--admin-color-primary);
+  box-shadow: var(--admin-focus-ring)
+}
+
+.field input:disabled,
+.field textarea:disabled,
+.field select:disabled {
+  background: var(--admin-color-surface-disabled);
+  color: var(--admin-color-text-muted)
+}
+
+.check {
+  display: flex !important;
+  align-items: center;
+  gap: var(--admin-space-2);
+  font-weight: normal !important
+}
+
+.check input {
+  width: auto;
+  min-height: 0
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--admin-color-primary);
+  cursor: pointer
+}
+
+/* ============================================================
+   КАРТКИ / ПАНЕЛІ
+   ============================================================ */
+.settings-card {
+  max-width: 560px;
+  padding: var(--admin-space-6);
+  background: var(--admin-color-surface);
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-sm)
+}
+
+.settings-card h2 {
+  margin: 0 0 var(--admin-space-5)
+}
+
+.settings-card .field {
+  margin-bottom: var(--admin-space-4)
+}
+
+.settings-card label {
+  display: block;
+  margin-bottom: var(--admin-space-2);
+  font-weight: var(--admin-font-weight-semibold)
+}
+
+.key-row {
+  display: flex;
+  gap: var(--admin-space-2)
+}
+
+.key-row input {
+  flex: 1
+}
+
+.settings-actions {
+  display: flex;
+  gap: var(--admin-space-3);
+  margin: var(--admin-space-2) 0 var(--admin-space-3)
+}
+
+/* ============================================================
+   ТОВАРИ
+   ============================================================ */
+.products {
+  display: grid;
+  gap: var(--admin-space-3)
+}
+
+.products[hidden] {
+  display: none !important
+}
+
+.product {
+  padding: var(--admin-space-4);
+  display: grid;
+  grid-template-columns: 88px 1fr auto;
+  gap: var(--admin-space-4);
+  align-items: center;
+  background: var(--admin-color-surface);
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-sm);
+  transition: border-color var(--admin-transition-base) var(--admin-easing), box-shadow var(--admin-transition-base) var(--admin-easing)
+}
+
+.product:hover {
+  border-color: var(--admin-color-border-strong);
+  box-shadow: var(--admin-shadow-md)
+}
+
+.product img {
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-md);
+  background: var(--admin-color-surface-disabled)
+}
+
+.product h3 {
+  margin: 0 0 var(--admin-space-1)
+}
+
+.price {
+  font-size: var(--admin-font-size-xl);
+  font-weight: var(--admin-font-weight-bold);
+  color: var(--admin-color-primary)
+}
+
+.product-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-2)
+}
+
+.category-actions {
+  gap: var(--admin-space-2);
+  flex-wrap: wrap
+}
+
+.category-actions button {
+  min-height: var(--admin-control-height-sm);
+  padding: 0 var(--admin-space-3);
+  font-size: var(--admin-font-size-sm)
+}
+
+.product.hidden {
+  opacity: .55;
+  background: var(--admin-color-page-bg);
+  box-shadow: none
+}
+
+.edit-product {
+  min-height: var(--admin-control-height-sm);
+  padding: 0 var(--admin-space-3);
+  border: 1px solid var(--admin-color-primary);
+  border-radius: var(--admin-radius-md);
+  background: var(--admin-color-surface);
+  color: var(--admin-color-primary);
+  font: inherit;
+  font-weight: var(--admin-font-weight-semibold);
+  cursor: pointer;
+  transition: background var(--admin-transition-fast) var(--admin-easing)
+}
+
+.edit-product:hover {
+  background: var(--admin-color-primary-soft)
+}
+
+.categories-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--admin-space-2);
+  margin-top: var(--admin-space-2)
+}
+
+.category-tag {
+  padding: var(--admin-space-1) var(--admin-space-3);
+  border-radius: var(--admin-radius-lg);
+  background: var(--admin-color-warning-bg);
+  color: var(--admin-color-warning);
+  font-size: var(--admin-font-size-sm);
+  font-weight: var(--admin-font-weight-semibold)
+}
+
+/* ============================================================
+   СКЛАД
+   ============================================================ */
+.stock-input {
+  width: 96px;
+  text-align: center
+}
+
+.stock-input:disabled {
+  background: var(--admin-color-surface-disabled);
+  color: var(--admin-color-text)
+}
+
+.stock-save {
+  min-height: var(--admin-control-height);
+  padding: 0 var(--admin-space-4);
+  border: 0;
+  border-radius: var(--admin-radius-md);
+  background: var(--admin-color-primary);
+  color: var(--admin-color-text-on-color);
+  font: inherit;
+  font-weight: var(--admin-font-weight-semibold);
+  cursor: pointer
+}
+
+.stock-save:hover:not(:disabled) {
+  background: var(--admin-color-primary-hover)
+}
+
+.stock-save:disabled {
+  opacity: .5
+}
+
+.sync-status {
+  margin: calc(var(--admin-space-2) * -1) 0 var(--admin-space-4);
+  color: var(--admin-color-text-muted)
+}
+
+.sync-status.ok {
+  color: var(--admin-color-success)
+}
+
+.sync-status.err {
+  color: var(--admin-color-error)
+}
+
+/* ============================================================
+   БЕЙДЖІ СТАТУСІВ
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-1);
+  padding: var(--admin-space-1) var(--admin-space-3);
+  border-radius: var(--admin-radius-lg);
+  font-size: var(--admin-font-size-sm);
+  font-weight: var(--admin-font-weight-semibold);
+  line-height: 1.4;
+  background: var(--admin-color-neutral-bg);
+  color: var(--admin-color-secondary)
+}
+
+.badge.orange {
+  background: var(--admin-color-warning-bg);
+  color: var(--admin-color-warning)
+}
+
+.badge.green {
+  background: var(--admin-color-success-bg);
+  color: var(--admin-color-success)
+}
+
+.badge.blue {
+  background: var(--admin-color-info-bg);
+  color: var(--admin-color-info)
+}
+
+.crm-badge {
+  display: inline-block;
+  padding: 2px var(--admin-space-2);
+  border-radius: var(--admin-radius-lg);
+  background: var(--admin-color-success-bg);
+  color: var(--admin-color-success);
+  font-size: var(--admin-font-size-xs);
+  font-weight: var(--admin-font-weight-semibold)
+}
+
+/* ============================================================
+   ПОРОЖНІ СТАНИ / ПОМИЛКИ
+   ============================================================ */
+.empty,
+.error {
+  padding: var(--admin-space-7);
+  text-align: center;
+  background: var(--admin-color-surface);
+  border: 1px dashed var(--admin-color-border-strong);
+  border-radius: var(--admin-radius-lg)
+}
+
+.error {
+  color: var(--admin-color-error);
+  background: var(--admin-color-error-bg);
+  border-style: solid;
+  border-color: var(--admin-color-error)
+}
+
+/* ============================================================
+   МОДАЛЬНІ ВІКНА
+   ============================================================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--admin-z-modal);
+  display: grid;
+  place-items: center;
+  padding: var(--admin-space-5);
+  background: rgba(0, 0, 0, .5)
+}
+
+.modal[hidden],
+#productsSection[hidden] {
+  display: none
+}
+
+.modal-card {
+  width: min(680px, 100%);
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+  padding: var(--admin-space-6);
+  background: var(--admin-color-surface);
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-lg)
+}
+
+.modal-card.narrow {
+  width: min(440px, 100%)
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--admin-space-5);
+  padding-bottom: var(--admin-space-4);
+  border-bottom: 1px solid var(--admin-color-border)
+}
+
+.modal-head h2 {
+  margin: 0
+}
+
+.close {
+  width: var(--admin-control-height-sm);
+  height: var(--admin-control-height-sm);
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--admin-radius-md);
+  background: none;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--admin-color-text-muted)
+}
+
+.close:hover {
+  background: var(--admin-color-neutral-bg);
+  color: var(--admin-color-text)
+}
+
+.modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--admin-space-3);
+  margin-top: var(--admin-space-5);
+  padding-top: var(--admin-space-4);
+  border-top: 1px solid var(--admin-color-border)
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--admin-space-4)
+}
+
+/* ============================================================
+   ФОТО В МОДАЛЦІ
+   ============================================================ */
+.photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--admin-space-3)
+}
+
+.photo-item {
+  position: relative;
+  width: 72px
+}
+
+.photos img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-sm);
+  display: block
+}
+
+.photo-item .photo-num {
+  position: absolute;
+  top: var(--admin-space-1);
+  left: var(--admin-space-1);
+  min-width: 18px;
+  height: 18px;
+  padding: 0 var(--admin-space-1);
+  display: grid;
+  place-items: center;
+  background: var(--admin-color-primary);
+  color: var(--admin-color-text-on-color);
+  border-radius: var(--admin-radius-sm);
+  font-size: var(--admin-font-size-xs);
+  font-weight: var(--admin-font-weight-bold)
+}
+
+.photo-item .photo-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--admin-space-1);
+  margin-top: var(--admin-space-1)
+}
+
+.photo-item .photo-controls button {
+  min-width: 24px;
+  border: 1px solid var(--admin-color-border-strong);
+  background: var(--admin-color-surface);
+  border-radius: var(--admin-radius-sm);
+  padding: 0 var(--admin-space-2);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--admin-font-size-sm);
+  line-height: 1.6
+}
+
+.photo-item .photo-controls button:hover:not(:disabled) {
+  border-color: var(--admin-color-primary);
+  color: var(--admin-color-primary)
+}
+
+.photo-item .photo-controls button:disabled {
+  opacity: .35;
+  cursor: default
+}
+
+/* ============================================================
+   МАСОВІ ДІЇ
+   ============================================================ */
+.product.selectable {
+  grid-template-columns: auto 88px 1fr auto
+}
+
+.product .pick {
+  display: flex;
+  align-items: center
+}
+
+.product .pick input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--admin-color-primary);
+  cursor: pointer
+}
+
+.bulk-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--admin-space-3);
+  margin: 0 0 var(--admin-space-4);
+  padding: var(--admin-space-3) var(--admin-space-4);
+  background: var(--admin-color-surface);
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-sm)
+}
+
+.bulk-bar .sel-count {
+  font-weight: var(--admin-font-weight-bold);
+  color: var(--admin-color-primary)
+}
+
+.bulk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--admin-space-2)
+}
+
+.bulk-actions[hidden] {
+  display: none !important
+}
+
+/* ============================================================
+   ВАРІАНТИ ФАСУВАННЯ
+   ============================================================ */
+.variant-list {
+  display: grid;
+  gap: var(--admin-space-2);
+  margin-bottom: var(--admin-space-3)
+}
+
+.variant-row {
+  display: grid;
+  grid-template-columns: auto 0.7fr 1fr 1fr auto;
+  gap: var(--admin-space-3);
+  align-items: center;
+  padding: var(--admin-space-3);
+  background: var(--admin-color-surface-alt);
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-md)
+}
+
+.variant-row .v-preview {
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
+.variant-row input[type=text],
+.variant-row input[type=number] {
+  min-height: var(--admin-control-height-sm);
+  padding: 0 var(--admin-space-2)
+}
+
+.variant-row.off {
+  opacity: .55
+}
+
+.variant-row .v-del {
+  width: var(--admin-control-height-sm);
+  height: var(--admin-control-height-sm);
+  border: 0;
+  border-radius: var(--admin-radius-md);
+  background: none;
+  color: var(--admin-color-error);
+  font-size: var(--admin-font-size-xl);
+  cursor: pointer
+}
+
+.variant-row .v-del:hover {
+  background: var(--admin-color-error-bg)
+}
+
+.variant-row label.v-on {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-2);
+  font-size: var(--admin-font-size-sm);
+  white-space: nowrap;
+  cursor: pointer
+}
+
+/* ============================================================
+   ПОКИНУТІ КОШИКИ
+   ============================================================ */
+.abandoned-list {
+  display: grid;
+  gap: var(--admin-space-4)
+}
+
+.abandoned-list[hidden] {
+  display: none !important
+}
+
+.cart-card {
+  background: var(--admin-color-surface);
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-sm);
+  overflow: hidden
+}
+
+.cart-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--admin-space-3) var(--admin-space-4);
+  padding: var(--admin-space-4) var(--admin-space-5);
+  background: var(--admin-color-primary-soft);
+  border-bottom: 1px solid var(--admin-color-border)
+}
+
+.cart-head .who {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+  min-width: 0
+}
+
+.cart-avatar {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: var(--admin-radius-full);
+  background: var(--admin-color-primary);
+  color: var(--admin-color-text-on-color);
+  font-weight: var(--admin-font-weight-heavy);
+  font-size: var(--admin-font-size-lg)
+}
+
+.cart-head .who b {
+  font-size: var(--admin-font-size-h3)
+}
+
+.cart-head .who .muted {
+  font-size: var(--admin-font-size-sm)
+}
+
+.cart-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--admin-space-2);
+  margin-left: auto
+}
+
+.cart-body {
+  display: grid;
+  grid-template-columns: 1fr 272px;
+  gap: var(--admin-space-5);
+  padding: var(--admin-space-5)
+}
+
+.cart-items {
+  display: grid;
+  gap: var(--admin-space-2);
+  align-content: start
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: var(--admin-space-3);
+  align-items: center;
+  padding: var(--admin-space-2) var(--admin-space-3) var(--admin-space-2) var(--admin-space-2);
+  background: var(--admin-color-surface-alt);
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-md)
+}
+
+.cart-item img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: var(--admin-radius-sm);
+  background: var(--admin-color-neutral-bg)
+}
+
+.cart-item-noimg {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: var(--admin-radius-sm);
+  background: var(--admin-color-neutral-bg);
+  padding: var(--admin-space-1)
+}
+
+.cart-item .ci-name {
+  font-weight: var(--admin-font-weight-semibold)
+}
+
+.cart-item .ci-meta {
+  color: var(--admin-color-text-muted);
+  font-size: var(--admin-font-size-sm);
+  margin-top: 2px
+}
+
+.cart-item .ci-sum {
+  text-align: right;
+  font-weight: var(--admin-font-weight-bold);
+  white-space: nowrap
+}
+
+.cart-item .ci-sum small {
+  display: block;
+  color: var(--admin-color-text-muted);
+  font-weight: normal;
+  font-size: var(--admin-font-size-sm)
+}
+
+.cart-side {
+  display: grid;
+  gap: var(--admin-space-3);
+  align-content: start
+}
+
+.cart-info {
+  display: grid;
+  gap: var(--admin-space-2);
+  padding: var(--admin-space-3) var(--admin-space-4);
+  background: var(--admin-color-surface-alt);
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-md)
+}
+
+.cart-info .row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--admin-space-3);
+  font-size: var(--admin-font-size-md)
+}
+
+.cart-info .row span:first-child {
+  color: var(--admin-color-text-muted)
+}
+
+.cart-info .row span:last-child {
+  text-align: right;
+  font-weight: var(--admin-font-weight-semibold)
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--admin-space-3) var(--admin-space-4);
+  border-radius: var(--admin-radius-md);
+  background: var(--admin-color-primary);
+  color: var(--admin-color-text-on-color);
+  font-weight: var(--admin-font-weight-bold)
+}
+
+.cart-total .amount {
+  font-size: var(--admin-font-size-xl)
+}
+
+.cart-actions {
+  display: flex;
+  gap: var(--admin-space-2)
+}
+
+.cart-actions .btn {
+  flex: 1
+}
+
+.cart-note {
+  padding: var(--admin-space-3) var(--admin-space-4);
+  background: var(--admin-color-note-bg);
+  border: 1px solid var(--admin-color-note-border);
+  border-radius: var(--admin-radius-md);
+  font-size: var(--admin-font-size-md)
+}
+
+.cart-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--admin-space-4);
+  margin-bottom: var(--admin-space-5)
+}
+
+.summary-card {
+  padding: var(--admin-space-4) var(--admin-space-5);
+  background: var(--admin-color-surface);
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-space-1)
+}
+
+.summary-card .muted {
+  font-size: var(--admin-font-size-sm)
+}
+
+.summary-card b {
+  font-size: var(--admin-font-size-h2);
+  line-height: 1.2
+}
+
+/* ============================================================
+    ЗАМОВЛЕННЯ
+    ============================================================ */
+.orders-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--admin-space-2)
+}
+
+.orders-search,
+.orders-filter {
+  min-height: var(--admin-control-height);
+  padding: 0 var(--admin-space-3);
+  background: var(--admin-color-surface);
+  border: 1px solid var(--admin-color-border-strong);
+  border-radius: var(--admin-radius-md);
+  font: inherit;
+  color: var(--admin-color-text);
+  transition: border-color var(--admin-transition-fast) var(--admin-easing), box-shadow var(--admin-transition-fast) var(--admin-easing)
+}
+
+.orders-search {
+  width: 240px
+}
+
+.orders-search:focus,
+.orders-filter:focus {
+  outline: none;
+  border-color: var(--admin-color-primary);
+  box-shadow: var(--admin-focus-ring)
+}
+
+.orders-list {
+  display: grid;
+  gap: var(--admin-space-4)
+}
+
+.order-card {
+  background: var(--admin-color-surface);
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-sm);
+  overflow: hidden
+}
+
+.order-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--admin-space-3) var(--admin-space-4);
+  padding: var(--admin-space-4) var(--admin-space-5);
+  background: var(--admin-color-primary-soft);
+  border-bottom: 1px solid var(--admin-color-border)
+}
+
+.order-head .who {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+  min-width: 0
+}
+
+.order-head .who b {
+  font-size: var(--admin-font-size-h3)
+}
+
+.order-head .who .muted {
+  font-size: var(--admin-font-size-sm)
+}
+
+.order-customer {
+  min-width: 0
+}
+
+.order-customer b {
+  display: block;
+  font-size: var(--admin-font-size-base)
+}
+
+.order-customer .muted {
+  font-size: var(--admin-font-size-sm)
+}
+
+.order-total {
+  margin-left: auto;
+  font-size: var(--admin-font-size-xl);
+  font-weight: var(--admin-font-weight-heavy);
+  color: var(--admin-color-primary);
+  white-space: nowrap
+}
+
+.badge.red {
+  background: var(--admin-color-error-bg);
+  color: var(--admin-color-error)
+}
+
+.order-details {
+  padding: var(--admin-space-5)
+}
+
+.order-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--admin-space-4);
+  margin-bottom: var(--admin-space-4)
+}
+
+.order-block {
+  padding: var(--admin-space-3) var(--admin-space-4);
+  background: var(--admin-color-surface-alt);
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-md)
+}
+
+.order-block h4,
+.order-items h4,
+.order-totals h4 {
+  margin: 0 0 var(--admin-space-2);
+  font-size: var(--admin-font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--admin-color-text-muted)
+}
+
+.order-block .row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--admin-space-3);
+  font-size: var(--admin-font-size-md);
+  padding: 3px 0
+}
+
+.order-block .row span:first-child {
+  color: var(--admin-color-text-muted)
+}
+
+.order-block .row span:last-child {
+  text-align: right;
+  font-weight: var(--admin-font-weight-semibold);
+  word-break: break-word
+}
+
+.order-status {
+  min-height: var(--admin-control-height-sm);
+  padding: 0 var(--admin-space-2);
+  background: var(--admin-color-surface);
+  border: 1px solid var(--admin-color-border-strong);
+  border-radius: var(--admin-radius-sm);
+  font: inherit;
+  font-size: var(--admin-font-size-md);
+  max-width: 190px
+}
+
+.order-status:focus {
+  outline: none;
+  border-color: var(--admin-color-primary);
+  box-shadow: var(--admin-focus-ring)
+}
+
+.order-note {
+  font-size: var(--admin-font-size-md);
+  white-space: pre-wrap;
+  word-break: break-word
+}
+
+.order-items {
+  display: grid;
+  gap: var(--admin-space-2);
+  margin-bottom: var(--admin-space-4)
+}
+
+.order-totals {
+  max-width: 360px;
+  margin-left: auto;
+  padding: var(--admin-space-3) var(--admin-space-4);
+  background: var(--admin-color-surface-alt);
+  border: 1px solid var(--admin-color-border);
+  border-radius: var(--admin-radius-md)
+}
+
+.order-totals .row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--admin-space-3);
+  font-size: var(--admin-font-size-md);
+  padding: 3px 0
+}
+
+.order-totals .row span:first-child {
+  color: var(--admin-color-text-muted)
+}
+
+.order-totals .row.discount span {
+  color: var(--admin-color-success);
+  font-weight: var(--admin-font-weight-semibold)
+}
+
+.order-totals .row.grand {
+  border-top: 1px solid var(--admin-color-border);
+  margin-top: var(--admin-space-2);
+  padding-top: var(--admin-space-2);
+  font-size: var(--admin-font-size-lg);
+  font-weight: var(--admin-font-weight-heavy)
+}
+
+.order-totals .row.grand span:last-child {
+  color: var(--admin-color-primary)
+}
+
+/* ============================================================
+    АДАПТИВНІСТЬ
+    ============================================================ */
+@media(max-width:800px) {
+  aside {
+    width: var(--admin-sidebar-width-compact);
+    padding: var(--admin-space-5) var(--admin-space-2)
+  }
+
+  .brand {
+    margin: 0 var(--admin-space-2) var(--admin-space-6)
+  }
+
+  .brand span,
+  nav button span {
+    display: none
+  }
+
+  nav button {
+    justify-content: center;
+    padding: var(--admin-space-2)
+  }
+
+  main {
+    padding: var(--admin-space-5) var(--admin-space-4)
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr
+  }
+
+  .product,
+  .product.selectable {
+    grid-template-columns: 72px 1fr
+  }
+
+  .product.selectable {
+    grid-template-columns: auto 72px 1fr
+  }
+
+  .product img {
+    width: 72px;
+    height: 72px
+  }
+
+  .product-actions {
+    grid-column: 1/-1;
+    flex-wrap: wrap
+  }
+
+  .variant-row {
+    grid-template-columns: 1fr 1fr
+  }
+}
+
+@media(max-width:760px) {
+  .cart-summary {
+    grid-template-columns: 1fr
+  }
+
+  .cart-body {
+    grid-template-columns: 1fr
+  }
+
+  .cart-head .who {
+    flex: 1
+  }
+
+  .cart-badges {
+    margin-left: 52px
+  }
+}
+
+@media(max-width:560px) {
+  header {
+    align-items: flex-start
+  }
+
+  .profile {
+    display: none
+  }
+}
+
+@media(max-width:760px) {
+  .orders-search {
+    width: 100%
+  }
+
+  .order-head {
+    gap: var(--admin-space-2) var(--admin-space-3)
+  }
+
+  .order-total {
+    margin-left: 0;
+    width: 100%;
+    order: 10
+  }
+
+  .order-grid {
+    grid-template-columns: 1fr
+  }
+
+  .order-totals {
+    max-width: none
+  }
+}

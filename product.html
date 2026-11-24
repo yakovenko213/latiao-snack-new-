@@ -3104,8 +3104,8 @@
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
     import { getFirestore, doc, getDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-    const firebaseConfig = { apiKey: 'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw', authDomain: 'my-magazin-81c96.firebaseapp.com', projectId: 'my-magazin-81c96', storageBucket: 'my-magazin-81c96.firebasestorage.app', messagingSenderId: '129061757346', appId: '1:129061757346:web:3e7bc5838cc5f7bda992fb' };
-    const id = new URLSearchParams(location.search).get('id');
+    const firebaseConfig = { apiKey: 'AIzaSyCJ71TSX4VcvB_-mSy7V7Cp8H83YvsNdlQ', authDomain: 'latiao-snack.firebaseapp.com', projectId: 'latiao-snack', storageBucket: 'latiao-snack.firebasestorage.app', messagingSenderId: '6960322548', appId: '1:6960322548:web:3e7bc5838cc5f7bda992fb' };
+    const id = String(new URLSearchParams(location.search).get('id') || '').trim();
     const productView = document.getElementById('productView'), pskel = document.getElementById('pskel'), perror = document.getElementById('perror');
     const cacheKey = 'latiao:product:' + id;
     let app = null, db = null;
@@ -3262,6 +3262,7 @@
     async function load(soft) {
       if (!soft) { pskel.hidden = false; perror.hidden = true; productView.hidden = true; }
       try {
+        if (!id) throw new Error('Товар не знайдено');
         const s = await getDoc(doc(getDb(), 'products', id));
         if (!s.exists()) throw new Error('Товар не знайдено');
         const p = s.data();
@@ -3281,7 +3282,7 @@
     else { load(false); }
   </script>
   <script
-    type="module">import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'; import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'; const a = initializeApp({ apiKey: 'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw', authDomain: 'my-magazin-81c96.firebaseapp.com', projectId: 'my-magazin-81c96', storageBucket: 'my-magazin-81c96.firebasestorage.app', messagingSenderId: '129061757346', appId: '1:129061757346:web:3e7bc5838cc5f7bda992fb' }); try { const s = await getDocs(collection(getFirestore(a), 'categories')); if (!s.empty) document.querySelectorAll('.submenu').forEach(m => m.innerHTML = s.docs.map(d => { const x = d.data(); return `<li><a href="catalog.html?category=${encodeURIComponent(x.slug || d.id)}">${String(x.name || x.title || d.id).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</a></li>` }).join('')) } catch (e) { console.warn('Categories unavailable', e) }</script>
+    type="module">import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'; import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'; const a = initializeApp({ apiKey: 'AIzaSyCJ71TSX4VcvB_-mSy7V7Cp8H83YvsNdlQ', authDomain: 'latiao-snack.firebaseapp.com', projectId: 'latiao-snack', storageBucket: 'latiao-snack.firebasestorage.app', messagingSenderId: '6960322548', appId: '1:6960322548:web:3e7bc5838cc5f7bda992fb' }); try { const s = await getDocs(collection(getFirestore(a), 'categories')); if (!s.empty) document.querySelectorAll('.submenu').forEach(m => m.innerHTML = s.docs.map(d => { const x = d.data(); return `<li><a href="catalog.html?category=${encodeURIComponent(x.slug || d.id)}">${String(x.name || x.title || d.id).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</a></li>` }).join('')) } catch (e) { console.warn('Categories unavailable', e) }</script>
   <script src="shipbar.js" defer></script>
   <script src="cart.js" defer></script>
 </body>

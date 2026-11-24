@@ -1,0 +1,189 @@
+﻿<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Р“РѕСЃС‚СЂРѕ вЂ” Р·Р°РјРѕРІР»РµРЅРЅСЏ РґР»СЏ РїРѕСЃС‚С–Р№РЅРёС… РєР»С–С”РЅС‚С–РІ</title>
+<meta name="robots" content="noindex,nofollow">
+<script>try{sessionStorage.setItem('gsLanding','1')}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap&subset=cyrillic,latin" rel="stylesheet">
+<style>
+:root{--accent:#FF6A1A;--ink:#1B1B1B;--cream:#FFF4E6;--white:#fff;--r:16px;
+--head:'Montserrat',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--white);color:var(--ink);font:500 1rem/1.4 var(--body);
+padding:env(safe-area-inset-top,0) max(16px,env(safe-area-inset-right,0)) env(safe-area-inset-bottom,0) max(16px,env(safe-area-inset-left,0))}
+h1,h2,h3{font-family:var(--head);font-weight:800;margin:0;text-wrap:balance}
+h1{font-size:clamp(2rem,6vw,3.5rem);line-height:1;letter-spacing:-.015em}
+h2{font-size:clamp(1.5rem,3vw,2.25rem);line-height:1.1}
+p{margin:0}a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.wrap{max-width:1200px;margin-inline:auto}
+section{padding-block:24px}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;height:64px}
+.logo{display:inline-flex;align-items:center;gap:8px;font:800 1.25rem var(--head);letter-spacing:-.02em;text-decoration:none}
+.logo i{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--cream);font:800 1rem var(--head);font-style:normal}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:14px 28px;border-radius:999px;
+background:var(--ink);color:var(--cream);font:800 1rem/1 var(--head);text-decoration:none;transition:background .16s ease-out,color .16s ease-out,transform .16s ease-out}
+.btn:hover{background:var(--cream);color:var(--ink)}
+.btn:active{transform:scale(.97)}
+.btn--light{background:var(--cream);color:var(--ink)}
+.btn--light:hover{background:var(--ink);color:var(--cream)}
+.btn--accent{background:var(--accent);color:var(--ink)}
+.btn--accent:hover{background:var(--cream)}
+.btn--sm{min-height:44px;padding:10px 20px}
+.btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.notice{display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:var(--r);background:var(--cream);border:2px solid var(--ink)}
+.notice b{font-family:var(--head);font-weight:800}
+.notice svg{flex:none;width:24px;height:24px;margin-top:1px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.hero{background:var(--accent);border-radius:var(--r);padding:32px 24px;display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.hero p{font-size:1.125rem;line-height:1.35;max-width:44ch}
+.hero .row{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+@media(min-width:768px){.hero{padding:56px 48px}}
+
+.head{margin-bottom:20px}
+.cats{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:768px){.cats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1100px){.cats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.cat{position:relative;display:flex;min-height:92px;padding:12px 52px 12px 16px;border-radius:var(--r);overflow:hidden;text-decoration:none;
+background:var(--cream);transition:transform .16s ease-out}
+.cat:hover{transform:translateY(-2px)}
+.cat:nth-child(3n+2){background:color-mix(in srgb,var(--accent) 12%,var(--cream))}
+.cat:nth-child(3n){background:color-mix(in srgb,var(--accent) 24%,var(--cream))}
+.cat span{font:700 1rem/1.2 var(--head)}
+.cat img,.cat svg{position:absolute;right:10px;bottom:8px;width:60px;height:60px;object-fit:contain;pointer-events:none}
+.cat svg{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cat--all{background:var(--ink);color:var(--cream)}
+.cat--all svg{stroke:var(--cream);width:28px;height:28px}
+.sk{min-height:92px;border-radius:var(--r);background:var(--cream)}
+
+.about{display:grid;gap:24px}
+.about__txt{display:flex;flex-direction:column;gap:14px;max-width:60ch}
+.lead{font-size:1.125rem;line-height:1.35}
+.facts{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.fact{padding:16px;border-radius:var(--r);background:var(--cream);display:flex;flex-direction:column;gap:4px}
+.fact:nth-child(2){background:var(--ink);color:var(--cream)}
+.fact b{font:800 1.5rem/1.1 var(--head)}
+@media(min-width:768px){.about{grid-template-columns:1.2fr 1fr;align-items:start}}
+
+.cta{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:32px 24px;border-radius:var(--r);background:var(--ink);color:var(--cream)}
+.cta p{font-size:1.125rem;max-width:46ch}
+.cta .row{display:flex;flex-wrap:wrap;gap:12px}
+@media(min-width:768px){.cta{padding:48px}}
+
+footer{padding:24px 0 32px;font-size:.875rem}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <a class="logo" href="index.html" aria-label="Р“РѕСЃС‚СЂРѕ"><i aria-hidden="true">Р“</i>Р“РѕСЃС‚СЂРѕ</a>
+  <a class="btn btn--sm" href="cart.html">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.5l2 11h10.5l2-8H6.5"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg>
+    РљРѕС€РёРє
+  </a>
+</header>
+
+<main>
+  <section>
+    <div class="notice" role="note">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+      <p><b>РњРё РґРѕРїСЂР°С†СЊРѕРІСѓС”РјРѕ СЃР°Р№С‚.</b> Р”РµСЏРєС– СЂРѕР·РґС–Р»Рё Р№ С„РѕС‚Рѕ С‰Рµ Р·вЂ™СЏРІР»СЏСЋС‚СЊСЃСЏ, Р°Р»Рµ Р·Р°РјРѕРІР»РµРЅРЅСЏ РїСЂР°С†СЋСЋС‚СЊ СЏРє Р·Р°РІР¶РґРё: РѕР±РёСЂР°Р№С‚Рµ С‚РѕРІР°СЂРё, РґРѕРґР°РІР°Р№С‚Рµ РІ РєРѕС€РёРє С‚Р° РѕС„РѕСЂРјР»СЋР№С‚Рµ.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="hero">
+      <h1>Р“РѕСЃС‚СЂС– СЃРЅРµРєРё Р· РљРёС‚Р°СЋ</h1>
+      <p>Р’С–С‚Р°С”РјРѕ, С‰Рѕ РІРё Р· РЅР°РјРё! Р¦СЏ СЃС‚РѕСЂС–РЅРєР° вЂ” РґР»СЏ РїРѕСЃС‚С–Р№РЅРёС… РєР»С–С”РЅС‚С–РІ: Р·Р°РјРѕРІР»СЏР№С‚Рµ РІР¶Рµ Р·Р°СЂР°Р·, РЅРµ С‡РµРєР°СЋС‡Рё Р·Р°РІРµСЂС€РµРЅРЅСЏ СЃР°Р№С‚Сѓ.</p>
+      <div class="row">
+        <a class="btn" href="catalog.html">РћР±СЂР°С‚Рё С‚РѕРІР°СЂРё</a>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="cat-h">
+    <div class="head"><h2 id="cat-h">РљР°С‚РµРіРѕСЂС–С—</h2></div>
+    <ul class="cats" id="cats">
+      <li class="sk" aria-hidden="true"></li><li class="sk" aria-hidden="true"></li><li class="sk" aria-hidden="true"></li><li class="sk" aria-hidden="true"></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="about-h">
+    <div class="about">
+      <div class="about__txt">
+        <h2 id="about-h">РџСЂРѕ РјР°РіР°Р·РёРЅ</h2>
+        <p class="lead">РњРё РїСЂРёРІРѕР·РёРјРѕ РіРѕСЃС‚СЂС– СЃРЅРµРєРё Р· РљРёС‚Р°СЋ Р№ РїРµСЂРµРІС–СЂСЏС”РјРѕ РєРѕР¶РЅСѓ РїР°СЂС‚С–СЋ: С‚РµСЂРјС–РЅ РїСЂРёРґР°С‚РЅРѕСЃС‚С–, СЃРєР»Р°Рґ С– СЃС‚Р°РЅ СѓРїР°РєРѕРІРєРё.</p>
+        <p>РљРѕР¶РµРЅ С‚РѕРІР°СЂ РјР°С” С€РєР°Р»Сѓ РіРѕСЃС‚СЂРѕС‚Рё РІС–Рґ 1 РґРѕ 5. Р—Р°РјРѕРІР»РµРЅРЅСЏ Р·Р±РёСЂР°С”РјРѕ Сѓ РґРµРЅСЊ РѕС„РѕСЂРјР»РµРЅРЅСЏ Р№ РІС–РґРїСЂР°РІР»СЏС”РјРѕ РќРѕРІРѕСЋ РїРѕС€С‚РѕСЋ Р°Р±Рѕ РЈРєСЂРїРѕС€С‚РѕСЋ.</p>
+      </div>
+      <ul class="facts">
+        <li class="fact"><b>РќРѕРІР° РїРѕС€С‚Р° Р№ РЈРєСЂРїРѕС€С‚Р°</b><span>РґРѕСЃС‚Р°РІРєР° РїРѕ РІСЃС–Р№ РЈРєСЂР°С—РЅС–</span></li>
+        <li class="fact"><b>Р’С–Рґ 799 РіСЂРЅ</b><span>РґРѕСЃС‚Р°РІРєР° Р±РµР·РєРѕС€С‚РѕРІРЅР°</span></li>
+        <li class="fact"><b>Р©РѕС‚РёР¶РЅСЏ</b><span>РЅРѕРІС– РЅР°РґС…РѕРґР¶РµРЅРЅСЏ</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="go-h">
+    <div class="cta">
+      <h2 id="go-h">Р“РѕС‚РѕРІС– Р·Р°РјРѕРІРёС‚Рё?</h2>
+      <p>Р”РѕРґР°Р№С‚Рµ СЃРЅРµРєРё РІ РєРѕС€РёРє С– РѕС„РѕСЂРјС–С‚СЊ Р·Р°РјРѕРІР»РµРЅРЅСЏ Р·Р° С…РІРёР»РёРЅСѓ. РЇРєС‰Рѕ С‰РѕСЃСЊ РЅРµ РїСЂР°С†СЋС”, РЅР°РїРёС€С–С‚СЊ РЅР°Рј вЂ” РґРѕРїРѕРјРѕР¶РµРјРѕ РѕС„РѕСЂРјРёС‚Рё РІСЂСѓС‡РЅСѓ.</p>
+      <div class="row">
+        <a class="btn btn--accent" href="catalog.html">Р”Рѕ РєР°С‚Р°Р»РѕРіСѓ</a>
+        <a class="btn btn--light" href="cart.html">РљРѕС€РёРє С– РѕС„РѕСЂРјР»РµРЅРЅСЏ</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>В© 2026 Р“РѕСЃС‚СЂРѕ</footer>
+</div>
+
+<script src="shipbar.js" defer></script>
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import{getFirestore,collection,getDocs}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+const app=initializeApp({apiKey:'AIzaSyCJ71TSX4VcvB_-mSy7V7Cp8H83YvsNdlQ',authDomain:'latiao-snack.firebaseapp.com',projectId:'latiao-snack',storageBucket:'latiao-snack.firebasestorage.app',messagingSenderId:'6960322548',appId:'1:6960322548:web:3e7bc5838cc5f7bda992fb'});
+
+const esc=v=>String(v==null?'':v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const name=x=>String(x.name||x.title||x.id||'');
+const link=x=>'catalog.html?category='+encodeURIComponent(x.slug||x.id);
+const FB='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3c3 0 5 2 5 5 0 6-3 10-8 13 1-6 1-9 3-13"/></svg>';
+const ARROW='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const grid=document.getElementById('cats');
+
+// Р—Р°РїР°СЃРЅРёР№ СЃРїРёСЃРѕРє, СЏРєС‰Рѕ РєР°С‚РµРіРѕСЂС–С— РЅРµ Р·Р°РІР°РЅС‚Р°Р¶РёР»РёСЃСЊ
+const fallback=[['lokshyna','Р›РѕРєС€РёРЅР°'],['chypsy','Р§РёРїСЃРё'],['myasni','РњвЂ™СЏСЃРЅС– СЃРЅРµРєРё'],['sousy','РЎРѕСѓСЃРё С‚Р° РѕР»С–С—'],['nasinnia','РќР°СЃС–РЅРЅСЏ С‚Р° РіРѕСЂС–С…Рё'],['nabory','РќР°Р±РѕСЂРё']]
+  .map(([slug,n])=>({id:slug,slug,name:n}));
+
+function render(list){
+  list=list.filter(x=>name(x).trim().toLowerCase()!=='СѓСЃС– С‚РѕРІР°СЂРё');
+  grid.innerHTML=list.map(x=>
+    '<li><a class="cat" href="'+link(x)+'"><span>'+esc(name(x))+'</span>'+
+    (x.icon?'<img src="'+esc(x.icon)+'" alt="" width="60" height="60" loading="lazy" decoding="async">':FB)+'</a></li>'
+  ).join('')+'<li><a class="cat cat--all" href="catalog.html"><span>РЈСЃС– С‚РѕРІР°СЂРё</span>'+ARROW+'</a></li>';
+}
+
+try{
+  const snap=await getDocs(collection(getFirestore(app),'categories'));
+  const cats=snap.docs.map(d=>({id:d.id,...d.data()}))
+    .filter(x=>x.active!==false&&x.hidden!==true&&String(x.hidden)!=='true'&&!x.parent&&!x.parentId&&(x.count==null||+x.count>0))
+    .sort((p,q)=>(+p.sort||0)-(+q.sort||0)||name(p).localeCompare(name(q),'uk'));
+  render(cats.length?cats:fallback);
+}catch(e){
+  console.warn('Categories unavailable',e);
+  render(fallback);
+}
+</script>
+</body>
+</html>

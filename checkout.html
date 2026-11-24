@@ -1,10 +1,10 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="uk">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Гостро — Оформлення</title>
+  <title>Р“РѕСЃС‚СЂРѕ вЂ” РћС„РѕСЂРјР»РµРЅРЅСЏ</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -101,7 +101,7 @@
       flex: none
     }
 
-    /* Шапка */
+    /* РЁР°РїРєР° */
     .chead {
       display: flex;
       align-items: center;
@@ -167,7 +167,7 @@
       stroke-width: 2.4
     }
 
-    /* Степпер */
+    /* РЎС‚РµРїРїРµСЂ */
     .stepper {
       display: flex;
       align-items: flex-start;
@@ -276,10 +276,10 @@
       display: block
     }
 
-    /* Лінія прогресу між колами: малюється всередині кожного кроку — від його
-       центра до центра сусіднього кроку. Кінці лінії завжди ховаються під
-       непрозорими колами, тому лінія ніколи не виїжджає за межі кіл
-       на жодній ширині екрана (не залежить від gap і кількості кроків) */
+    /* Р›С–РЅС–СЏ РїСЂРѕРіСЂРµСЃСѓ РјС–Р¶ РєРѕР»Р°РјРё: РјР°Р»СЋС”С‚СЊСЃСЏ РІСЃРµСЂРµРґРёРЅС– РєРѕР¶РЅРѕРіРѕ РєСЂРѕРєСѓ вЂ” РІС–Рґ Р№РѕРіРѕ
+       С†РµРЅС‚СЂР° РґРѕ С†РµРЅС‚СЂР° СЃСѓСЃС–РґРЅСЊРѕРіРѕ РєСЂРѕРєСѓ. РљС–РЅС†С– Р»С–РЅС–С— Р·Р°РІР¶РґРё С…РѕРІР°СЋС‚СЊСЃСЏ РїС–Рґ
+       РЅРµРїСЂРѕР·РѕСЂРёРјРё РєРѕР»Р°РјРё, С‚РѕРјСѓ Р»С–РЅС–СЏ РЅС–РєРѕР»Рё РЅРµ РІРёС—Р¶РґР¶Р°С” Р·Р° РјРµР¶С– РєС–Р»
+       РЅР° Р¶РѕРґРЅС–Р№ С€РёСЂРёРЅС– РµРєСЂР°РЅР° (РЅРµ Р·Р°Р»РµР¶РёС‚СЊ РІС–Рґ gap С– РєС–Р»СЊРєРѕСЃС‚С– РєСЂРѕРєС–РІ) */
     .stp {
       position: relative
     }
@@ -289,7 +289,7 @@
       content: "";
       position: absolute;
       top: 20px;
-      /* центр кола 40px */
+      /* С†РµРЅС‚СЂ РєРѕР»Р° 40px */
       left: 50%;
       width: calc(100% + var(--sgap, 4px));
       height: 3px;
@@ -311,11 +311,11 @@
       transform: translateY(-50%) scaleX(1)
     }
 
-    /* Слайд */
+    /* РЎР»Р°Р№Рґ */
     .stage {
       position: relative;
       overflow: hidden;
-      /* Запас під зовнішнє кільце фокуса; компенсується margin, тож макет не змінюється */
+      /* Р—Р°РїР°СЃ РїС–Рґ Р·РѕРІРЅС–С€РЅС” РєС–Р»СЊС†Рµ С„РѕРєСѓСЃР°; РєРѕРјРїРµРЅСЃСѓС”С‚СЊСЃСЏ margin, С‚РѕР¶ РјР°РєРµС‚ РЅРµ Р·РјС–РЅСЋС”С‚СЊСЃСЏ */
       padding-inline: var(--field-pad);
       margin-inline: calc(-1 * var(--field-pad));
       transition: height var(--dur-step) var(--ease-step)
@@ -350,7 +350,7 @@
       outline: none
     }
 
-    /* Картки */
+    /* РљР°СЂС‚РєРё */
     .card {
       background: var(--color-cream);
       border: 3px solid var(--color-ink);
@@ -365,15 +365,15 @@
       padding: 12px
     }
 
-    /* Форми */
+    /* Р¤РѕСЂРјРё */
     .form {
       display: flex;
       flex-direction: column;
       gap: 14px
     }
 
-    /* На кроці доставки спочатку вводимо дані отримувача, потім обираємо службу
-       доставки, а вже після цього заповнюємо адресу. */
+    /* РќР° РєСЂРѕС†С– РґРѕСЃС‚Р°РІРєРё СЃРїРѕС‡Р°С‚РєСѓ РІРІРѕРґРёРјРѕ РґР°РЅС– РѕС‚СЂРёРјСѓРІР°С‡Р°, РїРѕС‚С–Рј РѕР±РёСЂР°С”РјРѕ СЃР»СѓР¶Р±Сѓ
+       РґРѕСЃС‚Р°РІРєРё, Р° РІР¶Рµ РїС–СЃР»СЏ С†СЊРѕРіРѕ Р·Р°РїРѕРІРЅСЋС”РјРѕ Р°РґСЂРµСЃСѓ. */
     #form-delivery > .sub {
       order: 1
     }
@@ -430,7 +430,7 @@
       pointer-events: none
     }
 
-    /* Єдині стилі полів: default / hover / focus-visible / filled / disabled / error / autofill */
+    /* Р„РґРёРЅС– СЃС‚РёР»С– РїРѕР»С–РІ: default / hover / focus-visible / filled / disabled / error / autofill */
     .inwrap input,
     .inwrap textarea {
       display: block;
@@ -457,14 +457,14 @@
       background: var(--color-cream)
     }
 
-    /* Фокус: один механізм (box-shadow), без outline і без зміщення макета */
+    /* Р¤РѕРєСѓСЃ: РѕРґРёРЅ РјРµС…Р°РЅС–Р·Рј (box-shadow), Р±РµР· outline С– Р±РµР· Р·РјС–С‰РµРЅРЅСЏ РјР°РєРµС‚Р° */
     .inwrap input:focus-visible,
     .inwrap textarea:focus-visible {
       outline: none;
       box-shadow: 0 0 0 var(--field-ring-gap) var(--color-white), 0 0 0 calc(var(--field-ring-gap) + var(--field-ring)) var(--color-ink)
     }
 
-    /* Помилка */
+    /* РџРѕРјРёР»РєР° */
     .inwrap input[aria-invalid="true"],
     .inwrap textarea[aria-invalid="true"] {
       border-color: var(--color-err)
@@ -481,7 +481,7 @@
       cursor: not-allowed
     }
 
-    /* Автозаповнення: без жовтого фону, колір тексту як у звичайному стані */
+    /* РђРІС‚РѕР·Р°РїРѕРІРЅРµРЅРЅСЏ: Р±РµР· Р¶РѕРІС‚РѕРіРѕ С„РѕРЅСѓ, РєРѕР»С–СЂ С‚РµРєСЃС‚Сѓ СЏРє Сѓ Р·РІРёС‡Р°Р№РЅРѕРјСѓ СЃС‚Р°РЅС– */
     .inwrap input:-webkit-autofill,
     .inwrap input:-webkit-autofill:hover,
     .inwrap input:-webkit-autofill:focus {
@@ -509,7 +509,7 @@
       display: flex
     }
 
-    /* Умовні блоки (fade + висота) */
+    /* РЈРјРѕРІРЅС– Р±Р»РѕРєРё (fade + РІРёСЃРѕС‚Р°) */
     .cond {
       display: grid;
       grid-template-rows: 0fr;
@@ -522,7 +522,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      /* Відступ всередині обрізання: зовнішнє кільце фокуса має місце й не обрізається */
+      /* Р’С–РґСЃС‚СѓРї РІСЃРµСЂРµРґРёРЅС– РѕР±СЂС–Р·Р°РЅРЅСЏ: Р·РѕРІРЅС–С€РЅС” РєС–Р»СЊС†Рµ С„РѕРєСѓСЃР° РјР°С” РјС–СЃС†Рµ Р№ РЅРµ РѕР±СЂС–Р·Р°С”С‚СЊСЃСЏ */
       padding: var(--field-pad);
       margin: calc(-1 * var(--field-pad));
       transition: padding var(--dur-step) var(--ease-step), margin var(--dur-step) var(--ease-step)
@@ -538,7 +538,7 @@
       opacity: 1
     }
 
-    /* Картки вибору */
+    /* РљР°СЂС‚РєРё РІРёР±РѕСЂСѓ */
     .opts {
       display: grid;
       gap: 10px
@@ -695,7 +695,7 @@
       }
     }
 
-    /* На вузьких екранах текст оплати має власні рядки й не зсуває радіокнопку */
+    /* РќР° РІСѓР·СЊРєРёС… РµРєСЂР°РЅР°С… С‚РµРєСЃС‚ РѕРїР»Р°С‚Рё РјР°С” РІР»Р°СЃРЅС– СЂСЏРґРєРё Р№ РЅРµ Р·СЃСѓРІР°С” СЂР°РґС–РѕРєРЅРѕРїРєСѓ */
     @media (max-width: 600px) {
       .opt {
         display: grid;
@@ -726,7 +726,7 @@
         align-self: center;
       }
 
-      /* Плашка відправки має бути під описом, а не в окремій автокомірці grid. */
+      /* РџР»Р°С€РєР° РІС–РґРїСЂР°РІРєРё РјР°С” Р±СѓС‚Рё РїС–Рґ РѕРїРёСЃРѕРј, Р° РЅРµ РІ РѕРєСЂРµРјС–Р№ Р°РІС‚РѕРєРѕРјС–СЂС†С– grid. */
       .opt__ship {
         grid-column: 2;
         grid-row: 2;
@@ -829,7 +829,7 @@
       outline-offset: 2px
     }
 
-    /* Плашка «Найближча відправка» біля Нової Пошти — завжди видима */
+    /* РџР»Р°С€РєР° В«РќР°Р№Р±Р»РёР¶С‡Р° РІС–РґРїСЂР°РІРєР°В» Р±С–Р»СЏ РќРѕРІРѕС— РџРѕС€С‚Рё вЂ” Р·Р°РІР¶РґРё РІРёРґРёРјР° */
     .opt__ship {
       flex-basis: 100%;
       width: 100%;
@@ -854,7 +854,7 @@
       flex: none
     }
 
-    /* Кнопки */
+    /* РљРЅРѕРїРєРё */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -935,7 +935,7 @@
     }
 
 
-    /* Нижня панель (mobile) */
+    /* РќРёР¶РЅСЏ РїР°РЅРµР»СЊ (mobile) */
     .bar {
       position: fixed;
       left: 0;
@@ -1015,7 +1015,7 @@
       font-size: .9rem
     }
 
-    /* Підсумок (desktop) */
+    /* РџС–РґСЃСѓРјРѕРє (desktop) */
     .summary {
       display: none
     }
@@ -1061,7 +1061,7 @@
       }
     }
 
-    /* Кошик */
+    /* РљРѕС€РёРє */
     .citem {
       position: relative;
       display: grid;
@@ -1196,7 +1196,7 @@
       font-size: .8rem
     }
 
-    /* Шкала доставки */
+    /* РЁРєР°Р»Р° РґРѕСЃС‚Р°РІРєРё */
     .shipbar {
       position: relative;
       margin: 16px 0;
@@ -1232,7 +1232,7 @@
     .shipbar__suggest-price { font:500 13px var(--font-body) }
     .shipbar__suggest-add { width:44px; height:44px; border:0; border-radius:50%; background:var(--color-ink); color:var(--color-cream); font-size:24px }
     .shipbar__confetti { position:absolute; inset:0; pointer-events:none; opacity:0 }
-    .shipbar__confetti::before,.shipbar__confetti::after { content:'•••••••••'; position:absolute; left:10%; top:15%; color:var(--color-accent); letter-spacing:18px; font-size:12px; transform:rotate(-15deg) }
+    .shipbar__confetti::before,.shipbar__confetti::after { content:'вЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂў'; position:absolute; left:10%; top:15%; color:var(--color-accent); letter-spacing:18px; font-size:12px; transform:rotate(-15deg) }
     .shipbar__confetti::after { left:45%; top:45%; color:var(--color-cream); transform:rotate(18deg) }
     .shipbar.is-celebrating .shipbar__confetti { animation:shipbar-confetti 1s ease-out }
     @keyframes shipbar-bounce { 50% { transform:translate(-50%,calc(-50% - 4px)) } }
@@ -1240,7 +1240,7 @@
     .shipbar.is-celebrating .shipbar__marker { animation:shipbar-bounce 300ms ease-out }
     @media (prefers-reduced-motion:reduce) { .shipbar,.shipbar .bar-track i,.shipbar__marker { transition:none } .shipbar.is-celebrating .shipbar__marker { animation:none } }
 
-    /* Компактний варіант шкали: усі елементи у звичайному потоці. */
+    /* РљРѕРјРїР°РєС‚РЅРёР№ РІР°СЂС–Р°РЅС‚ С€РєР°Р»Рё: СѓСЃС– РµР»РµРјРµРЅС‚Рё Сѓ Р·РІРёС‡Р°Р№РЅРѕРјСѓ РїРѕС‚РѕС†С–. */
     .shipbar { display:grid; gap:8px; margin:12px 0; padding:10px 14px; border:0; border-radius:12px; background:var(--color-cream); color:var(--color-ink); transition:none }
     .shipbar__head { display:flex; align-items:center; gap:6px; min-width:0; min-height:17px }
     .shipbar__truck { display:flex; color:var(--color-ink); flex:none; background:none }
@@ -1253,10 +1253,10 @@
     .shipbar__mid,.shipbar__finish,.shipbar__suggest,.shipbar__confetti { display:none }
     .shipbar.is-free { display:flex; align-items:center; gap:8px; min-height:36px; background:var(--color-cream); color:var(--color-ink) }
     .shipbar.is-free .shipbar__scale { display:none }
-    .shipbar.is-free .shipbar__head:before { content:'✓'; display:grid; place-items:center; width:20px; height:20px; border-radius:50%; background:var(--color-ink); color:var(--color-cream); font:800 13px var(--font-head) }
+    .shipbar.is-free .shipbar__head:before { content:'вњ“'; display:grid; place-items:center; width:20px; height:20px; border-radius:50%; background:var(--color-ink); color:var(--color-cream); font:800 13px var(--font-head) }
     @media (prefers-reduced-motion:reduce) { .shipbar .bar-track i { transition:none } }
 
-    /* Фінальна компактна розмітка shipbar. */
+    /* Р¤С–РЅР°Р»СЊРЅР° РєРѕРјРїР°РєС‚РЅР° СЂРѕР·РјС–С‚РєР° shipbar. */
     .shipbar { margin:12px 0; padding:10px 14px; border-radius:12px; background:var(--color-cream); color:var(--color-ink); display:grid; gap:8px }
     .shipbar__row { display:flex; align-items:center; gap:8px; min-width:0 }
     .shipbar__icon { flex:none; width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round }
@@ -1266,7 +1266,7 @@
     .shipbar.is-done { padding:8px 14px }
     .shipbar.is-done .shipbar__track { display:none }
     .shipbar.is-done .shipbar__icon { display:none }
-    .shipbar.is-done .shipbar__row:before { content:'✓'; display:grid; place-items:center; width:20px; height:20px; flex:none; border-radius:50%; background:var(--color-ink); color:var(--color-cream); font:800 13px var(--font-head) }
+    .shipbar.is-done .shipbar__row:before { content:'вњ“'; display:grid; place-items:center; width:20px; height:20px; flex:none; border-radius:50%; background:var(--color-ink); color:var(--color-cream); font:800 13px var(--font-head) }
     #shipbar-suggest { margin-top:12px }
     @media (prefers-reduced-motion:reduce) { .shipbar__fill { transition:none } }
 
@@ -1299,7 +1299,7 @@
       transition: width .3s var(--ease)
     }
 
-    /* Порожній кошик */
+    /* РџРѕСЂРѕР¶РЅС–Р№ РєРѕС€РёРє */
     .empty {
       display: flex;
       flex-direction: column;
@@ -1336,7 +1336,7 @@
       opacity: .75
     }
 
-    /* Повідомлення */
+    /* РџРѕРІС–РґРѕРјР»РµРЅРЅСЏ */
     .msg {
       display: none;
       align-items: flex-start;
@@ -1361,7 +1361,7 @@
       margin-top: 1px
     }
 
-    /* Резюме на кроці оплати */
+    /* Р РµР·СЋРјРµ РЅР° РєСЂРѕС†С– РѕРїР»Р°С‚Рё */
     .resume {
       display: flex;
       flex-direction: column;
@@ -1406,7 +1406,7 @@
       margin-top: 2px
     }
 
-    /* Подяка */
+    /* РџРѕРґСЏРєР° */
     .success {
       display: none;
       flex-direction: column;
@@ -1536,9 +1536,9 @@
       }
     }
 
-    /* ===== Мобільна адаптація (розміщена в кінці, щоб перекривати базові правила) ===== */
+    /* ===== РњРѕР±С–Р»СЊРЅР° Р°РґР°РїС‚Р°С†С–СЏ (СЂРѕР·РјС–С‰РµРЅР° РІ РєС–РЅС†С–, С‰РѕР± РїРµСЂРµРєСЂРёРІР°С‚Рё Р±Р°Р·РѕРІС– РїСЂР°РІРёР»Р°) ===== */
 
-    /* Резерв місця під фіксовану нижню панель, щоб контент не ховався під нею */
+    /* Р РµР·РµСЂРІ РјС–СЃС†СЏ РїС–Рґ С„С–РєСЃРѕРІР°РЅСѓ РЅРёР¶РЅСЋ РїР°РЅРµР»СЊ, С‰РѕР± РєРѕРЅС‚РµРЅС‚ РЅРµ С…РѕРІР°РІСЃСЏ РїС–Рґ РЅРµСЋ */
     .wrap {
       padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px))
     }
@@ -1547,7 +1547,7 @@
       padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px))
     }
 
-    /* Степпер: компактніший на вузьких екранах */
+    /* РЎС‚РµРїРїРµСЂ: РєРѕРјРїР°РєС‚РЅС–С€РёР№ РЅР° РІСѓР·СЊРєРёС… РµРєСЂР°РЅР°С… */
     .stepper {
       --sgap: 2px;
       gap: 2px;
@@ -1572,10 +1572,10 @@
     .stp:not(:last-child)::before,
     .stp:not(:last-child)::after {
       top: 18px
-        /* центр кола 36px */
+        /* С†РµРЅС‚СЂ РєРѕР»Р° 36px */
     }
 
-    /* Картки товарів у кошику: повітряніше та більші цілі натискання */
+    /* РљР°СЂС‚РєРё С‚РѕРІР°СЂС–РІ Сѓ РєРѕС€РёРєСѓ: РїРѕРІС–С‚СЂСЏРЅС–С€Рµ С‚Р° Р±С–Р»СЊС€С– С†С–Р»С– РЅР°С‚РёСЃРєР°РЅРЅСЏ */
     .citem {
       grid-template-columns: 64px 1fr;
       gap: 2px 12px;
@@ -1625,7 +1625,7 @@
       font-size: 1.05rem
     }
 
-    /* Вибір служби доставки/оплати: зручні рядки на мобільному */
+    /* Р’РёР±С–СЂ СЃР»СѓР¶Р±Рё РґРѕСЃС‚Р°РІРєРё/РѕРїР»Р°С‚Рё: Р·СЂСѓС‡РЅС– СЂСЏРґРєРё РЅР° РјРѕР±С–Р»СЊРЅРѕРјСѓ */
     .opt {
       padding: 14px
     }
@@ -1657,7 +1657,7 @@
       height: 14px
     }
 
-    /* Нижня панель: довгі підписи не ламають макет */
+    /* РќРёР¶РЅСЏ РїР°РЅРµР»СЊ: РґРѕРІРіС– РїС–РґРїРёСЃРё РЅРµ Р»Р°РјР°СЋС‚СЊ РјР°РєРµС‚ */
     .bar__row {
       flex-wrap: wrap;
       gap: 8px
@@ -1676,7 +1676,7 @@
       max-width: 100%
     }
 
-    /* Кнопка і сума — в одному рядку */
+    /* РљРЅРѕРїРєР° С– СЃСѓРјР° вЂ” РІ РѕРґРЅРѕРјСѓ СЂСЏРґРєСѓ */
     .bar .btn {
       flex: 1 1 auto;
       min-width: 0;
@@ -1701,7 +1701,7 @@
       }
     }
 
-    /* Повернення до десктопних розмірів */
+    /* РџРѕРІРµСЂРЅРµРЅРЅСЏ РґРѕ РґРµСЃРєС‚РѕРїРЅРёС… СЂРѕР·РјС–СЂС–РІ */
     @media(min-width:900px) {
       .wrap {
         padding-bottom: 48px
@@ -1731,7 +1731,7 @@
       .stp:not(:last-child)::before,
       .stp:not(:last-child)::after {
         top: 20px
-          /* центр кола 40px */
+          /* С†РµРЅС‚СЂ РєРѕР»Р° 40px */
       }
 
       .citem {
@@ -1811,7 +1811,7 @@
         height: 13px
       }
     }
-    /* Стабільний адаптивний степер: стан повністю задається data-state. */
+    /* РЎС‚Р°Р±С–Р»СЊРЅРёР№ Р°РґР°РїС‚РёРІРЅРёР№ СЃС‚РµРїРµСЂ: СЃС‚Р°РЅ РїРѕРІРЅС–СЃС‚СЋ Р·Р°РґР°С”С‚СЊСЃСЏ data-state. */
     .stepper {
       --progress: 0;
       position: relative;
@@ -1914,7 +1914,7 @@
       .stepper::after, .stp__circ, .stp__label { transition: none !important; }
     }
 
-    /* Підтвердження знайденого клієнта */
+    /* РџС–РґС‚РІРµСЂРґР¶РµРЅРЅСЏ Р·РЅР°Р№РґРµРЅРѕРіРѕ РєР»С–С”РЅС‚Р° */
     .customer-modal[hidden] { display: none; }
     .customer-modal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgba(27,27,27,.58); }
     .customer-modal__box { width: min(100%, 440px); padding: 26px; border: 3px solid var(--color-ink); border-radius: var(--radius-card); background: var(--color-white); box-shadow: 0 18px 60px rgba(0,0,0,.25); }
@@ -1927,7 +1927,7 @@
     .customer-modal__actions button { flex: 1; min-height: 46px; }
     @media (max-width: 420px) { .customer-modal__actions { flex-direction: column; } }
 
-    /* Підтвердження замовлення */
+    /* РџС–РґС‚РІРµСЂРґР¶РµРЅРЅСЏ Р·Р°РјРѕРІР»РµРЅРЅСЏ */
     .confirmation { display:grid; gap:16px; padding-bottom:24px; }
     .confirm-block { background:var(--color-cream); border-radius:16px; padding:16px; }
     .confirm-block h3 { display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:1rem; }
@@ -1939,7 +1939,7 @@
     .confirm-items-head span:nth-child(n+3) { text-align:right; }
     .confirm-item { display:grid; grid-template-columns:56px minmax(0,1fr) 76px 48px 92px; gap:10px; align-items:center; padding:10px 0; border-bottom:2px solid var(--color-ink); }
     .confirm-item:last-child { border-bottom:0; }
-    .confirm-item img, .confirm-item__placeholder { width:56px; height:56px; object-fit:cover; border-radius:12px; background:var(--color-accent); }
+    .confirm-item img, .confirm-item__placeholder { width:56px; height:56px; aspect-ratio:1/1; flex:none; object-fit:contain; object-position:center; padding:3px; box-sizing:border-box; border:2px solid var(--color-ink); border-radius:12px; background:var(--color-white); }
     .confirm-item__placeholder { display:grid; place-items:center; }
     .confirm-item__placeholder .icon { width:28px; height:28px; }
     .confirm-item__description { min-width:0; display:flex; flex-direction:column; gap:4px; overflow-wrap:anywhere; }
@@ -1960,12 +1960,12 @@
     @media (max-width:899px) { .confirmation { padding-bottom:110px; } .bar .btn { min-height:52px; } }
     @media (min-width:900px) { .confirmation { padding-bottom:0; } }
 
-    /* Компактна картка товару в кошику */
+    /* РљРѕРјРїР°РєС‚РЅР° РєР°СЂС‚РєР° С‚РѕРІР°СЂСѓ РІ РєРѕС€РёРєСѓ */
     .ci { display:grid; grid-template-columns:64px minmax(0,1fr); gap:12px; padding:12px 0; border-bottom:1px solid rgba(27,27,27,.15); min-width:0; }
     .ci:first-child { padding-top:0; }
     .ci:last-child { padding-bottom:0; border-bottom:0; }
-    .ci__img { width:64px; height:64px; border-radius:12px; background:var(--color-accent); overflow:hidden; display:grid; place-items:center; }
-    .ci__img img { width:100%; height:100%; object-fit:cover; }
+    .ci__img { width:64px; height:64px; aspect-ratio:1/1; flex:none; align-self:start; border-radius:12px; border:2px solid var(--color-ink); background:var(--color-white); padding:4px; box-sizing:border-box; overflow:hidden; display:grid; place-items:center; }
+    .ci__img img { display:block; width:100%; height:100%; object-fit:contain; object-position:center; }
     .ci__img .icon { width:22px; height:22px; }
     .ci__main { min-width:0; display:grid; gap:6px; align-content:start; }
     .ci__top { display:flex; align-items:flex-start; gap:8px; min-width:0; }
@@ -2013,7 +2013,7 @@
       .ci__sum { font-size:18px; }
     }
 
-    /* Порожній кошик на мобільному */
+    /* РџРѕСЂРѕР¶РЅС–Р№ РєРѕС€РёРє РЅР° РјРѕР±С–Р»СЊРЅРѕРјСѓ */
     .chead { position:sticky; top:0; z-index:20; background:var(--color-white); padding-top:env(safe-area-inset-top); }
     .stepper { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); }
     .stp__label { font:800 12px/1.2 var(--font-head); white-space:normal; text-overflow:clip; }
@@ -2029,7 +2029,7 @@
     body.is-cart-empty .bar { display:none; }
     body.is-cart-empty .wrap { padding-bottom:0; }
 
-    /* Компактний адаптивний рядок товару */
+    /* РљРѕРјРїР°РєС‚РЅРёР№ Р°РґР°РїС‚РёРІРЅРёР№ СЂСЏРґРѕРє С‚РѕРІР°СЂСѓ */
     .citem { grid-template-columns:56px minmax(0,1fr) auto; gap:2px 10px; padding:10px 0; border-bottom:1px solid #d8d8d8; }
     .citem__ph { width:56px; height:56px; border-radius:10px; grid-row:1 / span 2; }
     .citem__info { min-width:0; padding-right:4px; }
@@ -2052,7 +2052,7 @@
       .citem__sku, .citem__price { font-size:.6rem; }
       .citem__sum { font-size:.76rem; }
     }
-    /* Картка способу оплати: іконка / текст / radio без абсолютного бейджа. */
+    /* РљР°СЂС‚РєР° СЃРїРѕСЃРѕР±Сѓ РѕРїР»Р°С‚Рё: С–РєРѕРЅРєР° / С‚РµРєСЃС‚ / radio Р±РµР· Р°Р±СЃРѕР»СЋС‚РЅРѕРіРѕ Р±РµР№РґР¶Р°. */
     #paytype-opts { gap: 12px; }
     #paytype-opts .opt { display:grid; grid-template-columns:40px minmax(0,1fr) 28px; column-gap:12px; align-items:start; min-height:72px; padding:16px; border:3px solid var(--color-ink); border-radius:16px; background:var(--color-white); transform:none; }
     #paytype-opts .opt:hover, #paytype-opts .opt:has(input:checked) { background:var(--color-cream); }
@@ -2071,29 +2071,30 @@
     @media (max-width:430px) { .step-view h2 { font:800 26px/1.2 var(--font-head); margin-top:20px; margin-bottom:16px; } }
     @media (min-width:431px) { .step-view h2 { font:800 28px/1.2 var(--font-head); margin-top:20px; margin-bottom:16px; } }
     .wrap { padding-bottom:calc(96px + env(safe-area-inset-bottom, 0px) + 16px); }
-    /* Промо-код: картка-акордеон */
+    /* РџСЂРѕРјРѕ-РєРѕРґ: РєР°СЂС‚РєР°-Р°РєРѕСЂРґРµРѕРЅ */
     .promo { margin:12px 0; border:3px solid var(--color-ink); border-radius:var(--radius-card); background:var(--color-cream); overflow:hidden; }
     .promo__toggle { display:flex; align-items:center; gap:10px; width:100%; min-height:52px; padding:12px 16px; border:0; background:transparent; color:var(--color-ink); font:800 15px/1.2 var(--font-head); cursor:pointer; text-align:left; }
-    .promo__toggle:hover { background:var(--color-white); }
+    .promo__toggle:hover { background:transparent; }
     .promo__toggle .icon { width:20px; height:20px; flex:none; }
     .promo__toggle-text { flex:1; min-width:0; }
     .promo__chev { transition:transform .25s var(--ease); }
     .promo__toggle[aria-expanded="true"] .promo__chev { transform:rotate(180deg); }
     .promo__body { display:grid; grid-template-rows:0fr; transition:grid-template-rows .3s var(--ease); }
     .promo__body.is-on { grid-template-rows:1fr; }
-    .promo__in { overflow:hidden; padding:0 16px; }
+    .promo__in { overflow:hidden; padding:6px 16px 0; }
     .promo__body.is-on .promo__in { padding-bottom:16px; }
     .promo__row { display:flex; gap:8px; flex-wrap:wrap; }
     .promo__inwrap { flex:1; min-width:0; }
-    .promo__inwrap input { width:100%; height:var(--field-h); padding:12px 14px; border:2px solid var(--color-ink); border-radius:var(--field-radius); background:var(--color-white); font-weight:500; text-transform:uppercase; }
-    .promo__inwrap input:focus { outline:none; box-shadow:0 0 0 var(--field-ring-gap) var(--color-white), 0 0 0 calc(var(--field-ring-gap) + var(--field-ring)) var(--color-ink); }
+    /* РџСЂРѕРјРѕ-РїРѕР»Рµ: С”РґРёРЅРёР№ СЃС‚РёР»СЊ РїРѕР»С–РІ, РєС–Р»СЊС†Рµ С„РѕРєСѓСЃСѓ Р°РґР°РїС‚РѕРІР°РЅРµ РїС–Рґ РєСЂРµРјРѕРІРёР№ С„РѕРЅ РєР°СЂС‚РєРё */
+    .promo__inwrap input { padding-left:14px; text-transform:uppercase; }
+    .promo__inwrap input:focus-visible { box-shadow:0 0 0 var(--field-ring-gap) var(--color-cream), 0 0 0 calc(var(--field-ring-gap) + var(--field-ring)) var(--color-ink); }
     .promo__apply { flex:none; height:var(--field-h); padding:0 20px; }
     .promo__msg { display:none; margin:10px 0 0; font:600 14px/1.35 var(--font-body); }
     .promo__msg.is-on { display:block; }
     .promo__msg.is-ok { color:#1a7a3d; }
     .promo__msg.is-err { color:var(--color-err); }
     .promo.is-applied { border-color:var(--color-ink); background:var(--color-white); }
-    .promo.is-applied .promo__toggle-text::after { content:' ✓'; color:#1a7a3d; }
+    .promo.is-applied .promo__toggle-text::after { content:' вњ“'; color:#1a7a3d; }
     @media (max-width:430px) { .promo__row { flex-direction:column; } .promo__apply { width:100%; } }
     .bar { padding-bottom:calc(12px + env(safe-area-inset-bottom, 0px)); }
     .bar__row { align-items:center; }
@@ -2121,7 +2122,7 @@
 
 <body>
 
-  <!-- SVG-спрайт: єдиний набір іконок (stroke, currentColor, round, 24×24) -->
+  <!-- SVG-СЃРїСЂР°Р№С‚: С”РґРёРЅРёР№ РЅР°Р±С–СЂ С–РєРѕРЅРѕРє (stroke, currentColor, round, 24Г—24) -->
   <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
     <symbol id="i-back" viewBox="0 0 24 24">
       <path d="M19 12H5M11 6l-6 6 6 6" />
@@ -2202,27 +2203,27 @@
   </svg>
 
   <header class="chead container">
-    <button class="iconbtn" type="button" id="back-btn" aria-label="Назад"><svg class="icon" aria-hidden="true">
+    <button class="iconbtn" type="button" id="back-btn" aria-label="РќР°Р·Р°Рґ"><svg class="icon" aria-hidden="true">
         <use href="#i-back" />
       </svg></button>
-    <h1 class="chead__title">Оформлення</h1>
+    <h1 class="chead__title">РћС„РѕСЂРјР»РµРЅРЅСЏ</h1>
   </header>
 
   <main class="container">
     <div id="checkout-view">
-      <nav class="stepper" id="stepper" aria-label="Етапи оформлення"></nav>
+      <nav class="stepper" id="stepper" aria-label="Р•С‚Р°РїРё РѕС„РѕСЂРјР»РµРЅРЅСЏ"></nav>
 
       <div class="wrap">
-        <section aria-label="Кроки оформлення">
+        <section aria-label="РљСЂРѕРєРё РѕС„РѕСЂРјР»РµРЅРЅСЏ">
           <div class="stage" id="stage">
             <div class="slide" id="slide">
 
-              <!-- Крок 1: Кошик -->
+              <!-- РљСЂРѕРє 1: РљРѕС€РёРє -->
               <div class="step-view" data-view="0">
-                <h2 tabindex="-1">Кошик</h2>
+                <h2 tabindex="-1">РљРѕС€РёРє</h2>
                 <div id="shipbar" class="shipbar" hidden>
                   <div class="shipbar__row"><svg class="shipbar__icon" aria-hidden="true"><use href="#i-truck"></use></svg><span id="shipbar-text" class="shipbar__text" aria-live="polite"></span></div>
-                  <div id="shipbar-bar" class="shipbar__track" role="progressbar" aria-label="Прогрес до безкоштовної доставки" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i class="shipbar__fill"></i></div>
+                  <div id="shipbar-bar" class="shipbar__track" role="progressbar" aria-label="РџСЂРѕРіСЂРµСЃ РґРѕ Р±РµР·РєРѕС€С‚РѕРІРЅРѕС— РґРѕСЃС‚Р°РІРєРё" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i class="shipbar__fill"></i></div>
                 </div>
                 <div id="shipbar-suggest" hidden></div>
                   <div class="card" id="cart-card">
@@ -2236,20 +2237,20 @@
                       <use href="#i-error" />
                     </svg><span id="cart-error-text"></span></div>
                 </div>
-                <!-- Промо-код -->
+                <!-- РџСЂРѕРјРѕ-РєРѕРґ -->
                 <div class="promo" id="promo-card">
                   <button class="promo__toggle" type="button" id="promo-toggle" aria-expanded="false" aria-controls="promo-body">
                     <svg class="icon" aria-hidden="true"><use href="#i-wallet" /></svg>
-                    <span class="promo__toggle-text">Є промо-код?</span>
+                    <span class="promo__toggle-text">Р„ РїСЂРѕРјРѕ-РєРѕРґ?</span>
                     <svg class="icon promo__chev" aria-hidden="true"><use href="#i-chev" /></svg>
                   </button>
                   <div class="promo__body" id="promo-body">
                     <div class="promo__in">
                       <div class="promo__row">
                         <div class="inwrap promo__inwrap">
-                          <input id="promo-input" name="promo" placeholder="Введіть промо-код" autocomplete="off" spellcheck="false">
+                          <input id="promo-input" name="promo" placeholder="Р’РІРµРґС–С‚СЊ РїСЂРѕРјРѕ-РєРѕРґ" autocomplete="off" spellcheck="false">
                         </div>
-                        <button class="btn promo__apply" type="button" id="promo-apply">Застосувати</button>
+                        <button class="btn promo__apply" type="button" id="promo-apply">Р—Р°СЃС‚РѕСЃСѓРІР°С‚Рё</button>
                       </div>
                       <p class="promo__msg" id="promo-msg" role="status"></p>
                     </div>
@@ -2257,91 +2258,91 @@
                 </div>
               </div>
 
-              <!-- Крок 2: Доставка -->
+              <!-- РљСЂРѕРє 2: Р”РѕСЃС‚Р°РІРєР° -->
               <div class="step-view" data-view="1" hidden>
-                <h2 tabindex="-1">Доставка</h2>
+                <h2 tabindex="-1">Р”РѕСЃС‚Р°РІРєР°</h2>
                 <form class="form" id="form-delivery" novalidate>
                   <fieldset class="field" style="border:0;padding:0;margin:0">
                     <legend
                       style="font-family:var(--font-head);font-weight:700;font-size:.82rem;padding:0;margin-bottom:6px">
-                      Служба доставки</legend>
-                    <div class="opts" role="radiogroup" aria-label="Служба доставки">
+                      РЎР»СѓР¶Р±Р° РґРѕСЃС‚Р°РІРєРё</legend>
+                    <div class="opts" role="radiogroup" aria-label="РЎР»СѓР¶Р±Р° РґРѕСЃС‚Р°РІРєРё">
                       <label class="opt"><input type="radio" name="carrier" value="np" checked>
                         <img src="image/novaposhta.png" alt="">
-                        <span class="opt__t">Нова Пошта<span class="opt__d">1–2 дні, від 80 грн</span></span>
+                        <span class="opt__t">РќРѕРІР° РџРѕС€С‚Р°<span class="opt__d">1вЂ“2 РґРЅС–, РІС–Рґ 80 РіСЂРЅ</span></span>
                         <span class="opt__dot" aria-hidden="true"><svg class="icon">
                             <use href="#i-check" />
                           </svg></span>
                         <span class="opt__ship" role="status"><svg class="icon" aria-hidden="true">
                             <use href="#i-info" />
-                          </svg><span id="np-ship-txt">…</span></span></label>
+                          </svg><span id="np-ship-txt">вЂ¦</span></span></label>
                       <label class="opt"><input type="radio" name="carrier" value="up">
                         <img src="image/ukrposhta.png" alt="">
-                        <span class="opt__t">Укрпошта<span class="opt__d">2–4 дні, від 60 грн</span></span>
+                        <span class="opt__t">РЈРєСЂРїРѕС€С‚Р°<span class="opt__d">2вЂ“4 РґРЅС–, РІС–Рґ 60 РіСЂРЅ</span></span>
                         <span class="opt__dot" aria-hidden="true"><svg class="icon">
                             <use href="#i-check" />
                           </svg></span></label>
                     </div>
                   </fieldset>
 
-                  <!-- Нова пошта -->
+                  <!-- РќРѕРІР° РїРѕС€С‚Р° -->
                   <div class="cond" id="cond-np">
                     <div class="cond__in">
-                      <div class="field"><label for="np-city">Місто</label>
+                      <div class="field"><label for="np-city">РњС–СЃС‚Рѕ</label>
                         <div class="inwrap"><svg class="icon" aria-hidden="true">
                             <use href="#i-pin" />
                           </svg>
-                          <input id="np-city" name="np-city" required autocomplete="address-level2" placeholder="Київ">
+                          <input id="np-city" name="np-city" required autocomplete="address-level2" placeholder="РљРёС—РІ">
                         </div>
                         <p class="ferr" id="err-np-city" role="alert"><svg class="icon" aria-hidden="true">
                             <use href="#i-error" />
-                          </svg>Вкажіть місто</p>
+                          </svg>Р’РєР°Р¶С–С‚СЊ РјС–СЃС‚Рѕ</p>
                       </div>
-                      <div class="field"><label for="np-branch">Номер відділення або поштомату</label>
+                      <div class="field"><label for="np-branch">РќРѕРјРµСЂ РІС–РґРґС–Р»РµРЅРЅСЏ Р°Р±Рѕ РїРѕС€С‚РѕРјР°С‚Сѓ</label>
                         <div class="inwrap"><svg class="icon" aria-hidden="true">
                             <use href="#i-building" />
                           </svg>
-                          <input id="np-branch" name="np-branch" required placeholder="№ 1, вул. Хрещатик 22">
+                          <input id="np-branch" name="np-branch" required placeholder="в„– 1, РІСѓР». РҐСЂРµС‰Р°С‚РёРє 22">
                         </div>
                         <p class="ferr" id="err-np-branch" role="alert"><svg class="icon" aria-hidden="true">
                             <use href="#i-error" />
-                          </svg>Вкажіть відділення</p>
+                          </svg>Р’РєР°Р¶С–С‚СЊ РІС–РґРґС–Р»РµРЅРЅСЏ</p>
                       </div>
                     </div>
                   </div>
 
-                  <!-- Укрпошта -->
+                  <!-- РЈРєСЂРїРѕС€С‚Р° -->
                   <div class="cond" id="cond-up">
                     <div class="cond__in">
                       <div class="frow frow--2">
-                        <div class="field"><label for="up-city">Місто</label>
+                        <div class="field"><label for="up-city">РњС–СЃС‚Рѕ</label>
                           <div class="inwrap"><svg class="icon" aria-hidden="true">
                               <use href="#i-pin" />
                             </svg>
                             <input id="up-city" name="up-city" required autocomplete="address-level2"
-                              placeholder="Київ">
+                              placeholder="РљРёС—РІ">
                           </div>
                           <p class="ferr" id="err-up-city" role="alert"><svg class="icon" aria-hidden="true">
                               <use href="#i-error" />
-                            </svg>Вкажіть місто</p>
+                            </svg>Р’РєР°Р¶С–С‚СЊ РјС–СЃС‚Рѕ</p>
                         </div>
-                        <div class="field"><label for="up-region">Область</label>
+                        <div class="field"><label for="up-region">РћР±Р»Р°СЃС‚СЊ</label>
                           <div class="inwrap"><svg class="icon" aria-hidden="true">
                               <use href="#i-pin" />
                             </svg>
-                            <input id="up-region" name="up-region" autocomplete="address-level1" placeholder="Київська">
+                            <input id="up-region" name="up-region" autocomplete="address-level1" placeholder="РљРёС—РІСЃСЊРєР°">
                           </div>
                         </div>
                       </div>
                       <div class="frow frow--2">
-                        <div class="field"><label for="up-district">Район</label>
+                        <div class="field"><label for="up-district">Р Р°Р№РѕРЅ</label>
                           <div class="inwrap"><svg class="icon" aria-hidden="true">
                               <use href="#i-pin" />
                             </svg>
-                            <input id="up-district" name="up-district" placeholder="Броварський">
+                            <input id="up-district" name="up-district" placeholder="Р‘СЂРѕРІР°СЂСЃСЊРєРёР№">
                           </div>
                         </div>
-                        <div class="field"><label for="up-index">Поштовий індекс</label>
+                        <div class="field"><label for="up-index">РџРѕС€С‚РѕРІРёР№ С–РЅРґРµРєСЃ</label>
                           <div class="inwrap"><svg class="icon" aria-hidden="true">
                               <use href="#i-mail" />
                             </svg>
@@ -2350,26 +2351,26 @@
                           </div>
                           <p class="ferr" id="err-up-index" role="alert"><svg class="icon" aria-hidden="true">
                               <use href="#i-error" />
-                            </svg>Індекс — 5 цифр</p>
+                            </svg>Р†РЅРґРµРєСЃ вЂ” 5 С†РёС„СЂ</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <!-- Отримувач -->
+                  <!-- РћС‚СЂРёРјСѓРІР°С‡ -->
                   <div class="sub" style="display:flex;flex-direction:column;gap:12px">
                     <div class="frow frow--2">
-                      <div class="field"><label for="f-name">Ім’я та прізвище</label>
+                      <div class="field"><label for="f-name">Р†РјвЂ™СЏ С‚Р° РїСЂС–Р·РІРёС‰Рµ</label>
                         <div class="inwrap"><svg class="icon" aria-hidden="true">
                             <use href="#i-user" />
                           </svg>
-                          <input id="f-name" name="name" required autocomplete="name" placeholder="Олена Шевченко">
+                          <input id="f-name" name="name" required autocomplete="name" placeholder="РћР»РµРЅР° РЁРµРІС‡РµРЅРєРѕ">
                         </div>
                         <p class="ferr" id="err-name" role="alert"><svg class="icon" aria-hidden="true">
                             <use href="#i-error" />
-                          </svg>Вкажіть ім’я та прізвище</p>
+                          </svg>Р’РєР°Р¶С–С‚СЊ С–РјвЂ™СЏ С‚Р° РїСЂС–Р·РІРёС‰Рµ</p>
                       </div>
-                      <div class="field"><label for="f-phone">Телефон</label>
+                      <div class="field"><label for="f-phone">РўРµР»РµС„РѕРЅ</label>
                         <div class="inwrap"><svg class="icon" aria-hidden="true">
                             <use href="#i-phone" />
                           </svg>
@@ -2378,16 +2379,16 @@
                         </div>
                         <p class="ferr" id="err-phone" role="alert"><svg class="icon" aria-hidden="true">
                             <use href="#i-error" />
-                          </svg>Вкажіть коректний номер</p>
+                          </svg>Р’РєР°Р¶С–С‚СЊ РєРѕСЂРµРєС‚РЅРёР№ РЅРѕРјРµСЂ</p>
                       </div>
                     </div>
                   </div>
-                  <button class="linkbtn" type="button" id="note-toggle">Додати коментар</button>
+                  <button class="linkbtn" type="button" id="note-toggle">Р”РѕРґР°С‚Рё РєРѕРјРµРЅС‚Р°СЂ</button>
                   <div class="cond" id="cond-note">
                     <div class="cond__in">
-                      <div class="field"><label for="f-note">Коментар до замовлення</label>
+                      <div class="field"><label for="f-note">РљРѕРјРµРЅС‚Р°СЂ РґРѕ Р·Р°РјРѕРІР»РµРЅРЅСЏ</label>
                         <div class="inwrap"><textarea id="f-note" name="note"
-                            placeholder="Наприклад: зателефонуйте перед відправленням"></textarea>
+                            placeholder="РќР°РїСЂРёРєР»Р°Рґ: Р·Р°С‚РµР»РµС„РѕРЅСѓР№С‚Рµ РїРµСЂРµРґ РІС–РґРїСЂР°РІР»РµРЅРЅСЏРј"></textarea>
                         </div>
                       </div>
                     </div>
@@ -2395,15 +2396,15 @@
                 </form>
               </div>
 
-              <!-- Крок 3: Тип оплати -->
+              <!-- РљСЂРѕРє 3: РўРёРї РѕРїР»Р°С‚Рё -->
               <div class="step-view" data-view="2" hidden>
-                <h2 tabindex="-1">Тип оплати</h2>
-                <div class="opts" role="radiogroup" aria-label="Тип оплати" id="paytype-opts">
+                <h2 tabindex="-1">РўРёРї РѕРїР»Р°С‚Рё</h2>
+                <div class="opts" role="radiogroup" aria-label="РўРёРї РѕРїР»Р°С‚Рё" id="paytype-opts">
                   <label class="pay opt opt--online"><input type="radio" name="paytype" value="online">
                     <span class="pay__icon"><svg class="icon opt__icon" aria-hidden="true">
                       <use href="#i-wallet" />
                     </svg></span>
-                    <span class="pay__body opt__body"><span class="pay__title opt__t">Повна оплата</span><span class="pay__desc opt__d">Оплата відбудеться на захищеній сторінці платіжного сервісу.</span><span class="pay__amount" id="online-amount">До сплати: 0&nbsp;грн</span><span class="pay__badge payment-proof" id="online-share">Найпопулярніше</span></span>
+                    <span class="pay__body opt__body"><span class="pay__title opt__t">РџРѕРІРЅР° РѕРїР»Р°С‚Р°</span><span class="pay__desc opt__d">РћРїР»Р°С‚Р° РІС–РґР±СѓРґРµС‚СЊСЃСЏ РЅР° Р·Р°С…РёС‰РµРЅС–Р№ СЃС‚РѕСЂС–РЅС†С– РїР»Р°С‚С–Р¶РЅРѕРіРѕ СЃРµСЂРІС–СЃСѓ.</span><span class="pay__amount" id="online-amount">Р”Рѕ СЃРїР»Р°С‚Рё: 0&nbsp;РіСЂРЅ</span><span class="pay__badge payment-proof" id="online-share">РќР°Р№РїРѕРїСѓР»СЏСЂРЅС–С€Рµ</span></span>
                     <span class="opt__dot" aria-hidden="true"><svg class="icon">
                         <use href="#i-check" />
                       </svg></span></label>
@@ -2411,14 +2412,14 @@
                     <span class="pay__icon"><svg class="icon opt__icon" aria-hidden="true">
                       <use href="#i-cash" />
                     </svg></span>
-                    <span class="pay__body opt__body"><span class="pay__title opt__t">Передоплата <span id="prepay-title-amount">100</span>&nbsp;грн</span><span class="pay__desc opt__d">Решту сплатите при отриманні</span><span class="pay__amount" id="cod-remaining">Решта при отриманні: 0&nbsp;грн</span></span>
-                    <span class="opt__availability" id="cod-availability" hidden>Доступно лише для доставки Новою Поштою</span>
+                    <span class="pay__body opt__body"><span class="pay__title opt__t">РџРµСЂРµРґРѕРїР»Р°С‚Р° <span id="prepay-title-amount">100</span>&nbsp;РіСЂРЅ</span><span class="pay__desc opt__d">Р РµС€С‚Сѓ СЃРїР»Р°С‚РёС‚Рµ РїСЂРё РѕС‚СЂРёРјР°РЅРЅС–</span><span class="pay__amount" id="cod-remaining">Р РµС€С‚Р° РїСЂРё РѕС‚СЂРёРјР°РЅРЅС–: 0&nbsp;РіСЂРЅ</span></span>
+                    <span class="opt__availability" id="cod-availability" hidden>Р”РѕСЃС‚СѓРїРЅРѕ Р»РёС€Рµ РґР»СЏ РґРѕСЃС‚Р°РІРєРё РќРѕРІРѕСЋ РџРѕС€С‚РѕСЋ</span>
                     <span class="cod-details" id="cod-commission" aria-live="polite" hidden>
-                      <span class="cod-details__line">Сьогодні онлайн: <strong id="cod-prepayment" class="money">100&nbsp;грн</strong></span>
-                      <span class="cod-details__line">У відділенні: <strong id="cod-total" class="money">0&nbsp;грн</strong></span>
-                      <span class="cod-details__sub">У цю суму входить комісія Нової пошти <strong id="cod-commission-value" class="money">0&nbsp;грн</strong></span>
-                      <span class="cod-details__grand">Разом: <strong id="cod-grand-total" class="money">100&nbsp;грн</strong></span>
-                      <span class="cod-details__hint">Нова пошта бере 2% від суми, яку ви платите у відділенні (<span id="cod-base" class="money">0&nbsp;грн</span>), і ще <span id="cod-fixed-description" class="money">20&nbsp;грн</span>.</span>
+                      <span class="cod-details__line">РЎСЊРѕРіРѕРґРЅС– РѕРЅР»Р°Р№РЅ: <strong id="cod-prepayment" class="money">100&nbsp;РіСЂРЅ</strong></span>
+                      <span class="cod-details__line">РЈ РІС–РґРґС–Р»РµРЅРЅС–: <strong id="cod-total" class="money">0&nbsp;РіСЂРЅ</strong></span>
+                      <span class="cod-details__sub">РЈ С†СЋ СЃСѓРјСѓ РІС…РѕРґРёС‚СЊ РєРѕРјС–СЃС–СЏ РќРѕРІРѕС— РїРѕС€С‚Рё <strong id="cod-commission-value" class="money">0&nbsp;РіСЂРЅ</strong></span>
+                      <span class="cod-details__grand">Р Р°Р·РѕРј: <strong id="cod-grand-total" class="money">100&nbsp;РіСЂРЅ</strong></span>
+                      <span class="cod-details__hint">РќРѕРІР° РїРѕС€С‚Р° Р±РµСЂРµ 2% РІС–Рґ СЃСѓРјРё, СЏРєСѓ РІРё РїР»Р°С‚РёС‚Рµ Сѓ РІС–РґРґС–Р»РµРЅРЅС– (<span id="cod-base" class="money">0&nbsp;РіСЂРЅ</span>), С– С‰Рµ <span id="cod-fixed-description" class="money">20&nbsp;РіСЂРЅ</span>.</span>
                     </span>
                     <span class="opt__dot" aria-hidden="true"><svg class="icon">
                         <use href="#i-check" />
@@ -2426,17 +2427,17 @@
                 </div>
               </div>
 
-              <!-- Крок 4: Підтвердження -->
+              <!-- РљСЂРѕРє 4: РџС–РґС‚РІРµСЂРґР¶РµРЅРЅСЏ -->
               <div class="step-view" data-view="3" hidden>
-                <h2 tabindex="-1">Підтвердження замовлення</h2>
+                <h2 tabindex="-1">РџС–РґС‚РІРµСЂРґР¶РµРЅРЅСЏ Р·Р°РјРѕРІР»РµРЅРЅСЏ</h2>
                 <div class="confirmation" id="confirmation">
-                  <section class="confirm-block"><h3><span><svg class="icon" aria-hidden="true"><use href="#i-user" /></svg>Контакти</span><button type="button" class="linkbtn" data-edit="1">Змінити</button></h3><p id="confirm-contact">—</p></section>
-                  <section class="confirm-block"><h3><span><svg class="icon" aria-hidden="true"><use href="#i-truck" /></svg>Доставка</span><button type="button" class="linkbtn" data-edit="1">Змінити</button></h3><p id="confirm-delivery">—</p><p id="confirm-shipping">—</p></section>
-                  <section class="confirm-block"><h3><span><svg class="icon" aria-hidden="true"><use href="#i-wallet" /></svg>Тип оплати</span><button type="button" class="linkbtn" data-edit="2">Змінити</button></h3><p id="confirm-payment">—</p></section>
-                  <section class="confirm-block"><h3><span><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>Товари</span></h3><div class="confirm-items-head" aria-hidden="true"><span></span><span>Товар / артикул</span><span>Ціна</span><span>К-сть</span><span>Сума</span></div><div id="confirm-items"></div></section>
-                  <section class="confirm-block confirm-totals"><p><span><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>Товари</span><b id="confirm-goods">—</b></p><p><span><svg class="icon" aria-hidden="true"><use href="#i-truck" /></svg>Доставка</span><b id="confirm-ship">—</b></p><p id="confirm-discount-row" hidden><span>Знижка</span><b id="confirm-discount">—</b></p></section>
-                  <section class="due-card"><span id="due-label">До сплати</span><strong id="due-amount">0 грн</strong><small id="due-note" hidden></small></section>
-                  <label class="terms"><input id="confirm-terms" type="checkbox"><span>Погоджуюсь з умовами замовлення</span></label>
+                  <section class="confirm-block"><h3><span><svg class="icon" aria-hidden="true"><use href="#i-user" /></svg>РљРѕРЅС‚Р°РєС‚Рё</span><button type="button" class="linkbtn" data-edit="1">Р—РјС–РЅРёС‚Рё</button></h3><p id="confirm-contact">вЂ”</p></section>
+                  <section class="confirm-block"><h3><span><svg class="icon" aria-hidden="true"><use href="#i-truck" /></svg>Р”РѕСЃС‚Р°РІРєР°</span><button type="button" class="linkbtn" data-edit="1">Р—РјС–РЅРёС‚Рё</button></h3><p id="confirm-delivery">вЂ”</p><p id="confirm-shipping">вЂ”</p></section>
+                  <section class="confirm-block"><h3><span><svg class="icon" aria-hidden="true"><use href="#i-wallet" /></svg>РўРёРї РѕРїР»Р°С‚Рё</span><button type="button" class="linkbtn" data-edit="2">Р—РјС–РЅРёС‚Рё</button></h3><p id="confirm-payment">вЂ”</p></section>
+                  <section class="confirm-block"><h3><span><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>РўРѕРІР°СЂРё</span></h3><div class="confirm-items-head" aria-hidden="true"><span></span><span>РўРѕРІР°СЂ / Р°СЂС‚РёРєСѓР»</span><span>Р¦С–РЅР°</span><span>Рљ-СЃС‚СЊ</span><span>РЎСѓРјР°</span></div><div id="confirm-items"></div></section>
+                  <section class="confirm-block confirm-totals"><p><span><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>РўРѕРІР°СЂРё</span><b id="confirm-goods">вЂ”</b></p><p><span><svg class="icon" aria-hidden="true"><use href="#i-truck" /></svg>Р”РѕСЃС‚Р°РІРєР°</span><b id="confirm-ship">вЂ”</b></p><p id="confirm-discount-row" hidden><span>Р—РЅРёР¶РєР°</span><b id="confirm-discount">вЂ”</b></p></section>
+                  <section class="due-card"><span id="due-label">Р”Рѕ СЃРїР»Р°С‚Рё</span><strong id="due-amount">0 РіСЂРЅ</strong><small id="due-note" hidden></small></section>
+                  <label class="terms"><input id="confirm-terms" type="checkbox"><span>РџРѕРіРѕРґР¶СѓСЋСЃСЊ Р· СѓРјРѕРІР°РјРё Р·Р°РјРѕРІР»РµРЅРЅСЏ</span></label>
                   <div class="msg" id="pay-error" role="alert"><svg class="icon" aria-hidden="true"><use href="#i-error" /></svg><span id="pay-error-text"></span></div>
                 </div>
               </div>
@@ -2445,27 +2446,27 @@
           </div>
         </section>
 
-        <!-- Підсумок (desktop) -->
-        <aside class="summary card" aria-label="Ваше замовлення">
-          <h2>Разом</h2>
-          <div class="sum-line"><span>Товари</span><span id="sum-goods">…</span></div>
-          <div class="sum-line"><span>Доставка</span><span id="sum-ship">…</span></div>
-          <div class="sum-total"><span>Разом</span><span><span id="sum-total">0</span> грн</span></div>
+        <!-- РџС–РґСЃСѓРјРѕРє (desktop) -->
+        <aside class="summary card" aria-label="Р’Р°С€Рµ Р·Р°РјРѕРІР»РµРЅРЅСЏ">
+          <h2>Р Р°Р·РѕРј</h2>
+          <div class="sum-line"><span>РўРѕРІР°СЂРё</span><span id="sum-goods">вЂ¦</span></div>
+          <div class="sum-line"><span>Р”РѕСЃС‚Р°РІРєР°</span><span id="sum-ship">вЂ¦</span></div>
+          <div class="sum-total"><span>Р Р°Р·РѕРј</span><span><span id="sum-total">0</span> РіСЂРЅ</span></div>
           <button class="btn js-next" type="button"></button>
         </aside>
       </div>
     </div>
 
-    <!-- Нижня панель (mobile) -->
+    <!-- РќРёР¶РЅСЏ РїР°РЅРµР»СЊ (mobile) -->
     <div class="bar" id="bottom-bar">
       <div class="sum-pop" id="sum-pop">
-        <div class="sum-line"><span>Товари</span><span id="pop-goods">…</span></div>
-        <div class="sum-line"><span>Доставка</span><span id="pop-ship">…</span></div>
+        <div class="sum-line"><span>РўРѕРІР°СЂРё</span><span id="pop-goods">вЂ¦</span></div>
+        <div class="sum-line"><span>Р”РѕСЃС‚Р°РІРєР°</span><span id="pop-ship">вЂ¦</span></div>
       </div>
       <div class="bar__row">
         <div class="bar__sum">
           <button class="sumtoggle" type="button" id="sum-toggle" aria-expanded="false" aria-controls="sum-pop">
-            Разом: <span id="bar-total">0</span> грн <svg class="icon" aria-hidden="true">
+            Р Р°Р·РѕРј: <span id="bar-total">0</span> РіСЂРЅ <svg class="icon" aria-hidden="true">
               <use href="#i-chev" />
             </svg>
           </button>
@@ -2474,64 +2475,64 @@
       </div>
     </div>
 
-    <!-- Екран подяки -->
+    <!-- Р•РєСЂР°РЅ РїРѕРґСЏРєРё -->
     <div class="success" id="success-view" role="status" aria-live="polite">
       <div class="check" aria-hidden="true"><svg class="icon">
           <use href="#i-check" />
         </svg></div>
-      <h2>Дякуємо за замовлення!</h2>
-      <p class="order-no" id="ok-number">№ —</p>
+      <h2>Р”СЏРєСѓС”РјРѕ Р·Р° Р·Р°РјРѕРІР»РµРЅРЅСЏ!</h2>
+      <p class="order-no" id="ok-number">в„– вЂ”</p>
       <dl class="dl">
         <div>
           <dt><svg class="icon" aria-hidden="true">
               <use href="#i-truck" />
-            </svg>Доставка</dt>
-          <dd id="ok-carrier">—</dd>
+            </svg>Р”РѕСЃС‚Р°РІРєР°</dt>
+          <dd id="ok-carrier">вЂ”</dd>
         </div>
         <div>
           <dt><svg class="icon" aria-hidden="true">
               <use href="#i-building" />
-            </svg>Відділення</dt>
-          <dd id="ok-branch">—</dd>
+            </svg>Р’С–РґРґС–Р»РµРЅРЅСЏ</dt>
+          <dd id="ok-branch">вЂ”</dd>
         </div>
         <div>
           <dt><svg class="icon" aria-hidden="true">
               <use href="#i-wallet" />
-            </svg>Оплата</dt>
-          <dd id="ok-pay">—</dd>
+            </svg>РћРїР»Р°С‚Р°</dt>
+          <dd id="ok-pay">вЂ”</dd>
         </div>
         <div>
           <dt><svg class="icon" aria-hidden="true">
               <use href="#i-box" />
-            </svg>Кількість</dt>
-          <dd id="ok-count">—</dd>
+            </svg>РљС–Р»СЊРєС–СЃС‚СЊ</dt>
+          <dd id="ok-count">вЂ”</dd>
         </div>
         <div>
           <dt><svg class="icon" aria-hidden="true">
               <use href="#i-cash" />
-            </svg>Сума</dt>
-          <dd id="ok-total">—</dd>
+            </svg>РЎСѓРјР°</dt>
+          <dd id="ok-total">вЂ”</dd>
         </div>
       </dl>
-      <p id="ok-note">Ми зателефонуємо вам найближчим часом для підтвердження.</p>
+      <p id="ok-note">РњРё Р·Р°С‚РµР»РµС„РѕРЅСѓС”РјРѕ РІР°Рј РЅР°Р№Р±Р»РёР¶С‡РёРј С‡Р°СЃРѕРј РґР»СЏ РїС–РґС‚РІРµСЂРґР¶РµРЅРЅСЏ.</p>
       <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px">
-        <button class="btn" type="button" id="ok-track">Відстежити замовлення</button>
-        <a class="btn btn--ghost" href="index.html">Повернутись на головну</a>
+        <button class="btn" type="button" id="ok-track">Р’С–РґСЃС‚РµР¶РёС‚Рё Р·Р°РјРѕРІР»РµРЅРЅСЏ</button>
+        <a class="btn btn--ghost" href="index.html">РџРѕРІРµСЂРЅСѓС‚РёСЃСЊ РЅР° РіРѕР»РѕРІРЅСѓ</a>
       </div>
     </div>
   </main>
 
   <div class="customer-modal" id="customer-modal" role="dialog" aria-modal="true" aria-labelledby="customer-modal-title" hidden>
     <div class="customer-modal__box">
-      <h2 id="customer-modal-title">Це ви?</h2>
+      <h2 id="customer-modal-title">Р¦Рµ РІРё?</h2>
       <dl class="customer-modal__data">
-        <div><dt>ПІБ</dt><dd id="customer-found-name"></dd></div>
-        <div><dt>Телефон</dt><dd id="customer-found-phone"></dd></div>
-        <div><dt>Остання адреса</dt><dd id="customer-found-address"></dd></div>
+        <div><dt>РџР†Р‘</dt><dd id="customer-found-name"></dd></div>
+        <div><dt>РўРµР»РµС„РѕРЅ</dt><dd id="customer-found-phone"></dd></div>
+        <div><dt>РћСЃС‚Р°РЅРЅСЏ Р°РґСЂРµСЃР°</dt><dd id="customer-found-address"></dd></div>
       </dl>
       <div class="customer-modal__actions">
-        <button class="btn" type="button" id="customer-confirm">Так, це я</button>
-        <button class="btn btn--light" type="button" id="customer-dismiss">Ні</button>
+        <button class="btn" type="button" id="customer-confirm">РўР°Рє, С†Рµ СЏ</button>
+        <button class="btn btn--light" type="button" id="customer-dismiss">РќС–</button>
       </div>
     </div>
   </div>
@@ -2539,17 +2540,14 @@
   <script src="cart.js" defer></script>
   <script src="checkout.js" defer></script>
   <script type="module">
-    /* Покинуті кошики: доступ до Firestore (колекція abandonedCarts) для checkout.js */
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-    import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-    import { getFirestore, doc, setDoc, deleteDoc, serverTimestamp, collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-    const config = { apiKey: 'AIzaSyDyQvItRyL4IKl9NmEItswwPOEiKAbWkMw', authDomain: 'my-magazin-81c96.firebaseapp.com', projectId: 'my-magazin-81c96', storageBucket: 'my-magazin-81c96.firebasestorage.app', messagingSenderId: '129061757346', appId: '1:129061757346:web:3e7bc5838cc5f7bda992fb' };
-    const app = initializeApp(config, 'checkout'), auth = getAuth(app), db = getFirestore(app);
-    async function ensureAuth() { if (!auth.currentUser) await signInAnonymously(auth); }
+    /* РџРѕРєРёРЅСѓС‚С– РєРѕС€РёРєРё: РґРѕСЃС‚СѓРї РґРѕ Firestore (РєРѕР»РµРєС†С–СЏ abandonedCarts) РґР»СЏ checkout.js */
+    import { db, ensureAuth, saveOrder, doc, setDoc, deleteDoc, serverTimestamp, collection, getDocs, query, where } from './js/firebase-init.js';
     window.LatiaoAbandoned = {
       save: async (id, data) => { await ensureAuth(); await setDoc(doc(db, 'abandonedCarts', id), { ...data, updatedAt: serverTimestamp() }, { merge: true }); },
       remove: async (id) => { await ensureAuth(); await deleteDoc(doc(db, 'abandonedCarts', id)); }
     };
+    /* Замовлення записуються в Firestore (колекція orders) — звідси їх бачить адмінка. */
+    window.LatiaoOrders = { save: (order) => saveOrder(order) };
     /* Пошук клієнта виконується безпосередньо у Firebase, не в адмінці та не в localStorage. */
     window.LatiaoCustomers = {
       findByPhone: async phone => {
@@ -2557,7 +2555,7 @@
         const normalized = String(phone || '').replace(/\D/g, '').replace(/^380/, '');
         const snapshot = await getDocs(query(collection(db, 'orders'), where('phoneDigits', '==', normalized)));
         if (!snapshot.empty) return snapshot.docs.map(d => ({ id: d.id, ...d.data() })).filter(order => order.name).sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')))[0] || null;
-        /* Сумісність із замовленнями, де поле phoneDigits ще не створене. */
+        /* РЎСѓРјС–СЃРЅС–СЃС‚СЊ С–Р· Р·Р°РјРѕРІР»РµРЅРЅСЏРјРё, РґРµ РїРѕР»Рµ phoneDigits С‰Рµ РЅРµ СЃС‚РІРѕСЂРµРЅРµ. */
         const all = await getDocs(collection(db, 'orders'));
         return all.docs.map(d => ({ id: d.id, ...d.data() })).filter(order => String(order.phone || '').replace(/\D/g, '').replace(/^380/, '') === normalized && order.name).sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')))[0] || null;
       }

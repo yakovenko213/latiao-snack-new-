@@ -1,8 +1,8 @@
-/* cart.js — спільний кошик для всіх сторінок «Гостро».
-   Зберігання: localStorage 'latiao_cart' → [{id,name,price,qty,image,sku}]
+﻿/* cart.js вЂ” СЃРїС–Р»СЊРЅРёР№ РєРѕС€РёРє РґР»СЏ РІСЃС–С… СЃС‚РѕСЂС–РЅРѕРє В«Р“РѕСЃС‚СЂРѕВ».
+   Р—Р±РµСЂС–РіР°РЅРЅСЏ: localStorage 'latiao_cart' в†’ [{id,name,price,qty,image,sku}]
    API: window.LatiaoCart = {add, remove, setQty, items, count, total, open, close, onChange}
-   Залишки: кількість товару в кошику обмежена залишками (stock) з Firestore,
-   звіряння по артикулу (article/sku). */
+   Р—Р°Р»РёС€РєРё: РєС–Р»СЊРєС–СЃС‚СЊ С‚РѕРІР°СЂСѓ РІ РєРѕС€РёРєСѓ РѕР±РјРµР¶РµРЅР° Р·Р°Р»РёС€РєР°РјРё (stock) Р· Firestore,
+   Р·РІС–СЂСЏРЅРЅСЏ РїРѕ Р°СЂС‚РёРєСѓР»Сѓ (article/sku). */
 (function () {
   'use strict';
   var KEY = 'latiao_cart';
@@ -23,85 +23,140 @@
 
   function items() { return read(); }
   function count() { return read().reduce(function (s, i) { return s + i.qty; }, 0); }
-  function total() { return read().reduce(function (s, i) { return s + i.qty * Number(i.price || 0); }, 0); }
+  /* РЎСѓРјР° РїРѕ РїРѕР·РёС†С–С— РІ С€С‚СѓРєР°С…: РїРѕРІРЅС– С„Р°СЃСѓРІР°РЅРЅСЏ вЂ” РїРѕ С†С–РЅС– С„Р°СЃСѓРІР°РЅРЅСЏ (packPrice),
+     Р·Р°Р»РёС€РѕРє (РјРµРЅС€Рµ Р·Р° С„Р°СЃСѓРІР°РЅРЅСЏ) вЂ” РїРѕ СЃС‚Р°РЅРґР°СЂС‚РЅС–Р№ С†С–РЅС– Р·Р° 1 С€С‚ (basePrice).
+     РќР°РїСЂ., С„Р°СЃСѓРІР°РЅРЅСЏ В«2 С€С‚ / 145 РіСЂРЅВ», СЃС‚Р°РЅРґР°СЂС‚ 79 РіСЂРЅ:
+     1 С€С‚ = 79, 2 С€С‚ = 145, 3 С€С‚ = 224, 4 С€С‚ = 290. */
+  function itemSum(i, qty) {
+    var pc = Number(i.packCount || 1);
+    if (!(pc > 1) || !(i.packPrice > 0)) return qty * Number(i.price || 0);
+    var packs = Math.floor(qty / pc);
+    var rem = qty - packs * pc;
+    return packs * Number(i.packPrice || 0) + rem * Number(i.basePrice || i.price || 0);
+  }
+  function piecePrice(i, qty) {
+    qty = qty || 0;
+    return qty > 0 ? itemSum(i, qty) / qty : Number(i.price || 0);
+  }
+  function total() { return read().reduce(function (s, i) { return s + itemSum(i, i.qty); }, 0); }
 
-  /* ---------- Залишки (звіряння по артикулу) ---------- */
-  var PROJECT_ID = 'my-magazin-81c96';
-  var stockMap = null;          // нормалізований артикул → {stock, id}
-  var stockById = null;         // doc id → stock
+  /* ---------- Р—Р°Р»РёС€РєРё (Р·РІС–СЂСЏРЅРЅСЏ РїРѕ Р°СЂС‚РёРєСѓР»Сѓ) ---------- */
+  var PROJECT_ID = 'latiao-snack';
+  var stockMap = null;          // РЅРѕСЂРјР°Р»С–Р·РѕРІР°РЅРёР№ Р°СЂС‚РёРєСѓР» в†’ {stock, id}
+  var stockMapByName = null;
+  var stockById = null;         // doc id в†’ stock
   var stockPromise = null;
+  var stockLoadFailed = false;
 
   function normSku(v) { return String(v == null ? '' : v).trim().toLowerCase().replace(/[\s_-]+/g, ''); }
+  function normName(v) { return String(v == null ? '' : v).trim().toLowerCase().replace(/[\s"'«»„“”.,:;!?()\-–—]+/g, ''); }
 
-  function fetchStocks() {
+  function fetchStocks(force) {
+    if (force) { stockPromise = null; stockMap = null; stockMapByName = null; stockById = null; stockLoadFailed = false; }
     if (stockPromise) return stockPromise;
-    stockPromise = fetch('https://firestore.googleapis.com/v1/projects/' + PROJECT_ID + '/databases/(default)/documents/products?pageSize=500')
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)); })
-      .then(function (data) {
-        stockMap = {}; stockById = {};
-        (data.documents || []).forEach(function (d) {
-          var f = d.fields || {};
-          function num(name) {
-            var v = f[name];
-            if (!v) return 0;
-            if (v.integerValue !== undefined) return Number(v.integerValue);
-            if (v.doubleValue !== undefined) return Number(v.doubleValue);
-            return 0;
-          }
-          function str(name) {
-            var v = f[name];
-            return v && v.stringValue !== undefined ? String(v.stringValue) : '';
-          }
-          var stock = num('stock');
-          if (f.stock === undefined && f.quantity !== undefined) stock = num('quantity');
-          var id = d.name.split('/').pop();
-          var sku = str('article') || str('articul') || str('sku') || str('vendorCode') || str('productCode') || str('code');
-          stockById[id] = stock;
-          if (sku) stockMap[normSku(sku)] = { stock: stock, id: id };
-        });
-        return stockMap;
+    function buildMaps(list) {
+      stockMap = {}; stockMapByName = {}; stockById = {};
+      list.forEach(function (rec) {
+        var p = rec.data || {};
+        var stock = (p.stock !== undefined && p.stock !== null) ? Number(p.stock) : (p.quantity !== undefined ? Number(p.quantity) : 0);
+        if (p.stock === false || p.inStock === false) stock = 0;
+        if (!isFinite(stock)) stock = 0;
+        var sku = ['article', 'articul', 'sku', 'vendorCode', 'productCode', 'code'].map(function (k) { return p[k]; }).find(function (v) { return v !== undefined && v !== null && String(v).trim(); }) || '';
+        stockById[rec.id] = stock;
+        if (sku) stockMap[normSku(sku)] = { stock: stock, id: rec.id };
+        var name = p.name || p.title || '';
+        if (name) stockMapByName[normName(name)] = { stock: stock, id: rec.id };
+      });
+      stockLoadFailed = false;
+      return stockMap;
+    }
+    /* Stocks are read from Firestore latiao-snack via the shared module js/firebase-init.js.
+       Fallback - public REST access to the same Firestore. */
+    stockPromise = import('./js/firebase-init.js')
+      .then(function (m) { return m.getDocs(m.collection(m.db, 'products')); })
+      .then(function (snap) { return snap.docs.map(function (d) { return { id: d.id, data: d.data() }; }); })
+      .then(buildMaps)
+      .catch(function () {
+        return fetch('https://firestore.googleapis.com/v1/projects/' + PROJECT_ID + '/databases/(default)/documents/products?pageSize=500')
+          .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)); })
+          .then(function (data) {
+            return buildMaps((data.documents || []).map(function (d) {
+              var f = d.fields || {};
+              function num(name) {
+                var v = f[name];
+                if (!v) return 0;
+                if (v.integerValue !== undefined) return Number(v.integerValue);
+                if (v.doubleValue !== undefined) return Number(v.doubleValue);
+                return 0;
+              }
+              function str(name) {
+                var v = f[name];
+                return v && v.stringValue !== undefined ? String(v.stringValue) : '';
+              }
+              return {
+                id: d.name.split('/').pop(),
+                data: {
+                  stock: f.stock !== undefined ? num('stock') : (f.quantity !== undefined ? num('quantity') : undefined),
+                  quantity: f.quantity !== undefined ? num('quantity') : undefined,
+                  article: str('article'), articul: str('articul'), sku: str('sku'),
+                  vendorCode: str('vendorCode'), productCode: str('productCode'), code: str('code'),
+                  name: str('name'), title: str('title')
+                }
+              };
+            }));
+          });
       })
-      .catch(function (e) { console.warn('cart.js: не вдалося завантажити залишки', e); stockMap = {}; stockById = {}; return stockMap; });
+      .catch(function (e) { console.warn('cart.js: failed to load stocks', e); stockMap = {}; stockMapByName = {}; stockById = {}; stockLoadFailed = true; return stockMap; });
     return stockPromise;
   }
 
   function stockFor(p) {
-    /* Спочатку по артикулу, потім по id як fallback */
+    /* РЎРїРѕС‡Р°С‚РєСѓ РїРѕ Р°СЂС‚РёРєСѓР»Сѓ, РїРѕС‚С–Рј РїРѕ id СЏРє fallback */
     if (p.sku && stockMap && stockMap[normSku(p.sku)] !== undefined) return stockMap[normSku(p.sku)].stock;
     if (stockById && stockById[String(p.id)] !== undefined) return stockById[String(p.id)];
-    return null; /* невідомо — не обмежуємо */
+    if (p.name && stockMapByName && stockMapByName[normName(p.name)] !== undefined) return stockMapByName[normName(p.name)].stock;
+    return null;
   }
 
   var lastAdd = { id: null, t: 0 };
   function add(p) {
-    /* Захист від подвійного додавання в межах одного кліку: якщо на кнопці «В кошик»
-       вішається кілька обробників (напр., onclick на картці + глобальний слухач cart.js),
-       другий виклик add() з тим самим id протягом 50 мс ігнорується.
-       Людина фізично не може клікнути двічі за 50 мс, тому звичайні повторні
-       кліки (додати ще 1 шт) працюють як і раніше. */
+    /* Р—Р°С…РёСЃС‚ РІС–Рґ РїРѕРґРІС–Р№РЅРѕРіРѕ РґРѕРґР°РІР°РЅРЅСЏ РІ РјРµР¶Р°С… РѕРґРЅРѕРіРѕ РєР»С–РєСѓ: СЏРєС‰Рѕ РЅР° РєРЅРѕРїС†С– В«Р’ РєРѕС€РёРєВ»
+       РІС–С€Р°С”С‚СЊСЃСЏ РєС–Р»СЊРєР° РѕР±СЂРѕР±РЅРёРєС–РІ (РЅР°РїСЂ., onclick РЅР° РєР°СЂС‚С†С– + РіР»РѕР±Р°Р»СЊРЅРёР№ СЃР»СѓС…Р°С‡ cart.js),
+       РґСЂСѓРіРёР№ РІРёРєР»РёРє add() Р· С‚РёРј СЃР°РјРёРј id РїСЂРѕС‚СЏРіРѕРј 50 РјСЃ С–РіРЅРѕСЂСѓС”С‚СЊСЃСЏ.
+       Р›СЋРґРёРЅР° С„С–Р·РёС‡РЅРѕ РЅРµ РјРѕР¶Рµ РєР»С–РєРЅСѓС‚Рё РґРІС–С‡С– Р·Р° 50 РјСЃ, С‚РѕРјСѓ Р·РІРёС‡Р°Р№РЅС– РїРѕРІС‚РѕСЂРЅС–
+       РєР»С–РєРё (РґРѕРґР°С‚Рё С‰Рµ 1 С€С‚) РїСЂР°С†СЋСЋС‚СЊ СЏРє С– СЂР°РЅС–С€Рµ. */
     var now = Date.now();
     if (p && String(p.id) === String(lastAdd.id) && now - lastAdd.t < 50) return;
     lastAdd = { id: p ? String(p.id) : null, t: now };
     var list = read();
     var found = null;
     for (var k = 0; k < list.length; k++) { if (String(list[k].id) === String(p.id)) { found = list[k]; break; } }
-    var q = Math.max(1, Number(p.qty || 1));
+    var pc = Math.max(1, Number(p.packCount || 1));
+    var packPrice = Number(p.packPrice || 0);
+    var basePrice = Number(p.basePrice || 0);
+    var q = Math.max(1, Number(p.qty || 1)) * pc; /* РєС–Р»СЊРєС–СЃС‚СЊ Сѓ С€С‚СѓРєР°С… */
     var stock = stockFor(p);
-    if (stock !== null && stock <= 0) { notify('Товару немає в наявності'); return; }
+    if (stock !== null && stock <= 0) { notify('РўРѕРІР°СЂСѓ РЅРµРјР°С” РІ РЅР°СЏРІРЅРѕСЃС‚С–'); return false; }
     if (found) {
       var max = stock !== null ? stock : 99;
       if (found.qty + q > max) {
         found.qty = max;
-        notify('В наявності лише ' + max + ' шт — більше додати не можна');
+        notify('Р’ РЅР°СЏРІРЅРѕСЃС‚С– Р»РёС€Рµ ' + max + ' С€С‚ вЂ” Р±С–Р»СЊС€Рµ РґРѕРґР°С‚Рё РЅРµ РјРѕР¶РЅР°');
       } else {
         found.qty = found.qty + q;
       }
     } else {
       var q2 = stock !== null ? Math.min(q, stock) : q;
-      if (q2 < q) notify('В наявності лише ' + stock + ' шт — додано ' + q2 + ' шт');
-      list.push({ id: p.id, name: p.name || 'Товар', price: Number(p.price || 0), qty: q2, image: p.image || '', sku: p.sku || '' });
+      if (q2 < q) notify('Р’ РЅР°СЏРІРЅРѕСЃС‚С– Р»РёС€Рµ ' + stock + ' С€С‚ вЂ” РґРѕРґР°РЅРѕ ' + q2 + ' С€С‚');
+      list.push({
+        id: p.id, name: p.name || 'РўРѕРІР°СЂ',
+        price: pc > 1 && packPrice > 0 ? packPrice / pc : Number(p.price || 0),
+        qty: q2, image: p.image || '', sku: p.sku || '', unit: p.unit || '',
+        packCount: pc, packPrice: packPrice, basePrice: basePrice || Number(p.price || 0)
+      });
     }
     write(list);
+    return true;
   }
   function setQty(id, qty) {
     var list = read();
@@ -111,7 +166,7 @@
     var stock = stockFor(it);
     var max = stock !== null ? stock : 99;
     var v = Math.max(1, Math.min(max, Number(qty) || 1));
-    if (Number(qty) > max) notify('В наявності лише ' + max + ' шт');
+    if (Number(qty) > max) notify('Р’ РЅР°СЏРІРЅРѕСЃС‚С– Р»РёС€Рµ ' + max + ' С€С‚');
     write(list.map(function (i) { return String(i.id) === String(id) ? Object.assign({}, i, { qty: v }) : i; }));
   }
   function notify(msg) {
@@ -125,7 +180,7 @@
   function remove(id) { write(read().filter(function (i) { return String(i.id) !== String(id); })); }
   function clear() { write([]); }
 
-  /* ---------- Лічильник у хедері ---------- */
+  /* ---------- Р›С–С‡РёР»СЊРЅРёРє Сѓ С…РµРґРµСЂС– ---------- */
   function syncCount() {
     var n = count();
     document.querySelectorAll('[data-count]').forEach(function (c) {
@@ -135,7 +190,7 @@
     });
   }
 
-  /* ---------- Розмітка та стилі шухляди ---------- */
+  /* ---------- Р РѕР·РјС–С‚РєР° С‚Р° СЃС‚РёР»С– С€СѓС…Р»СЏРґРё ---------- */
   var CSS = ''
     + '.cartroot{position:fixed;inset:0;z-index:90;pointer-events:none}'
     + '.cartroot[hidden]{display:none}'
@@ -154,8 +209,8 @@
     + '.cart-body{flex:1;overflow-y:auto;padding:0 20px;-webkit-overflow-scrolling:touch}'
     + '.cart-item{display:grid;grid-template-columns:56px 1fr auto;gap:6px 12px;align-items:start;padding:14px 0;border-bottom:2px solid var(--color-ink,#1B1B1B)}'
     + '.cart-item:last-child{border-bottom:0}'
-    + '.cart-item__ph{grid-row:1/3;width:56px;height:56px;border-radius:14px;background:var(--color-accent,#FF6A1A);display:flex;align-items:center;justify-content:center;font-size:1.4rem;overflow:hidden}'
-    + '.cart-item__ph img{width:100%;height:100%;object-fit:cover}'
+    + '.cart-item__ph{grid-row:1/3;width:64px;height:64px;flex:none;border-radius:14px;border:2px solid var(--color-ink,#1B1B1B);background:var(--color-white,#fff);box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:1.4rem;overflow:hidden}'
+    + '.cart-item__ph img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}'
     + '.cart-item__name{font-family:var(--font-head,Montserrat,sans-serif);font-weight:700;font-size:.82rem;line-height:1.25;margin:0;padding-right:6px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}'
     + '.cart-item__price{margin:0;font-size:.78rem;font-weight:500;opacity:.85}'
     + '.cart-item__del{grid-row:1;grid-column:3;justify-self:end;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border:0;border-radius:50%;background:transparent;color:var(--color-ink,#1B1B1B);cursor:pointer;opacity:.8;transition:opacity .16s ease-out,color .16s ease-out}'
@@ -210,9 +265,9 @@
     root.className = 'cartroot'; root.hidden = true;
     root.innerHTML =
       '<div class="cart-scrim" data-cart-close></div>'
-      + '<aside class="cart-panel' + (cartOnLeft() ? ' cart-panel--left' : '') + '" role="dialog" aria-modal="true" aria-label="Кошик">'
-      + '<div class="cart-head"><h2>Кошик <small data-cart-n-label>· 0 товарів</small></h2>'
-      + '<button class="cart-close" type="button" data-cart-close aria-label="Закрити кошик">' + ICON_CLOSE + '</button></div>'
+      + '<aside class="cart-panel' + (cartOnLeft() ? ' cart-panel--left' : '') + '" role="dialog" aria-modal="true" aria-label="РљРѕС€РёРє">'
+      + '<div class="cart-head"><h2>РљРѕС€РёРє <small data-cart-n-label>В· 0 С‚РѕРІР°СЂС–РІ</small></h2>'
+      + '<button class="cart-close" type="button" data-cart-close aria-label="Р—Р°РєСЂРёС‚Рё РєРѕС€РёРє">' + ICON_CLOSE + '</button></div>'
       + '<div class="cart-body" data-cart-body></div>'
       + '<div class="cart-foot" data-cart-foot></div>'
       + '</aside>';
@@ -238,13 +293,13 @@
   }
   function plural(n) {
     var m10 = n % 10, m100 = n % 100;
-    if (m10 === 1 && m100 !== 11) return 'товар';
-    if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return 'товари';
-    return 'товарів';
+    if (m10 === 1 && m100 !== 11) return 'С‚РѕРІР°СЂ';
+    if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return 'С‚РѕРІР°СЂРё';
+    return 'С‚РѕРІР°СЂС–РІ';
   }
 
   var stocksRendered = false;
-  /* Після завантаження залишків обрізаємо кількість у кошику до наявної */
+  /* РџС–СЃР»СЏ Р·Р°РІР°РЅС‚Р°Р¶РµРЅРЅСЏ Р·Р°Р»РёС€РєС–РІ РѕР±СЂС–Р·Р°С”РјРѕ РєС–Р»СЊРєС–СЃС‚СЊ Сѓ РєРѕС€РёРєСѓ РґРѕ РЅР°СЏРІРЅРѕС— */
   var stocksClamped = false;
   function clampAll() {
     var list = read(), changed = false;
@@ -262,11 +317,11 @@
     if (!stocksRendered) {
       fetchStocks().then(function () { stocksRendered = true; if (root && !root.hidden) render(); });
     }
-    root.querySelector('[data-cart-n-label]').textContent = '· ' + n + ' ' + plural(n);
+    root.querySelector('[data-cart-n-label]').textContent = 'В· ' + n + ' ' + plural(n);
     var body = root.querySelector('[data-cart-body]'), foot = root.querySelector('[data-cart-foot]');
     if (!list.length) {
-      body.innerHTML = '<div class="cart-empty"><div class="cart-empty__emoji">🌶️</div><h3>Кошик порожній</h3><p>Додайте щось гостреньке з каталогу — доставимо швидко!</p></div>';
-      foot.innerHTML = '<a class="cart-checkout" href="catalog.html">Перейти до каталогу</a>';
+      body.innerHTML = '<div class="cart-empty"><div class="cart-empty__emoji">рџЊ¶пёЏ</div><h3>РљРѕС€РёРє РїРѕСЂРѕР¶РЅС–Р№</h3><p>Р”РѕРґР°Р№С‚Рµ С‰РѕСЃСЊ РіРѕСЃС‚СЂРµРЅСЊРєРµ Р· РєР°С‚Р°Р»РѕРіСѓ вЂ” РґРѕСЃС‚Р°РІРёРјРѕ С€РІРёРґРєРѕ!</p></div>';
+      foot.innerHTML = '<a class="cart-checkout" href="test1.html">РџРѕРІРµСЂРЅСѓС‚РёСЃСЊ РЅР° РіРѕР»РѕРІРЅСѓ</a>';
       return;
     }
     body.innerHTML = list.map(function (i) {
@@ -275,26 +330,28 @@
       return '<div class="cart-item">'
         + '<div class="cart-item__ph">' + ph + '</div>'
         + '<p class="cart-item__name">' + esc(i.name) + '</p>'
-        + '<button class="cart-item__del" type="button" data-cart-act="del" data-id="' + esc(i.id) + '" aria-label="Видалити ' + esc(i.name) + '">' + ICON_TRASH + '</button>'
-        + '<p class="cart-item__price">' + money(i.price) + ' грн / шт</p>'
+        + '<button class="cart-item__del" type="button" data-cart-act="del" data-id="' + esc(i.id) + '" aria-label="Р’РёРґР°Р»РёС‚Рё ' + esc(i.name) + '">' + ICON_TRASH + '</button>'
+        + '<p class="cart-item__price">' + money(piecePrice(i, i.qty)) + ' РіСЂРЅ / С€С‚'
+        + (Number(i.packCount) > 1 ? ' В· С„Р°СЃСѓРІР°РЅРЅСЏ ' + i.packCount + ' С€С‚ (' + money(i.packPrice) + ' РіСЂРЅ)' : '')
+        + '</p>'
         + '<div class="cart-item__ctrl">'
-        + '<div class="cart-qty"><button type="button" data-cart-act="dec" data-id="' + esc(i.id) + '" aria-label="Менше">−</button>'
-        + '<output>' + i.qty + (st !== null && st !== undefined ? ' / ' + st + ' шт' : '') + '</output>'
-        + '<button type="button" data-cart-act="inc" data-id="' + esc(i.id) + '" aria-label="Більше"' + (st !== null && st !== undefined && i.qty >= st ? ' disabled style="opacity:.35;cursor:default"' : '') + '>+</button></div>'
-        + '<span class="cart-item__sum">' + money(i.qty * i.price) + ' <small>грн</small></span>'
+        + '<div class="cart-qty"><button type="button" data-cart-act="dec" data-id="' + esc(i.id) + '" aria-label="РњРµРЅС€Рµ">в€’</button>'
+        + '<output>' + i.qty + (st !== null && st !== undefined ? ' / ' + st + ' С€С‚' : '') + '</output>'
+        + '<button type="button" data-cart-act="inc" data-id="' + esc(i.id) + '" aria-label="Р‘С–Р»СЊС€Рµ"' + (st !== null && st !== undefined && i.qty >= st ? ' disabled style="opacity:.35;cursor:default"' : '') + '>+</button></div>'
+        + '<span class="cart-item__sum">' + money(itemSum(i, i.qty)) + ' <small>РіСЂРЅ</small></span>'
         + '</div></div>';
     }).join('');
     var left = Math.max(0, FREE_SHIPPING_THRESHOLD - sum);
     var pct = Math.min(100, Math.round(sum / FREE_SHIPPING_THRESHOLD * 100));
     foot.innerHTML =
       '<div><p class="cart-ship">' + (left > 0
-        ? 'До безкоштовної доставки ще <strong>' + money(left) + ' грн</strong>'
-        : '<strong>Безкоштовна доставка — у вас є!</strong>') + '</p>'
+        ? 'Р”Рѕ Р±РµР·РєРѕС€С‚РѕРІРЅРѕС— РґРѕСЃС‚Р°РІРєРё С‰Рµ <strong>' + money(left) + ' РіСЂРЅ</strong>'
+        : '<strong>Р‘РµР·РєРѕС€С‚РѕРІРЅР° РґРѕСЃС‚Р°РІРєР° вЂ” Сѓ РІР°СЃ С”!</strong>') + '</p>'
       + '<div class="cart-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '"><i style="width:' + pct + '%"></i></div></div>'
-      + '<div class="cart-total"><span>Разом</span><span>' + money(sum) + ' <small>грн</small></span></div>'
-      + '<p class="cart-shipnote">Вартість доставки розрахуємо на наступному кроці.</p>'
-      + '<a class="cart-checkout" href="checkout.html">Оформити замовлення</a>'
-      + '<button class="cart-continue" type="button" data-cart-close>Продовжити покупки</button>';
+      + '<div class="cart-total"><span>Р Р°Р·РѕРј</span><span>' + money(sum) + ' <small>РіСЂРЅ</small></span></div>'
+      + '<p class="cart-shipnote">Р’Р°СЂС‚С–СЃС‚СЊ РґРѕСЃС‚Р°РІРєРё СЂРѕР·СЂР°С…СѓС”РјРѕ РЅР° РЅР°СЃС‚СѓРїРЅРѕРјСѓ РєСЂРѕС†С–.</p>'
+      + '<a class="cart-checkout" href="checkout.html">РћС„РѕСЂРјРёС‚Рё Р·Р°РјРѕРІР»РµРЅРЅСЏ</a>'
+      + '<a class="cart-continue" href="test1.html">РџСЂРѕРґРѕРІР¶РёС‚Рё РїРѕРєСѓРїРєРё</a>';
   }
 
   function open() {
@@ -314,24 +371,42 @@
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
-  /* ---------- Ініціалізація на сторінці ---------- */
+  /* ---------- Р†РЅС–С†С–Р°Р»С–Р·Р°С†С–СЏ РЅР° СЃС‚РѕСЂС–РЅС†С– ---------- */
   function init() {
     build();
     syncCount();
     fetchStocks();
-    /* Клік по іконці кошика в хедері → повноекранний потік оформлення */
+    /* РљР»С–Рє РїРѕ С–РєРѕРЅС†С– РєРѕС€РёРєР° РІ С…РµРґРµСЂС– в†’ РїРѕРІРЅРѕРµРєСЂР°РЅРЅРёР№ РїРѕС‚С–Рє РѕС„РѕСЂРјР»РµРЅРЅСЏ */
+    /* Р—Р°РїР°Рј'СЏС‚РѕРІСѓС”РјРѕ СЃС‚РѕСЂС–РЅРєСѓ, Р· СЏРєРѕС— РєРѕСЂРёСЃС‚СѓРІР°С‡ РІС–РґРєСЂРёРІ РєРѕС€РёРє,
+       С‰РѕР± РєРЅРѕРїРєР° В«РќР°Р·Р°РґВ» Сѓ РєРѕС€РёРєСѓ РїРѕРІРµСЂС‚Р°Р»Р° СЃР°РјРµ СЃСЋРґРё (РЅР°РїСЂ., РЅР° С‚РѕРІР°СЂ). */
+    function saveReturnUrl() {
+      try {
+        var p = location.pathname.split('/').pop().toLowerCase();
+        if (p !== 'checkout.html' && p !== 'cart.html') {
+          sessionStorage.setItem('latiao_return_url', location.href);
+        }
+      } catch (e) {}
+    }
     document.addEventListener('click', function (e) {
       var a = e.target.closest('a[href="cart.html"],a[href="./cart.html"],a[href$="/cart.html"]');
-      if (a) { e.preventDefault(); location.href = 'checkout.html'; }
+      if (a) {
+        e.preventDefault();
+        saveReturnUrl();
+        location.href = 'checkout.html';
+      }
     });
-    /* Кнопки «В кошик» — додаємо реальний товар */
+    /* РўР°РєРѕР¶ С„С–РєСЃСѓС”РјРѕ СЃС‚РѕСЂС–РЅРєСѓ РїСЂРё РІС–РґРєСЂРёС‚С‚С– РїР°РЅРµР»С– РєРѕС€РёРєР° */
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('[data-cart-open]')) saveReturnUrl();
+    }, true);
+    /* РљРЅРѕРїРєРё В«Р’ РєРѕС€РёРєВ» вЂ” РґРѕРґР°С”РјРѕ СЂРµР°Р»СЊРЅРёР№ С‚РѕРІР°СЂ */
     var ICON_CHECK = '<svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M4 12.5l5 5L20 6.5"/></svg>';
     function markAdded(b) {
       if (!b || b.dataset.addBusy) return;
       b.dataset.addBusy = '1';
       var orig = b.innerHTML;
       b.classList.add('is-added');
-      b.innerHTML = ICON_CHECK + '<span class="t">Додано в кошик</span>';
+      b.innerHTML = ICON_CHECK + '<span class="t">Р”РѕРґР°РЅРѕ РІ РєРѕС€РёРє</span>';
       setTimeout(function () {
         b.innerHTML = orig;
         b.classList.remove('is-added');
@@ -340,15 +415,26 @@
     }
     document.addEventListener('click', function (e) {
       var b = e.target.closest('[data-add]'); if (!b) return;
-      /* Перевірка наявності по data-stock батьківської картки */
+      e.preventDefault();
+      e.stopPropagation();
+      if (b.dataset.stockCheck) return;
+      /* РџРµСЂРµРІС–СЂРєР° РЅР°СЏРІРЅРѕСЃС‚С– РїРѕ data-stock Р±Р°С‚СЊРєС–РІСЃСЊРєРѕС— РєР°СЂС‚РєРё */
       var card = b.closest('.pcard');
       if (card && card.getAttribute('data-stock') === '0') {
-        notify('Товару немає в наявності');
+        notify('РўРѕРІР°СЂСѓ РЅРµРјР°С” РІ РЅР°СЏРІРЅРѕСЃС‚С–');
         return;
       }
       var p = resolveProduct(b);
-      if (p) { add(p); markAdded(b); }
-    });
+      if (p) {
+        b.dataset.stockCheck = '1'; b.disabled = true;
+        fetchStocks(true).then(function () {
+          if (stockLoadFailed) { notify('Не вдалося перевірити залишок. Спробуйте ще раз'); return; }
+          if (stockFor(p) === null || stockFor(p) === undefined) { notify('Не вдалося знайти товар у складі. Додавання недоступне'); return; }
+          if (add(p)) markAdded(b);
+        }).catch(function () { notify('Не вдалося перевірити залишок. Спробуйте ще раз'); })
+          .finally(function () { b.disabled = false; delete b.dataset.stockCheck; });
+      }
+    }, true);
     onChange(render);
   }
 
@@ -359,22 +445,38 @@
       var img = card.querySelector('.ph img');
       return {
         id: card.getAttribute('data-id') || (nameEl && nameEl.textContent.trim()) || 'item',
-        name: nameEl ? nameEl.textContent.trim() : 'Товар',
+        name: nameEl ? nameEl.textContent.trim() : 'РўРѕРІР°СЂ',
         price: Number(card.getAttribute('data-price') || 0),
         qty: 1,
         image: img ? img.getAttribute('src') : '',
         sku: card.getAttribute('data-sku') || ''
       };
     }
-    /* Сторінка товару */
+    /* РЎС‚РѕСЂС–РЅРєР° С‚РѕРІР°СЂСѓ */
     var id = new URLSearchParams(location.search).get('id') || 'product';
     var h1 = document.querySelector('main h1, h1');
-    var priceEl = document.getElementById('pprice');
-    var price = priceEl ? (parseFloat(priceEl.textContent.replace(/[^\d.,]/g, '').replace(',', '.')) || 0) : 0;
     var qtyOut = document.querySelector('[data-qty] output');
     var img2 = document.querySelector('.gal__main .ph img');
     var artEl = document.getElementById('partic-v');
-    return { id: id, name: h1 ? h1.textContent.trim() : 'Товар', price: price, qty: qtyOut ? Math.max(1, +qtyOut.textContent || 1) : 1, image: img2 ? img2.getAttribute('src') : '', sku: artEl ? artEl.textContent.trim() : '' };
+    /* Р’РёР±СЂР°РЅР° С„Р°СЃСѓРІР°РЅРЅСЏ: СЂР°С…СѓС”РјРѕ РІСЃРµ Сѓ С€С‚СѓРєР°С…. РЇРєС‰Рѕ РѕР±СЂР°РЅРѕ В«2 С€С‚ / 145 РіСЂРЅВ»
+       вЂ” Сѓ РєРѕС€РёРє РґРѕРґР°С”С‚СЊСЃСЏ 2 С€С‚СѓРєРё; РїРѕРІРЅС– С„Р°СЃСѓРІР°РЅРЅСЏ СЂР°С…СѓСЋС‚СЊСЃСЏ РїРѕ 145 РіСЂРЅ,
+       РјРµРЅС€Рµ Р·Р° С„Р°СЃСѓРІР°РЅРЅСЏ вЂ” РїРѕ СЃС‚Р°РЅРґР°СЂС‚РЅС–Р№ С†С–РЅС– Р·Р° 1 С€С‚. */
+    var unit = null, packCount = 1, packPrice = 0, basePrice = 0;
+    var chip = document.querySelector('#vars .chip[aria-checked="true"]');
+    var baseChip = document.querySelector('#vars .chip[data-count="1"]') || chip;
+    if (baseChip) basePrice = Number(baseChip.getAttribute('data-price') || 0);
+    if (chip) {
+      packCount = Math.max(1, Number(chip.getAttribute('data-count') || 1));
+      packPrice = Number(chip.getAttribute('data-price') || 0);
+      unit = chip.getAttribute('data-w') || (chip.querySelector('.chip-qty') ? chip.querySelector('.chip-qty').textContent.trim() : '') || null;
+    }
+    var price = packPrice > 0 ? packPrice : 0;
+    if (!price) {
+      var priceEl = document.getElementById('pprice');
+      price = priceEl ? (parseFloat(priceEl.textContent.replace(/[^\d.,]/g, '').replace(',', '.')) || 0) : 0;
+    }
+    var h1txt = h1 ? h1.textContent.trim() : 'РўРѕРІР°СЂ';
+    return { id: id, name: h1txt, price: price, qty: qtyOut ? Math.max(1, +qtyOut.textContent || 1) : 1, image: img2 ? img2.getAttribute('src') : '', sku: artEl ? artEl.textContent.trim() : '', unit: unit || '', packCount: packCount, packPrice: packPrice, basePrice: basePrice };
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

@@ -155,6 +155,21 @@
     setStageHeight();
   }
   function cartTotal() { return cart ? cart.total() : 0; }
+  /* Ціна за 1 шт з урахуванням фасування: повні фасування — по ціні фасування,
+     менше за фасування — по стандартній ціні за 1 шт.
+     Напр., фасування «2 шт / 145 грн», стандарт 79 грн:
+     1 шт = 79, 2 шт = 145, 3 шт = 224, 4 шт = 290. */
+  function itemSum(i, qty) {
+    var pc = Number(i.packCount || 1);
+    if (!(pc > 1) || !(i.packPrice > 0)) return qty * Number(i.price || 0);
+    var packs = Math.floor(qty / pc);
+    var rem = qty - packs * pc;
+    return packs * Number(i.packPrice || 0) + rem * Number(i.basePrice || i.price || 0);
+  }
+  function piecePrice(i, qty) {
+    qty = qty || 0;
+    return qty > 0 ? itemSum(i, qty) / qty : Number(i.price || 0);
+  }
   function hasMinimumOrder() { return cartTotal() >= MIN_ORDER; }
 
   /* ---------- Промо-код ---------- */
@@ -232,7 +247,16 @@
   /* ---------- Кнопка «назад» + системний жест назад ---------- */
   backBtn.addEventListener('click', function () {
     haptic(10);
-    if (vm.step === 0) { location.href = 'catalog.html'; return; }
+    if (vm.step === 0) {
+      /* Повертаємось на сторінку, з якої зайшли в кошик (товар/каталог).
+         Якщо її не зафіксовано — ідемо назад по історії, інакше в каталог. */
+      var ret = null;
+      try { ret = sessionStorage.getItem('latiao_return_url'); } catch (e) {}
+      if (ret && !/checkout\.html|cart\.html/.test(ret)) { location.href = ret; return; }
+      if (history.length > 1) { history.back(); return; }
+      location.href = 'catalog.html';
+      return;
+    }
     go(vm.step - 1, -1);
   });
   window.addEventListener('popstate', function (e) {
@@ -339,6 +363,8 @@
       $('#shipbar').hidden = true;
       $('#cart-error').classList.remove('is-on');
       nextBtns.forEach(function (b) { b.hidden = true; });
+      /* Промо-код показуємо лише коли в кошику є товари */
+      var promoCard = $('#promo-card'); if (promoCard) promoCard.hidden = true;
       renderSummary();
       /* Після заміни вмісту висота слайду має перерахуватися,
          інакше overflow: hidden обрізає текст порожнього кошика. */
@@ -352,6 +378,7 @@
     document.body.classList.remove('is-cart-empty');
     stepper.classList.remove('is-empty');
     nextBtns.forEach(function (b) { b.hidden = false; });
+    var promoCard = $('#promo-card'); if (promoCard) promoCard.hidden = false;
     cartBox.innerHTML = items.map(function (i) {
       var st = cart.stockFor(i);
       var maxed = st !== null && st !== undefined && i.qty >= st;
@@ -365,8 +392,9 @@
         + '<div class="ci__grid"><span class="ci__sku">Арт. ' + esc(i.sku || '—') + '</span>'
         + '<div class="ci__stepper" role="group" aria-label="Кількість"><button type="button" data-act="dec" data-id="' + esc(i.id) + '" aria-label="Менше">' + icon('i-minus') + '</button>'
         + '<output aria-label="Кількість">' + i.qty + '</output><button type="button" data-act="inc" data-id="' + esc(i.id) + '" aria-label="Більше"' + (maxed ? ' disabled' : '') + '>' + icon('i-plus') + '</button></div>'
-         + '<span class="ci__unit"><span class="ci__unit-price">' + formatMoney(i.price) + '\u00a0грн\u00a0/\u00a0шт</span>' + maxNote + '</span>'
-        + '<span class="ci__sum">' + formatMoney(i.qty * i.price) + '\u00a0<small>грн</small></span></div></div></article>';
+         + '<span class="ci__unit"><span class="ci__unit-price">' + formatMoney(piecePrice(i, i.qty)) + '\u00a0грн\u00a0/\u00a0шт'
+         + (Number(i.packCount) > 1 ? '\u00a0·\u00a0фасування\u00a0' + i.packCount + '\u00a0шт' : '') + '</span>' + maxNote + '</span>'
+        + '<span class="ci__sum">' + formatMoney(itemSum(i, i.qty)) + '\u00a0<small>грн</small></span></div></div></article>';
     }).join('');
     requestAnimationFrame(function () {
       cartBox.querySelectorAll('.ci__unit').forEach(function (unit) {
@@ -591,9 +619,10 @@
       return '<div class="confirm-item">'
         + photo
         + '<div class="confirm-item__description"><strong>' + esc(i.name) + '</strong><small>Артикул: ' + esc(i.sku || '—') + '</small></div>'
-        + '<span class="confirm-item__unit">' + formatMoney(i.price) + ' грн</span>'
+        + '<span class="confirm-item__unit">' + formatMoney(i.qty > 0 ? itemSum(i, i.qty) / i.qty : i.price) + ' грн / шт'
+        + (Number(i.packCount) > 1 ? ' · фасування ' + i.packCount + ' шт' : '') + '</span>'
         + '<span class="confirm-item__qty">× ' + i.qty + '</span>'
-        + '<strong class="confirm-item__price">' + formatMoney(i.price * i.qty) + ' грн</strong>'
+        + '<strong class="confirm-item__price">' + formatMoney(itemSum(i, i.qty)) + ' грн</strong>'
         + '</div>';
     }).join('');
     var prepay = vm.payment.method === 'cod' && discountedTotal() > PREPAY_AMOUNT;
@@ -668,18 +697,25 @@
     busy = true;
     btnState('loading', 'Зачекайте…');
     haptic(15);
-    try {
-      finishOrder(vm.payment.method === 'online', '');
-    } catch (err) {
-        busy = false;
-        btnState('err', 'Оплатити ' + formatMoney(payableAmount()) + ' грн');
-        haptic(60);
-        showPayError('Не вдалось перейти до оплати. Спробуйте ще раз');
-    }
+    cart.fetchStocks(true).then(function () {
+      var unavailable = cart.items().filter(function (item) {
+        var stock = cart.stockFor(item);
+        return stock === null || stock === undefined || stock <= 0 || Number(item.qty) > stock;
+      });
+      if (unavailable.length) throw new Error('Недостатньо залишку: ' + unavailable.map(function (item) { return item.name; }).join(', '));
+      return finishOrder(vm.payment.method === 'online', '');
+    }).catch(function (err) {
+      busy = false;
+      btnState('err', 'Оплатити ' + formatMoney(payableAmount()) + ' грн');
+      haptic(60);
+      showPayError(err && err.message && err.message.indexOf('Недостатньо залишку:') === 0
+        ? err.message + '. Оновіть кошик перед оформленням.'
+        : 'Не вдалося перевірити залишки або зберегти замовлення. Спробуйте ще раз.');
+    });
   }
 
   /* ---------- Оформлення замовлення ---------- */
-  function finishOrder(online, payId) {
+  async function finishOrder(online, payId) {
     var d = vm.delivery, np = d.carrier === 'np';
     var order = {
       id: 'Г-' + Date.now().toString(36).toUpperCase(),
@@ -701,6 +737,10 @@
       var orders = JSON.parse(localStorage.getItem('latiao_orders') || '[]');
       orders.push(order); localStorage.setItem('latiao_orders', JSON.stringify(orders));
     } catch (err) { }
+    /* Єдине джерело замовлень — Firestore latiao-snack (колекція orders).
+       Локальний запис лишається лише як резервна копія. */
+    if (window.LatiaoOrders) await window.LatiaoOrders.save(order);
+    else await import('./js/firebase-init.js').then(function (m) { return m.saveOrder(order); });
     ordered = true;
     /* Замовлено — запис покинутого кошика прибираємо */
     cancelAbandonSync();
@@ -772,7 +812,7 @@
       branch: np ? $('#np-branch').value.trim() : up.filter(Boolean).join(', '),
       paymentMethod: pt ? pt.value : 'cod',
       step: vm.step,
-      items: cart.items().map(function (i) { return { id: String(i.id), name: i.name, price: Number(i.price) || 0, qty: Number(i.qty) || 0, sku: i.sku || '', image: i.image || '' }; }),
+      items: cart.items().map(function (i) { return { id: String(i.id), name: i.name, price: Number(i.price) || 0, qty: Number(i.qty) || 0, sku: i.sku || '', image: i.image || '', unit: i.unit || '', packCount: Number(i.packCount) || 1, packPrice: Number(i.packPrice) || 0, basePrice: Number(i.basePrice) || 0 }; }),
       total: cart.total()
     };
   }

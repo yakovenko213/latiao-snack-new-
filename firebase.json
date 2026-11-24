@@ -2,12 +2,35 @@
   "firestore": {
     "rules": "firestore.rules"
   },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs22"
+  },
   "hosting": {
     "public": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/admin/**",
+        "function": {
+          "functionId": "adminApi",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/orders",
+        "function": {
+          "functionId": "adminApi",
+          "region": "us-central1"
+        }
+      }
     ],
     "cleanUrls": true,
     "trailingSlash": false
